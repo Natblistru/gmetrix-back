@@ -13,6 +13,6 @@ class SubtopicSeeder extends Seeder
      */
     public function run(): void
     {
-        Subtopic::factory()->count(4)->create();
+        Subtopic::factory()->count(43)->create();
     }
 }

@@ -10,6 +10,6 @@ class TeacherTopicSeeder extends Seeder
 {
     public function run(): void
     {
-        TeacherTopic::factory()->count(5)->create();
+        TeacherTopic::factory()->count(18)->create();
     }
 }

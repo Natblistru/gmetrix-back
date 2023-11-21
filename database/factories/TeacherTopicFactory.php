@@ -14,15 +14,48 @@ class TeacherTopicFactory extends Factory
     {
         $teachers = ['userT1 teacher',
                     'userT1 teacher', 
-                    'userT2 teacher', 
-                    'userT2 teacher',
-                    'userT1 teacher'
+                    'userT1 teacher', 
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher', 
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher', 
+                    'userT1 teacher', 
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher',
+                    'userT1 teacher',
                 ];
-        $topics = ['Mulţimi.Operaţii cu mulţimi. Mulţimile: N,Z,Q,R',
-                'Operaţii cu numere naturale', 
-                'Rapoarte. Proporţii. Proprietatea fundamentală a proporţiilor', 
-                'Mărimi direct proporţionale şi mărimi invers proporţionale',
-                'Opțiunile politice în perioada neutralității'
+        $topics = [ //Thema Mulțimea numerelor naturale
+            'Mulţimi.Operaţii cu mulţimi. Mulţimile: N,Z,Q,R',
+            'Operaţii cu numere naturale',
+            'Divizibilitate în N. Criteriile de divizibilitate cu 2, 3, 5, 9, 10',
+            'Cel mai mare divizor comun al două numere naturale',
+            'Cel mai mic multiplu comun al două numere naturale',
+
+            //Thema Mulțimea numerelor întregi
+            'Modulul numărului întreg', 
+            'Operaţii cu numere întregi',
+
+            //Thema Mulțimea numerelor raționale
+            'Scrierea numerelor raţionale în diverse forme', 
+            'Operaţii cu numere raţionale',
+
+            'Rădăcina pătrată (radical), proprietăți',
+            'Introducerea factorilor sub radical, scoaterea factorilor de sub radical', 
+            'Compararea unor numere ce conțin radicali. Modulul numărului real',
+            'Operații cu radicali. Raţionalizarea numitorului', 
+            'Submulţimi ale mulţimii numerelor reale. Noţiune de număr iraţional',
+
+            'Opțiunile politice în perioada neutralității',
+            'Mișcarea națională a românilor din Basarabia și teritoriile din stânga Nistrului',
+            'Formarea Statului Național Unitar Român. Recunoașterea Marii Uniri de la 1918',
+            'Conferinţa de Pace de la Paris. Sistemul de la Versailles'
             ];
         $teacherId = Teacher::firstWhere('name', $teachers[$this->index])->id;
         $topictId = Topic::firstWhere('name', $topics[$this->index])->id;

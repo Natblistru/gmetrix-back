@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThemeLearningProgramController;
+use App\Http\Controllers\LearningProgramController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,3 +27,5 @@ Route::group(["namespace"=> "App\Http\Controllers"], function() {
 });
 
 Route::get('/capitoleDisciplina', [ThemeLearningProgramController::class, "capitoleDisciplina"]);
+
+Route::get('/disciplineani', [LearningProgramController::class, "disciplineAni"]);

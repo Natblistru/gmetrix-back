@@ -11,6 +11,6 @@ class TopicSeeder extends Seeder
 
     public function run(): void
     {
-        Topic::factory()->count(5)->create();
+        Topic::factory()->count(18)->create();
     }
 }

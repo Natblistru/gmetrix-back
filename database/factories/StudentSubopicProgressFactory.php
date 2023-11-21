@@ -28,6 +28,7 @@ class StudentSubopicProgressFactory extends Factory
         return [
             'student_id' => $studentId,
             'subtopic_id' => $subtopictId,
+            'progress_percentage' => 100
         ];
     }
 }
