@@ -27,6 +27,9 @@ class ThemeLearningProgramController extends Controller
         SELECT
             TH.learning_program_id AS program_id,
             TH.id AS id,
+            LP.year,
+            SSLC.study_level_id AS study_level_id,
+            S.name AS subject_name,
             themes.name AS tema_name,
             themes.id AS tema_id,
             themes.path AS path_tema,
@@ -46,6 +49,8 @@ class ThemeLearningProgramController extends Controller
             learning_programs AS LP ON TH.learning_program_id = LP.id
         JOIN
             subject_study_levels AS SSLL ON LP.subject_study_level_id = SSLL.id
+        JOIN 
+            subjects AS S ON s.id = SSLC.subject_id AND SSLL.subject_id = s.id
         WHERE
             SSLC.study_level_id = ? AND
             SSLL.study_level_id = ? AND
@@ -58,6 +63,9 @@ class ThemeLearningProgramController extends Controller
             SELECT 
                 TC.program_id,
                 TC.id,
+                TC.year,
+                TC.study_level_id,
+                TC.subject_name,
                 TC.tema_name,
                 TC.tema_id,
                 TC.path_tema,
@@ -102,6 +110,22 @@ class ThemeLearningProgramController extends Controller
                 student_subopic_progress AS SSP ON SSP.subtopic_id = subtopics.id AND SSP.student_id = ?"
             , [$student]);
 
+            //Calculul mediei progresului studentului pentru intreaga disciplina_nivel
+            DB::statement("
+            CREATE TEMPORARY TABLE temp_disciplina_student_progress AS
+            SELECT
+                student_user_id,
+                program_id,
+                SUM(progress_percentage),
+                COUNT(progress_percentage),
+                SUM(progress_percentage) / COUNT(progress_percentage) AS average_progress
+            FROM
+                temp_themes_topics_student
+            GROUP BY
+                student_user_id,
+                program_id;
+            ");
+
             // Calculul mediei progresului studentului pentru fiecare capitol_id
             DB::statement("
             CREATE TEMPORARY TABLE temp_capitole_student_progress AS
@@ -138,6 +162,9 @@ class ThemeLearningProgramController extends Controller
             $result = DB::select("
             SELECT 
                 TC.program_id,
+                TC.year,
+                TC.study_level_id,
+                TC.subject_name,
                 TC.tema_name,
                 TC.tema_id,
                 TC.path_tema,
@@ -145,20 +172,40 @@ class ThemeLearningProgramController extends Controller
                 TC.capitol_id,
                 TC.capitol_ord,
                 TC.discipl_level_id,
+                COALESCE(DSP.average_progress, 0) AS disciplina_media,
                 COALESCE(CSP.average_progress, 0) AS capitol_media,
                 COALESCE(TSP.average_progress, 0) AS tema_media
             FROM
                 temp_themes_chapters AS TC
             LEFT JOIN
+	            temp_disciplina_student_progress DSP ON DSP.program_id = TC.program_id
+            LEFT JOIN
                 temp_capitole_student_progress CSP ON CSP.capitol_id = TC.capitol_id
             LEFT JOIN
                 temp_teme_student_progress TSP ON TSP.tema_id = TC.tema_id
             ");
-
-
         }
-        return $result;
 
+        // Array pentru a organiza datele într-o structură ierarhică
+        $organizedData = [];
+
+        foreach ($result as $item) {
+            $capitol_id = $item->capitol_id;
+            $tema_id = $item->tema_id;
+
+            if (!isset($organizedData[$capitol_id])) {
+                $organizedData[$capitol_id] = (array)$item; 
+                $organizedData[$capitol_id]['subtitles'] = []; // Inițializam un array pentru teme
+            }
+
+            // Adăug tema în array-ul de teme al capitolului
+            $organizedData[$capitol_id]['subtitles'][] = (array)$item; 
+        }
+
+        // Convertim array-ul asociativ într-un array indexat pentru a obține o structură ușor de parcurs
+        $organizedArray = array_values($organizedData);
+
+        return $organizedArray;
 
     
         // $result = DB::table('theme_learning_programs AS TH')
