@@ -22,7 +22,7 @@ class LearningProgramController extends Controller
         $level = $request->query('level');
 
         $query = DB::table('learning_programs AS LL')
-        ->select('LL.year', 'SL.name', 'SL.path', 'SL.id', 'SL.img', 'SL.study_level_id')
+        ->select('LL.year', 'SL.name', 'SL.path', 'SL.subject_id','SL.id', 'SL.img', 'SL.study_level_id')
         ->join('subject_study_levels AS SL', 'SL.id', '=', 'LL.subject_study_level_id');
 
         if (empty($year)) {

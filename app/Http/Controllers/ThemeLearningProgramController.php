@@ -26,7 +26,7 @@ class ThemeLearningProgramController extends Controller
         CREATE TEMPORARY TABLE temp_themes_chapters AS
         SELECT
             TH.learning_program_id AS program_id,
-            TH.id AS id,
+            TH.id AS theme_learning_programs_id,
             LP.year,
             SSLC.study_level_id AS study_level_id,
             S.name AS subject_name,
@@ -62,14 +62,14 @@ class ThemeLearningProgramController extends Controller
             $result = DB::select("
             SELECT 
                 TC.program_id,
-                TC.id,
+                TC.theme_learning_programs_id,
                 TC.year,
                 TC.study_level_id,
                 TC.subject_name,
-                TC.tema_name,
+                TC.tema_name AS name,
                 TC.tema_id,
                 TC.path_tema,
-                TC.capitol_name,
+                TC.capitol_name  AS title,
                 TC.capitol_id,
                 TC.capitol_ord,
                 TC.discipl_level_id,
@@ -101,7 +101,7 @@ class ThemeLearningProgramController extends Controller
             FROM
                 temp_themes_chapters AS TC
             JOIN
-                topics ON TC.id = topics.theme_learning_program_id
+                topics ON TC.theme_learning_programs_id = topics.theme_learning_program_id
             LEFT JOIN
                 teacher_topics AS TT ON TT.topic_id = topics.id
             LEFT JOIN
@@ -162,13 +162,14 @@ class ThemeLearningProgramController extends Controller
             $result = DB::select("
             SELECT 
                 TC.program_id,
+                TC.theme_learning_programs_id,
                 TC.year,
                 TC.study_level_id,
                 TC.subject_name,
-                TC.tema_name,
+                TC.tema_name AS name,
                 TC.tema_id,
                 TC.path_tema,
-                TC.capitol_name,
+                TC.capitol_name AS title,
                 TC.capitol_id,
                 TC.capitol_ord,
                 TC.discipl_level_id,
