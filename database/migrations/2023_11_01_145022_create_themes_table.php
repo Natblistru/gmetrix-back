@@ -13,6 +13,7 @@ return new class extends Migration
           $table->id();
           $table->string("name",500);
           $table->string("path",200);
+          $table->integer("order_number")->default(1);
           $table->unsignedBigInteger("chapter_id");
           $table->timestamps();
   

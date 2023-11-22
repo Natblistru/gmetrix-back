@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->string("name",500);
+            $table->integer("order_number")->default(1);
             $table->unsignedBigInteger("theme_learning_program_id");    
             $table->timestamps();
 

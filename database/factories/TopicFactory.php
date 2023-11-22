@@ -483,6 +483,8 @@ class TopicFactory extends Factory
 
     ];
     private $index = 0;
+    private $previousThemeId;
+    private $orderNumber = 1;
 
     public function definition(): array
     {
@@ -1351,10 +1353,17 @@ class TopicFactory extends Factory
                                          ->where('theme_id', $themeId)
                                          ->first()->id;
 
+        $this->orderNumber = isset($this->previousThemeId) && $themeId == $this->previousThemeId
+        ? $this->orderNumber + 1
+        : 1;
+
+        $this->previousThemeId = $themeId;                                
+
         $this->index++;
 
         return [
             'name' => $name,
+            'order_number' => $this->orderNumber,
             'theme_learning_program_id'=> $themeLearningProgramIstoriaId,   
         ];
     }

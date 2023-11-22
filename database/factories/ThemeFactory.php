@@ -8,6 +8,7 @@ use App\Models\Theme;
 
 class ThemeFactory extends Factory
 {
+
     private $values = [
         //MATEM CAPITOL 1 - Mulţimi numerice
         'Mulțimea numerelor naturale', 
@@ -116,6 +117,8 @@ class ThemeFactory extends Factory
         'Literatura în viața cotidiană', 
     ];
     private $index = 0;
+    private $previousChapterId;
+    private $orderNumber = 1;
 
     public function definition(): array
     {
@@ -322,11 +325,19 @@ class ThemeFactory extends Factory
 
         $name = $this->values[$this->index % count($this->values)];
         $path = $paths[$this->index];
+
+        $this->orderNumber = isset($this->previousChapterId) && $chapterId == $this->previousChapterId
+            ? $this->orderNumber + 1
+            : 1;
+
+        $this->previousChapterId = $chapterId;
+
         $this->index++;
 
         return [
             'name' => $name,
             'path' => $path,
+            'order_number' => $this->orderNumber,
             'chapter_id' => $chapterId,
         ];
     }
