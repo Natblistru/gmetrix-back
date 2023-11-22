@@ -11,11 +11,25 @@ use App\Models\StudyLevel;
 class ChapterFactory extends Factory
 {
     private $values = [
-        'Mulţimi numerice', 'Rapoarte şi proporţii', 'Calcul algebric','Funcţii', 'Ecuaţii, inecuaţii, sisteme de ecuaţii, sisteme de inecuaţii','Geometrie',
+        'Mulţimi numerice',
+        'Rapoarte şi proporţii',
+        'Calcul algebric',
+        'Funcţii',
+        'Ecuaţii, inecuaţii, sisteme de ecuaţii, sisteme de inecuaţii',
+        'Geometrie',
 
-        'Primul Război Mondial și formarea statului național român', 'Lumea în perioada interbelică', 'Relațiile internaționale în perioada interbelică','Al Doilea Război Mondial','Lumea postbelică','Lumea la sfârșitul secolului XX - începutul secolului XXI', 'Cultura și știința în perioada postbelică',
+        'Primul Război Mondial și formarea statului național român',
+        'Lumea în perioada interbelică',
+        'Relațiile internaționale în perioada interbelică',
+        'Al Doilea Război Mondial','Lumea postbelică',
+        'Lumea la sfârșitul secolului XX - începutul secolului XXI',
+        'Cultura și știința în perioada postbelică',
 
-        'Perceperea identității lingvistice și culturale proprii în context național', 'Utilizarea limbii ca sistem și a normelor lingvistice în realizarea actelor communicative', 'Lectura și receptarea textelor literare și nonliterare','Producerea textelor scrise','Integrarea experiențelor lingvistice și de lectură în contexte şcolare şi de viață'
+        'Perceperea identității lingvistice și culturale proprii în context național',
+        'Utilizarea limbii ca sistem și a normelor lingvistice în realizarea actelor communicative',
+        'Lectura și receptarea textelor literare și nonliterare',
+        'Producerea textelor scrise',
+        'Integrarea experiențelor lingvistice și de lectură în contexte şcolare şi de viață'
     ];
     private $index = 0;
 

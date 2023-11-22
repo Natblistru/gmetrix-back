@@ -13,6 +13,6 @@ class LearningProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        LearningProgram::factory()->count(3)->create();
+        LearningProgram::factory()->count(4)->create();
     }
 }

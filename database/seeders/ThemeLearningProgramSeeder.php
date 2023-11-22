@@ -10,6 +10,6 @@ class ThemeLearningProgramSeeder extends Seeder
 {
     public function run(): void
     {
-        ThemeLearningProgram::factory()->count(90)->create();
+        ThemeLearningProgram::factory()->count(86)->create();
     }
 }

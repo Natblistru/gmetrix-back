@@ -14,14 +14,16 @@ class LearningProgramFactory extends Factory {
 
     public function definition(): array  {
         $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
-        $subjects = ['Matematica','Istoria','Limba română'];
+        $subjects = ['Matematica','Istoria','Limba română', 'Matematica'];
+        $years = [2022, 2022, 2022, 2014];
+        $year = $years[$this->index];
         $subjectId = Subject::firstWhere('name', $subjects[$this->index])->id;
         $subjectStudyLevelId = SubjectStudyLevel::where('study_level_id', $studyLevelId)
                                                 ->where('subject_id', $subjectId) ->first()->id;
 
         $this->index++;
         return [
-            'year' => 2022,
+            'year' => $year,
             'subject_study_level_id' => $subjectStudyLevelId,
         ];
     }

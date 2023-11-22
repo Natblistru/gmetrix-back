@@ -8,7 +8,7 @@ use App\Models\Theme;
 
 class ThemeSeeder extends Seeder {
     public function run(): void    {
-        Theme::factory()->count(90)->create();
+        Theme::factory()->count(86)->create();
     }
 }
 

@@ -31,7 +31,8 @@ class TeacherTopicFactory extends Factory
                     'userT1 teacher',
                     'userT1 teacher',
                 ];
-        $topics = [ //Thema Mulțimea numerelor naturale
+        $topics = [ 
+            //Thema Mulțimea numerelor naturale
             'Mulţimi.Operaţii cu mulţimi. Mulţimile: N,Z,Q,R',
             'Operaţii cu numere naturale',
             'Divizibilitate în N. Criteriile de divizibilitate cu 2, 3, 5, 9, 10',
@@ -45,7 +46,8 @@ class TeacherTopicFactory extends Factory
             //Thema Mulțimea numerelor raționale
             'Scrierea numerelor raţionale în diverse forme', 
             'Operaţii cu numere raţionale',
-
+            
+            //Thema Mulțimea numerelor reale
             'Rădăcina pătrată (radical), proprietăți',
             'Introducerea factorilor sub radical, scoaterea factorilor de sub radical', 
             'Compararea unor numere ce conțin radicali. Modulul numărului real',
