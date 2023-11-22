@@ -68,7 +68,7 @@ class ThemeLearningProgramFactory extends Factory
         'Cultura românească în 1918-40',
         //ISTORIA CAPITOL 3 - Relațiile internaționale în perioada interbelică
         'Alianțe și tratate politico-militare în perioada interbelică',
-        'Relațiie sovieto-române(1918-1940). Consecintele pactului Molotov-Ribbentrop',
+        'Relațiie sovieto-române(1918-1940). Pactul Molotov-Ribbentrop',
         'Pierderile teritoriale ale României în vara anului 1940',
         'Formarea RSSM și instaurarea regimului comunist',
         //ISTORIA CAPITOL 4 - Al Doilea Război Mondial  

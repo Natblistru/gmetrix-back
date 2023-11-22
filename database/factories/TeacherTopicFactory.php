@@ -55,9 +55,9 @@ class TeacherTopicFactory extends Factory
             'Submulţimi ale mulţimii numerelor reale. Noţiune de număr iraţional',
 
             'Opțiunile politice în perioada neutralității',
-            'Mișcarea națională a românilor din Basarabia și teritoriile din stânga Nistrului',
-            'Formarea Statului Național Unitar Român. Recunoașterea Marii Uniri de la 1918',
-            'Conferinţa de Pace de la Paris. Sistemul de la Versailles'
+            'Mișcarea națională a românilor din Basarabia până în octombrie 1917',
+            'Recunoașterea internațională a Marii Uniri',
+            'Conferința de Pace de la Paris (18 ianuarie 1919 - 21 ianuarie 1920)',
             ];
         $teacherId = Teacher::firstWhere('name', $teachers[$this->index])->id;
         $topictId = Topic::firstWhere('name', $topics[$this->index])->id;
