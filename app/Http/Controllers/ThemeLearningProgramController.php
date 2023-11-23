@@ -36,11 +36,8 @@ class ThemeLearningProgramController extends Controller
             themes.name AS tema_name,
             themes.id AS tema_id,
             themes.path AS path_tema,
-            topics.name AS topic_name,
-            topics.id AS topic_id,
             LP.year,
             chapters.order_number as chap_order,
-            topics.order_number as top_order,
             themes.order_number as them_order
         FROM
             theme_learning_programs AS TH
@@ -54,8 +51,6 @@ class ThemeLearningProgramController extends Controller
             themes ON TH.theme_id = themes.id
         JOIN
             chapters ON themes.chapter_id = chapters.id and chapters.subject_study_level_id = LP.subject_study_level_id
-        JOIN
-            topics ON topics.theme_learning_program_id = TH.id
         WHERE
             LP.year = (SELECT MAX(LP2.year) 
                     FROM learning_programs LP2
@@ -78,11 +73,8 @@ class ThemeLearningProgramController extends Controller
                 TC.tema_name,
                 TC.tema_id,
                 TC.path_tema,
-                TC.topic_name,
-                TC.topic_id,
                 TC.year,
                 TC.chap_order,
-                TC.top_order,
                 TC.them_order,
                 0 AS disciplina_media,
                 0 AS capitol_media,
@@ -97,6 +89,7 @@ class ThemeLearningProgramController extends Controller
             CREATE TEMPORARY TABLE temp_subtopics_progress AS
             SELECT 
                 TT.teacher_id AS teacher_id,
+                TLP.theme_id,
                 topics.id AS topic_id,
                 subtopics.teacher_topic_id,
                 SST.subtopic_id,
@@ -116,11 +109,12 @@ class ThemeLearningProgramController extends Controller
             JOIN
                 subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id    
             WHERE
-                LP.year = (SELECT MAX(LP2.year) 
-                        FROM learning_programs LP2
-                        JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
-                        WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?)
-                AND SST.student_id = ? AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
+                            LP.year = (SELECT MAX(LP2.year) 
+                                    FROM learning_programs LP2
+                                    JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
+                                    WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?)
+                            AND SST.student_id = ? AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
+
             ", [$subjectId, $level, $student, $subjectId, $level]);
 
             //Obținem subtopicurile profesorilor
@@ -128,6 +122,7 @@ class ThemeLearningProgramController extends Controller
             CREATE TEMPORARY TABLE temp_teacher_subtopics AS
             SELECT
                 TT.teacher_id AS teacher_id,
+                TLP.theme_id,
                 topics.id AS topic_id,
                 TT.id as teacher_topic_id,
                 subtopics.id as subtopic_id
@@ -145,10 +140,10 @@ class ThemeLearningProgramController extends Controller
                 subtopics ON subtopics.teacher_topic_id = TT.id
             WHERE
                 LP.year = (SELECT MAX(LP2.year) 
-                           FROM learning_programs LP2
-                           JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
-                           WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?)
-                AND SSLev.subject_id = ? AND SSLev.study_level_id = ?; 
+                        FROM learning_programs LP2
+                        JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
+                        WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?)
+                AND SSLev.subject_id = ? AND SSLev.study_level_id = ? ; 
             ", [$subjectId, $level, $subjectId, $level]);
 
             // Progresului studentului pentru toate subtopicurile
@@ -156,6 +151,7 @@ class ThemeLearningProgramController extends Controller
             CREATE TEMPORARY TABLE temp_progress_all_subtopic AS
             SELECT
                 TS.teacher_id,
+                TS.theme_id,
                 TS.topic_id,
                 TS.teacher_topic_id,
                 TS.subtopic_id,
@@ -167,68 +163,44 @@ class ThemeLearningProgramController extends Controller
                     TS.teacher_id = SP.teacher_id AND 
                     TS.topic_id = SP.topic_id AND
                     TS.teacher_topic_id = SP.teacher_topic_id AND
+                    TS.theme_id = SP.theme_id AND
                     TS.subtopic_id = SP.subtopic_id;        
             ");
 
-            // Calculul mediei progresului studentului pentru fiecare topic_id al profesorilor
+            // Calculul mediei progresului studentului pentru fiecare tema a profesorilor
             DB::statement("
-            CREATE TEMPORARY TABLE temp_progress_avg_all_subtopic AS
+            CREATE TEMPORARY TABLE temp_progress_avg_all_themes AS
             SELECT 
                 T.teacher_id,
-                T.topic_id,
+                T.theme_id,
                 SUM(T.progress_percentage) / COUNT(T.progress_percentage) AS average_progress
             FROM temp_progress_all_subtopic T
-            GROUP BY
-                T.teacher_id,
-                T.topic_id;
+                        GROUP BY
+                            T.teacher_id,
+                            T.theme_id;
             ");
 
-            // Calculul mediei maximale a progresului studentului pentru fiecare topic_id
+            // Calculul mediei maximale a progresului studentului pentru fiecare tema
             DB::statement("
-            CREATE TEMPORARY TABLE temp_progress_topic AS              
+            CREATE TEMPORARY TABLE temp_progress_theme AS              
             SELECT 
                 TCT.capitol_name,
                 TCT.capitol_id,
-                TCT.tema_name,
                 TCT.tema_id,
-                TCT.topic_name,
-                TCT.topic_id,
-                MAX(COALESCE(PA.average_progress, 0)) AS procentTopic
+                TCT.tema_name,
+                MAX(COALESCE(PA.average_progress, 0)) AS procentThema
             FROM
                 temp_themes_chapters_topics TCT
             LEFT JOIN
-                temp_progress_avg_all_subtopic PA ON PA.topic_id = TCT.topic_id
-            GROUP BY
-                TCT.capitol_name,
-                TCT.capitol_id,
-                TCT.tema_name,
-                TCT.tema_id,
-                TCT.topic_name,
-                TCT.topic_id
-            ORDER BY
-                TCT.chap_order,
-                TCT.them_order,
-                TCT.top_order;            
-            ");
-
-            // Calculul mediei progresului studentului pentru fiecare tema_id
-            DB::statement("
-            CREATE TEMPORARY TABLE temp_progress_thema AS 
-            SELECT 
-                TCT.capitol_name,
-                TCT.capitol_id,
-                TCT.tema_name,
-                TCT.tema_id,
-                AVG(TCT.procentTopic) AS procentThema
-            FROM
-                temp_progress_topic TCT
+                temp_progress_avg_all_themes PA ON PA.theme_id = TCT.tema_id
             GROUP BY
                 TCT.capitol_name,
                 TCT.capitol_id,
                 TCT.tema_name,
                 TCT.tema_id
             ORDER BY
-                TCT.capitol_id;            
+                TCT.chap_order,
+                TCT.them_order;           
             ");
 
             // Calculul mediei progresului studentului pentru fiecare capitol_id
@@ -239,12 +211,12 @@ class ThemeLearningProgramController extends Controller
                 TCT.capitol_id,
                 AVG(TCT.procentThema) AS procentCapitol
             FROM
-                temp_progress_thema TCT
+                temp_progress_theme TCT
             GROUP BY
                 TCT.capitol_name,
                 TCT.capitol_id
             ORDER BY
-                TCT.capitol_id;            
+                TCT.capitol_id;    
             ");
 
             // Calculul mediei progresului studentului pentru toată disciplina
@@ -253,39 +225,36 @@ class ThemeLearningProgramController extends Controller
             SELECT 
                 AVG(TCT.procentCapitol) AS procentdisciplina
             FROM
-                temp_progress_capitol TCT
+                temp_progress_capitol TCT;            
             ");
 
             $result = DB::select("
             SELECT
-            TC.program_id,
-            TC.theme_learning_programs_id,
-            TC.study_level_id,
-            TC.subject_name,
-            TC.capitol_name,
-            TC.capitol_id,
-            TC.discipl_level_id,
-            TC.capitol_ord,
-            TC.tema_name,
-            TC.tema_id,
-            TC.path_tema,
-            TC.topic_name,
-            TC.topic_id,
-            TC.year,
-            TC.chap_order,
-            TC.top_order,
-            TC.them_order,
-            COALESCE(PD.procentdisciplina, 0) AS disciplina_media,
-            COALESCE(PC.procentCapitol, 0) AS capitol_media,
-            COALESCE(PT.procentThema, 0) AS tema_media
-        FROM
-            temp_themes_chapters_topics AS TC
-        CROSS JOIN
-            temp_progress_disciplina PD
-        LEFT JOIN
-            temp_progress_capitol PC ON PC.capitol_id = TC.capitol_id
-        LEFT JOIN
-            temp_progress_thema PT ON PT.tema_id = TC.tema_id;
+                TC.program_id,
+                TC.theme_learning_programs_id,
+                TC.study_level_id,
+                TC.subject_name,
+                TC.capitol_name,
+                TC.capitol_id,
+                TC.discipl_level_id,
+                TC.capitol_ord,
+                TC.tema_name,
+                TC.tema_id,
+                TC.path_tema,
+                TC.year,
+                TC.chap_order,
+                TC.them_order,
+                COALESCE(PD.procentdisciplina, 0) AS disciplina_media,
+                COALESCE(PC.procentCapitol, 0) AS capitol_media,
+                COALESCE(PT.procentThema, 0) AS tema_media
+            FROM
+                temp_themes_chapters_topics AS TC
+            CROSS JOIN
+                temp_progress_disciplina PD
+            LEFT JOIN
+                temp_progress_capitol PC ON PC.capitol_id = TC.capitol_id
+            LEFT JOIN
+                temp_progress_theme PT ON PT.tema_id = TC.tema_id;
             ");
         }
 
