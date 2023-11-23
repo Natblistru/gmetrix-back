@@ -21,6 +21,20 @@ class ThemeLearningProgramController extends Controller
         $level = $request->query('level');
         $subjectId = $request->query('disciplina');
         $student = $request->query('student');
+        $year = $request->query('year');
+
+        if ($year) {
+            $yearCondition = " LP.year = ? ";
+            $params = [$year, $subjectId, $level];
+        } else {
+            $yearCondition = " LP.year = (SELECT MAX(LP2.year) 
+                            FROM learning_programs LP2
+                            JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
+                            WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?) ";
+            $params = [$subjectId, $level, $subjectId, $level];
+        }
+    
+
 
         DB::statement("
         CREATE TEMPORARY TABLE temp_themes_chapters_topics AS
@@ -52,12 +66,9 @@ class ThemeLearningProgramController extends Controller
         JOIN
             chapters ON themes.chapter_id = chapters.id and chapters.subject_study_level_id = LP.subject_study_level_id
         WHERE
-            LP.year = (SELECT MAX(LP2.year) 
-                    FROM learning_programs LP2
-                    JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
-                    WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?)
+            {$yearCondition}
             AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
-        ", [$subjectId, $level, $subjectId, $level]);
+        ", $params);
 
         if (empty($student)) {
             $result = DB::select("
@@ -84,6 +95,12 @@ class ThemeLearningProgramController extends Controller
             ");
         } else {
 
+            if ($year) {
+                $paramStudent = [$year, $student, $subjectId, $level];
+            } else {
+                $paramStudent = [$subjectId, $level, $student, $subjectId, $level];
+            } 
+
             // Subtopicurile trecute de student
             DB::statement("
             CREATE TEMPORARY TABLE temp_subtopics_progress AS
@@ -109,13 +126,10 @@ class ThemeLearningProgramController extends Controller
             JOIN
                 subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id    
             WHERE
-                            LP.year = (SELECT MAX(LP2.year) 
-                                    FROM learning_programs LP2
-                                    JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
-                                    WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?)
-                            AND SST.student_id = ? AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
+                {$yearCondition}
+                AND SST.student_id = ? AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
 
-            ", [$subjectId, $level, $student, $subjectId, $level]);
+            ", $paramStudent);
 
             //Obținem subtopicurile profesorilor
             DB::statement("
@@ -139,12 +153,9 @@ class ThemeLearningProgramController extends Controller
             JOIN
                 subtopics ON subtopics.teacher_topic_id = TT.id
             WHERE
-                LP.year = (SELECT MAX(LP2.year) 
-                        FROM learning_programs LP2
-                        JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
-                        WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?)
+                {$yearCondition}
                 AND SSLev.subject_id = ? AND SSLev.study_level_id = ? ; 
-            ", [$subjectId, $level, $subjectId, $level]);
+            ", $params);
 
             // Progresului studentului pentru toate subtopicurile
             DB::statement("
