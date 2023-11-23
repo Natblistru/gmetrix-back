@@ -21,21 +21,34 @@ class ThemeLearningProgramController extends Controller
         $level = $request->query('level');
         $subjectId = $request->query('disciplina');
         $student = $request->query('student');
+        $teacher = $request->query('teacher');
         $year = $request->query('year');
 
         if ($year) {
             $yearCondition = " LP.year = ? ";
             $params = [$year, $subjectId, $level];
+            if ($teacher) {
+                $teacherCondition = " AND TT.teacher_id = ?";
+                $paramsTeacher = [$year, $subjectId, $level, $teacher];
+            } else {
+                $teacherCondition = "";
+                $paramsTeacher = [$year, $subjectId, $level];
+            }
         } else {
             $yearCondition = " LP.year = (SELECT MAX(LP2.year) 
                             FROM learning_programs LP2
                             JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
                             WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?) ";
             $params = [$subjectId, $level, $subjectId, $level];
+            if ($teacher) {
+                $teacherCondition = " AND TT.teacher_id = ?";
+                $paramsTeacher = [$subjectId, $level, $subjectId, $level, $teacher];
+            } else {
+                $teacherCondition = "";
+                $paramsTeacher = [$subjectId, $level, $subjectId, $level];
+            }
         }
     
-
-
         DB::statement("
         CREATE TEMPORARY TABLE temp_themes_chapters_topics AS
         SELECT
@@ -128,7 +141,6 @@ class ThemeLearningProgramController extends Controller
             WHERE
                 {$yearCondition}
                 AND SST.student_id = ? AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
-
             ", $paramStudent);
 
             //Obținem subtopicurile profesorilor
@@ -154,8 +166,8 @@ class ThemeLearningProgramController extends Controller
                 subtopics ON subtopics.teacher_topic_id = TT.id
             WHERE
                 {$yearCondition}
-                AND SSLev.subject_id = ? AND SSLev.study_level_id = ? ; 
-            ", $params);
+                AND SSLev.subject_id = ? AND SSLev.study_level_id = ? {$teacherCondition}; 
+            ", $paramsTeacher);
 
             // Progresului studentului pentru toate subtopicurile
             DB::statement("
