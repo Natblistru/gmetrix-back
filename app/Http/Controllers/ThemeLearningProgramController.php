@@ -27,26 +27,12 @@ class ThemeLearningProgramController extends Controller
         if ($year) {
             $yearCondition = " LP.year = ? ";
             $params = [$year, $subjectId, $level];
-            if ($teacher) {
-                $teacherCondition = " AND TT.teacher_id = ?";
-                $paramsTeacher = [$year, $subjectId, $level, $teacher];
-            } else {
-                $teacherCondition = "";
-                $paramsTeacher = [$year, $subjectId, $level];
-            }
         } else {
             $yearCondition = " LP.year = (SELECT MAX(LP2.year) 
                             FROM learning_programs LP2
                             JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
                             WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?) ";
             $params = [$subjectId, $level, $subjectId, $level];
-            if ($teacher) {
-                $teacherCondition = " AND TT.teacher_id = ?";
-                $paramsTeacher = [$subjectId, $level, $subjectId, $level, $teacher];
-            } else {
-                $teacherCondition = "";
-                $paramsTeacher = [$subjectId, $level, $subjectId, $level];
-            }
         }
     
         DB::statement("
@@ -110,8 +96,22 @@ class ThemeLearningProgramController extends Controller
 
             if ($year) {
                 $paramStudent = [$year, $student, $subjectId, $level];
+                if ($teacher) {
+                    $teacherCondition = " AND TT.teacher_id = ?";
+                    $paramsTeacher = [$year, $subjectId, $level, $teacher];
+                } else {
+                    $teacherCondition = "";
+                    $paramsTeacher = [$year, $subjectId, $level];
+                }
             } else {
                 $paramStudent = [$subjectId, $level, $student, $subjectId, $level];
+                if ($teacher) {
+                    $teacherCondition = " AND TT.teacher_id = ?";
+                    $paramsTeacher = [$subjectId, $level, $subjectId, $level, $teacher];
+                } else {
+                    $teacherCondition = "";
+                    $paramsTeacher = [$subjectId, $level, $subjectId, $level];
+                }
             } 
 
             // Subtopicurile trecute de student
