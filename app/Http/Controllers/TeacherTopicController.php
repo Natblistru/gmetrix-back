@@ -44,8 +44,10 @@ class TeacherTopicController extends Controller
             TT.teacher_id AS teacher_id,
             TLP.theme_id,
             topics.id AS topic_id,
+            topics.name AS topic_name,
             TT.id as teacher_topic_id,
-            subtopics.id as subtopic_id
+            subtopics.id as subtopic_id,
+            subtopics.name as subtopic_name
         FROM
             teacher_topics TT
         JOIN
@@ -56,7 +58,7 @@ class TeacherTopicController extends Controller
             learning_programs LP ON TLP.learning_program_id = LP.id
         JOIN
             subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id
-        JOIN
+        LEFT JOIN
             subtopics ON subtopics.teacher_topic_id = TT.id
         WHERE
             {$yearCondition}
@@ -99,8 +101,10 @@ class TeacherTopicController extends Controller
             TS.teacher_id,
             TS.theme_id,
             TS.topic_id,
+            TS.topic_name,
             TS.teacher_topic_id,
             TS.subtopic_id,
+            TS.subtopic_name,
             COALESCE(SP.progress_percentage, 0) AS progress_percentage
         FROM
             temp_teacher_subtopics TS
@@ -119,10 +123,12 @@ class TeacherTopicController extends Controller
         SELECT 
             T.theme_id,
             T.topic_id,
+            T.topic_name,
             SUM(T.progress_percentage) / COUNT(T.progress_percentage) AS procentTopic
         FROM temp_progress_all_subtopic T
                     GROUP BY
                         T.theme_id,
+                        T.topic_name,
                         T.topic_id;
         ");
 
@@ -140,16 +146,20 @@ class TeacherTopicController extends Controller
 
         $result = DB::select("
         SELECT 
-            PS.theme_id,
             PS.topic_id,
+            PS.topic_name,
             PS.subtopic_id,
+            PS.subtopic_name,
+            COALESCE(PSS.progress_percentage, 0) AS procentSubtopic,
             COALESCE(PT.procentTopic, 0) AS procentTopic,
             COALESCE(PTh.procentTema, 0) AS procentTema    
         FROM temp_progress_all_subtopic PS
         LEFT JOIN
             temp_progress_topics PT ON PT.topic_id = PS.topic_id
         LEFT JOIN
-            temp_progress_theme PTh ON PTh.theme_id = PS.theme_id;
+            temp_progress_theme PTh ON PTh.theme_id = PS.theme_id
+        LEFT JOIN
+            temp_progress_all_subtopic PSS ON PS.subtopic_id = PSS.subtopic_id;
         ");
 
         // Array pentru a organiza datele într-o structură ierarhică
