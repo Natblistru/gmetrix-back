@@ -52,8 +52,10 @@ class DatabaseSeeder extends Seeder
             StudentSummativeTestResultSeeder::class,
             StudentFormativeTestOptionSeeder::class,
             StudentSummativeTestOptionSeeder::class,
-            TagSeeder::class
-
+            TagSeeder::class,
+            VideoSeeder::class,
+            TeacherThemeVideoSeeder::class,
+            VideoBreakpointSeeder::class
 
         ]);
     }
