@@ -28,6 +28,7 @@ class TeacherTopicController extends Controller
         if ($year) {
             $yearCondition = " LP.year = ? ";
             $params = [$year, $subjectId, $level, $teacher, $theme];
+            $paramsGeneral = [$year, $subjectId, $level, $theme];
             $paramsStudent = [$year, $student, $subjectId, $level, $teacher, $theme];
         } else {
             $yearCondition = " LP.year = (SELECT MAX(LP2.year) 
@@ -35,6 +36,7 @@ class TeacherTopicController extends Controller
                             JOIN subject_study_levels SSLev2 ON LP2.subject_study_level_id = SSLev2.id
                             WHERE SSLev2.subject_id = ? AND SSLev2.study_level_id = ?) ";
             $params = [$subjectId, $level, $subjectId, $level, $teacher, $theme];
+            $paramsGeneral = [$subjectId, $level, $subjectId, $level, $theme];
             $paramsStudent = [$subjectId, $level, $student, $subjectId, $level, $teacher, $theme];
         }
 
@@ -72,6 +74,7 @@ class TeacherTopicController extends Controller
             TT.teacher_id AS teacher_id,
             TLP.theme_id,
             topics.id AS topic_id,
+            topics.name AS topic_name,
             subtopics.teacher_topic_id,
             SST.subtopic_id,
             SST.progress_percentage
@@ -144,16 +147,41 @@ class TeacherTopicController extends Controller
             PT.theme_id;
         ");
 
+        // Lista tuturor topicurilor temei
+        DB::statement("
+        CREATE TEMPORARY TABLE temp_all_topics AS 
+        SELECT 
+            TLP.theme_id AS theme_id,
+            topics.id AS topic_id,
+            topics.name AS topic_name,
+            topics.order_number AS topic_order_number
+        FROM
+            topics     
+        JOIN
+            theme_learning_programs TLP ON TLP.id = topics.theme_learning_program_id
+        JOIN
+            learning_programs LP ON TLP.learning_program_id = LP.id
+        JOIN
+            subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id
+        WHERE
+            {$yearCondition}
+            AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TLP.theme_id = ?;     
+        ", $paramsGeneral);
+
         $result = DB::select("
         SELECT 
-            PS.topic_id,
-            PS.topic_name,
+            COALESCE(PS.theme_id, TAT.theme_id) AS theme_id,
+            COALESCE(PS.topic_id, TAT.topic_id) AS topic_id,
+            COALESCE(PS.topic_name, TAT.topic_name) AS topic_name,
             PS.subtopic_id,
             PS.subtopic_name,
             COALESCE(PSS.progress_percentage, 0) AS procentSubtopic,
             COALESCE(PT.procentTopic, 0) AS procentTopic,
             COALESCE(PTh.procentTema, 0) AS procentTema    
-        FROM temp_progress_all_subtopic PS
+        FROM temp_all_topics TAT
+        LEFT JOIN
+            temp_progress_all_subtopic PS ON TAT.theme_id = PS.theme_id AND 
+                                             TAT.topic_id = PS.topic_id
         LEFT JOIN
             temp_progress_topics PT ON PT.topic_id = PS.topic_id
         LEFT JOIN
