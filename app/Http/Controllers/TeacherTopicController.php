@@ -47,6 +47,8 @@ class TeacherTopicController extends Controller
             TLP.theme_id,
             topics.id AS topic_id,
             topics.name AS topic_name,
+            topics.path AS topic_path,
+            topics.order_number AS topic_order_number,
             TT.id as teacher_topic_id,
             subtopics.id as subtopic_id,
             subtopics.name as subtopic_name
@@ -105,6 +107,8 @@ class TeacherTopicController extends Controller
             TS.theme_id,
             TS.topic_id,
             TS.topic_name,
+            TS.topic_path,
+            TS.topic_order_number,
             TS.teacher_topic_id,
             TS.subtopic_id,
             TS.subtopic_name,
@@ -154,6 +158,7 @@ class TeacherTopicController extends Controller
             TLP.theme_id AS theme_id,
             topics.id AS topic_id,
             topics.name AS topic_name,
+            topics.path AS topic_path,
             topics.order_number AS topic_order_number
         FROM
             topics     
@@ -172,7 +177,9 @@ class TeacherTopicController extends Controller
         SELECT 
             COALESCE(PS.theme_id, TAT.theme_id) AS theme_id,
             COALESCE(PS.topic_id, TAT.topic_id) AS topic_id,
-            COALESCE(PS.topic_name, TAT.topic_name) AS topic_name,
+            COALESCE(PS.topic_order_number, TAT.topic_order_number) AS id,
+            COALESCE(PS.topic_name, TAT.topic_name) AS name,
+            COALESCE(PS.topic_path, TAT.topic_path) AS path,
             PS.subtopic_id,
             PS.subtopic_name,
             COALESCE(PSS.progress_percentage, 0) AS procentSubtopic,
