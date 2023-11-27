@@ -33,12 +33,12 @@ class ThemeFactory extends Factory
         'Funcţia de gradul II. Reprezentarea grafică. Proprietăţi',    
         // MATEM CAPITOL 5 - Ecuaţii, inecuaţii, sisteme de ecuaţii, sisteme de inecuaţii 
         'Ecuaţii de gradul I cu o necunoscută',
-        'Inecuaţii de gradul I cu o necunoscută',
         'Sisteme de ecuaţii de gradul I cu două necunoscute', 
+        'Inecuaţii de gradul I cu o necunoscută',
         'Sisteme de inecuaţii de gradul I cu o necunoscută',
         'Ecuaţii de gradul II cu o necunoscută. Relaţiile Viète',
-        'Ecuaţii raţionale cu o necunoscută',
         'Inecuaţii de gradul II cu o necunoscută',
+        'Ecuaţii raţionale cu o necunoscută',
         // MATEM CAPITOL 6 - Geometrie     
 	    'Unități de măsură (lungime, timp, arie, volum)', 
         'Noțiuni geometrice fundamentale', 

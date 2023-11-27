@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThemeLearningProgramController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\TeacherTopicController;
+use App\Http\Controllers\TeacherThemeVideoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,3 +33,5 @@ Route::get('/capitoleDisciplina', [ThemeLearningProgramController::class, "capit
 Route::get('/disciplineani', [LearningProgramController::class, "disciplineAni"]);
 
 Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
+
+Route::get('/teacherthemevideo', [TeacherThemeVideoController::class, "teacherThemeVideo"]);
