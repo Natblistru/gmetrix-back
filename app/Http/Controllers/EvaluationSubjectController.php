@@ -145,6 +145,7 @@ class EvaluationSubjectController extends Controller
             EI.image_path,
             EI.procent_paper,
             EA.content answer_text,
+            EA.task answer_task,
             EA.max_points,
             EO.id option_id,
             EO.label,
@@ -234,6 +235,7 @@ class EvaluationSubjectController extends Controller
                     'answer_order' => $firstAnswer->answer_order,
                     'statement' => $firstAnswer->statement,
                     'answer_text' => $firstAnswer->answer_text,
+                    'task' => $firstAnswer->answer_task,
                     'max_points' => $firstAnswer->max_points,
                     'options' => $options,
                 ];

@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('evaluation_answers', function (Blueprint $table) {
             $table->id();
             $table->integer("order_number")->default(1);
+            $table->string("task",500);            
             $table->text("content");
             $table->integer("max_points")->default(0);
             $table->unsignedBigInteger("evaluation_item_id");

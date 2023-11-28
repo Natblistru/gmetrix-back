@@ -20,11 +20,11 @@ class EvaluationAnswerOptionFactory extends Factory
     public function definition(): array
     {
         $options = [
-            'răspuns greșit/ lipsă', 
-            'răspuns corect',
-            'răspuns greșit/ lipsă',
-            'argumentare parțială, fără invocarea unor exemple/ dovezi',
-            'argumentare deplină, cu exemple invocate din sursă sau din cunoștințele obținute anterior',
+            '0 p. - răspuns greșit/ lipsă', 
+            '1 p. - răspuns corect',
+            '0 p. - răspuns greșit/ lipsă',
+            '1 p. - argumentare parțială, fără invocarea unor exemple/dovezi',
+            '2 p. - argumentare deplină, cu exemple invocate din sursă sau din cunoștințele obținute anterior',
                       ];
         $orderItems = [1,1,2,2,2];
 

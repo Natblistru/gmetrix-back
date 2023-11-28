@@ -23,8 +23,8 @@ class StudentEvaluationAnswerFactory extends Factory
     {
         $points = [1,2];
 
-        $answer_options = [ [ 'content' => 'Fapt istoric: semnarea Pactului Molotov-Ribentrop din 23 august 1939', 'option' => 'răspuns corect' ],
-        [ 'content' => 'Argument: pe coperta cărții se vede denumirea "Pactului Molotov-Ribentrop", iar pe fotografie se văd semnatarii acestui document - Molotov și Ribentrop', 'option' => 'argumentare deplină, cu exemple invocate din sursă sau din cunoștințele obținute anterior' ], ];
+        $answer_options = [ [ 'content' => 'Fapt istoric: semnarea Pactului Molotov-Ribentrop din 23 august 1939', 'option' => '0 p. - răspuns greșit/ lipsă' ],
+        [ 'content' => 'Argument: pe coperta cărții se vede denumirea "Pactului Molotov-Ribentrop", iar pe fotografie se văd semnatarii acestui document - Molotov și Ribentrop', 'option' => '2 p. - argumentare deplină, cu exemple invocate din sursă sau din cunoștințele obținute anterior' ], ];
 
         $point = $points[$this->index];
 

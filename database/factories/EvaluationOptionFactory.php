@@ -10,12 +10,12 @@ class EvaluationOptionFactory extends Factory
     private $index = 0;
     public function definition(): array
     {
-        $labels = ['răspuns greșit/ lipsă',
-                'răspuns corect',
-                'argumentare parțială, fără invocarea unor exemple/ dovezi',
-                'explicație parțială; doar selectează informații din surse parțială, fără invocarea unor exemple/ dovezi',
-                'argumentare deplină, cu exemple invocate din sursă sau din cunoștințele obținute anterior',
-                'explicație deplină',
+        $labels = ['0 p. - răspuns greșit/ lipsă',
+                '1 p. - răspuns corect',
+                '1 p. - argumentare parțială, fără invocarea unor exemple/dovezi',
+                '1 p. - explicație parțială; doar selectează informații din surse parțială, fără invocarea unor exemple/ dovezi',
+                '2 p. - argumentare deplină, cu exemple invocate din sursă sau din cunoștințele obținute anterior',
+                '2 p. - explicație deplină',
             ];
         $points = [0,1,1,1,2,2];
         $label = $labels[$this->index];
