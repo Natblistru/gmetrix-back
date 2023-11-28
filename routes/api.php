@@ -37,4 +37,6 @@ Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
 
 Route::get('/teacherthemevideo', [TeacherThemeVideoController::class, "teacherThemeVideo"]);
 
+Route::get('/themeevaluations', [EvaluationSubjectController::class, "themeEvaluations"]);
+
 Route::get('/themeevaluation1', [EvaluationSubjectController::class, "themeEvaluation1"]);

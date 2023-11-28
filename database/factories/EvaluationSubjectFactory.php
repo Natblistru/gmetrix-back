@@ -14,6 +14,12 @@ class EvaluationSubjectFactory extends Factory
     private $years = [
         2022, 2022, 2022
       ];
+      private $paths = [
+        "/examen-subiect1", "/examen-subiect2", "/examen-subiect3"
+      ];
+      private $names = [
+        "Subiectul I", "Subiectul II", "Subiectul III"
+      ];
     private $index = 0;
     public function definition(): array
     {
@@ -23,6 +29,8 @@ class EvaluationSubjectFactory extends Factory
                                                 ->where('subject_id', $subjectIstoriaId) ->first()->id;
 
         $themeName = $this->years[$this->index];
+        $path = $this->paths[$this->index];
+        $name = $this->names[$this->index];
 
         $evaluation = Evaluation::where('subject_study_level_id', $subjectStudyLevelId)
                                         ->where('year', $this->years[$this->index])
@@ -30,7 +38,9 @@ class EvaluationSubjectFactory extends Factory
 
         $this->index++;
         return [
+            'name' => $name,
             'order_number' => $this->index,
+            'path' => $path,
             'evaluation_id'=> $evaluation->id,
         ];
     }

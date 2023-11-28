@@ -16,6 +16,37 @@ class EvaluationSubjectController extends Controller
         return EvaluationSubject::find($id); 
     }
 
+    public static function themeEvaluations(Request $request)  {
+
+        $level = $request->query('level');
+        $subjectId = $request->query('disciplina');
+        $theme = $request->query('theme');
+
+        $params = [$theme, $subjectId, $level];
+
+        $result = DB::select("
+        SELECT 
+            ES.order_number AS id,
+            ES.path,
+            ES.name
+        FROM evaluation_subjects ES
+        INNER JOIN
+            evaluation_items EI ON EI.evaluation_subject_id = ES.id AND EI.theme_id = ?
+        INNER JOIN
+            evaluations E ON E.id = ES.evaluation_id
+        INNER JOIN
+            subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
+            AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
+        GROUP BY
+            ES.order_number, ES.path, ES.name
+        ORDER BY
+            ES.order_number;
+        ", $params);
+
+        return array_values($result);
+    }
+
+
     public static function themeEvaluation1(Request $request)  {
 
         $level = $request->query('level');
