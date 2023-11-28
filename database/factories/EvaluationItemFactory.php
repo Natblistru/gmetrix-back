@@ -22,12 +22,16 @@ class EvaluationItemFactory extends Factory
     {
         $task = ['Studiază coperta cărții. Numește un fapt istoric pe care autorul îl poate utiliza pentru a justifica titlul cărții. Argumentează răspunsul.', 
                 'cerinta2', 
-                'cerinta3'];
-        $statement = ['afirmația1', ' afirmația2', ' afirmația3'];
+                'Utilizează sursele pentru a argumenta, într-un text coerent, afirmația:'];
+        $statement = ['afirmația1', ' afirmația2', 'Reforma agrară din 1921 a contribuit la modernizarea societății românești.'];
         $pathImage = ['/images/carte_planul_marshall.jpg', '', ''];
+        $note = ['', '', 'Notă: În elaborarea textului vei:\n- folosi sursele propuse;\n- respecta coerența textului cu structura: introducere, cuprins, concluzie;\n- formula cel puțin trei argumente;\n- utiliza în argumentare referințe cu privire la personalități sau repere cronologice;\n- formula un mesaj corect din punct de vedere științific.'];
         $pathEditImage = ['', 'calea-editable-img', ''];
+        $procentPapers = ['70%', '100%', '100%'];
 
         $taskContent = $task[$this->index];
+        $nota = $note[$this->index];
+        $procentPaper = $procentPapers[$this->index];
         $statementContent = $statement[$this->index];
         $pathImageContent = $pathImage[$this->index];
         $pathEditImageContent = $pathEditImage[$this->index];
@@ -52,9 +56,10 @@ class EvaluationItemFactory extends Factory
         return [
             'task' => $taskContent,
             'statement' => $statementContent,
+            'nota' => $nota,
             'image_path' => $pathImageContent,
             'editable_image_path' => $pathEditImageContent,
-            'procent_paper' => '70%',
+            'procent_paper' => $procentPaper,
             'theme_id' => $themeId,
             'evaluation_subject_id'=> $evaluation_subjectId,
         ];

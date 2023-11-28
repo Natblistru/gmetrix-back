@@ -20,21 +20,25 @@ class EvaluationAnswerFactory extends Factory
     private $index = 0;
     public function definition(): array
     {
-        $answers = [
-            'Fapt istoric: semnarea Pactului Molotov-Ribentrop din 23 august 1939', 
-            'Argument: pe coperta cărții se vede denumirea "Pactului Molotov-Ribentrop", iar pe fotografie se văd semnatarii acestui document - Molotov și Ribentrop'
-                      ];
-        $tasks = [
-        'Numește...', 
-        'Argumentează...'
-                    ];
-        $orderItems = [1,1];
-        $maxPoints = [1,2];
 
-        $answerContent = $answers[$this->index];
-        $task = $tasks[$this->index];        
-        $maxPoint = $maxPoints[$this->index];
-        $orderItem = $orderItems[$this->index];
+        $answers = [
+            ["answers" => 'Fapt istoric: semnarea Pactului Molotov-Ribentrop din 23 august 1939', 
+                "task" => 'Numește...', 
+                "orderItem" => 1,
+                "maxPoint" => 1],
+            ["answers" => 'Argument: pe coperta cărții se vede denumirea "Pactului Molotov-Ribentrop", iar pe fotografie se văd semnatarii acestui document - Molotov și Ribentrop', 
+                "task" => 'Argumentează...', 
+                "orderItem" => 1,
+                "maxPoint" => 2],
+        ];
+
+        $answer = $answers[$this->index];
+
+
+        $answerContent = $answer['answers'];
+        $task = $answer['task'];        
+        $maxPoint = $answer['maxPoint'];
+        $orderItem = $answer['orderItem'];
 
         $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
         $subjectIstoriaId = Subject::firstWhere('name', 'Istoria')->id;
