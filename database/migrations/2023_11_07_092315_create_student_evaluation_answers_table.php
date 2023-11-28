@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer("points")->default(0);
             $table->unsignedBigInteger("student_id");
-            $table->unsignedBigInteger("evaluation_answer_id");
+            $table->unsignedBigInteger("evaluation_answer_option_id");
             $table->timestamps();
 
             $table->foreign("student_id")->references("id")->on("students");
-            $table->foreign("evaluation_answer_id")->references("id")->on("evaluation_answers");
+            $table->foreign("evaluation_answer_option_id")->references("id")->on("evaluation_answer_options");
         });
     }
 

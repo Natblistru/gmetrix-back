@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\StudentEvaluationAnswer;
+use App\Models\EvaluationAnswerOption;
+use App\Models\EvaluationOption;
 use App\Models\EvaluationAnswer;
 use App\Models\Evaluation;
 use App\Models\EvaluationSubject;
@@ -19,10 +21,11 @@ class StudentEvaluationAnswerFactory extends Factory
     private $index = 0;
     public function definition(): array
     {
-        $orderItems = [1,2];
         $points = [1,2];
 
-        $orderItem = $orderItems[$this->index];
+        $answer_options = [ [ 'content' => 'Fapt istoric: semnarea Pactului Molotov-Ribentrop din 23 august 1939', 'option' => 'răspuns corect' ],
+        [ 'content' => 'Argument: pe coperta cărții se vede denumirea "Pactului Molotov-Ribentrop", iar pe fotografie se văd semnatarii acestui document - Molotov și Ribentrop', 'option' => 'argumentare deplină, cu exemple invocate din sursă sau din cunoștințele obținute anterior' ], ];
+
         $point = $points[$this->index];
 
         $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
@@ -43,8 +46,16 @@ class StudentEvaluationAnswerFactory extends Factory
         $evaluation_itemId = EvaluationItem::where('order_number', 1)
                                         ->where('evaluation_subject_id', $evaluation_subjectId)  
                                         ->first()->id;
+        
+        $answer_optionId = $answer_options[$this->index];
 
-        $evaluation_answerId = EvaluationAnswer::where('order_number', $orderItem)
+        $evaluation_answerId = EvaluationAnswer::where('content', $answer_optionId['content'])
+                                         ->first()->id;
+        $evaluation_optionId = EvaluationOption::where('label', $answer_optionId['option'])
+                                         ->first()->id;
+
+        $evaluation_answer_optionId = EvaluationAnswerOption::where('evaluation_answer_id', $evaluation_answerId)
+                                                        ->where('evaluation_option_id', $evaluation_optionId)
                                          ->first()->id;
 
         $studentId = Student::firstWhere('name', 'userS1 student')->id;
@@ -53,7 +64,7 @@ class StudentEvaluationAnswerFactory extends Factory
 
         return [
             'student_id' => $studentId,
-            'evaluation_answer_id' => $evaluation_answerId,
+            'evaluation_answer_option_id' => $evaluation_answer_optionId,
             'points' => $point
         ];
     }

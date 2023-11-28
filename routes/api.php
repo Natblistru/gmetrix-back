@@ -6,6 +6,7 @@ use App\Http\Controllers\ThemeLearningProgramController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\TeacherTopicController;
 use App\Http\Controllers\TeacherThemeVideoController;
+use App\Http\Controllers\EvaluationSubjectController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,3 +36,5 @@ Route::get('/disciplineani', [LearningProgramController::class, "disciplineAni"]
 Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
 
 Route::get('/teacherthemevideo', [TeacherThemeVideoController::class, "teacherThemeVideo"]);
+
+Route::get('/themeevaluation1', [EvaluationSubjectController::class, "themeEvaluation1"]);
