@@ -20,9 +20,11 @@ class EvaluationItemFactory extends Factory
 
     public function definition(): array
     {
-        $task = ['cerinta1', 'cerinta2', 'cerinta3'];
+        $task = ['Studiază coperta cărții. Numește un fapt istoric pe care autorul îl poate utiliza pentru a justifica titlul cărții. Argumentează răspunsul.', 
+                'cerinta2', 
+                'cerinta3'];
         $statement = ['afirmația1', ' afirmația2', ' afirmația3'];
-        $pathImage = ['calea-img1', '', ''];
+        $pathImage = ['/images/carte_planul_marshall.jpg', '', ''];
         $pathEditImage = ['', 'calea-editable-img', ''];
 
         $taskContent = $task[$this->index];
@@ -52,6 +54,7 @@ class EvaluationItemFactory extends Factory
             'statement' => $statementContent,
             'image_path' => $pathImageContent,
             'editable_image_path' => $pathEditImageContent,
+            'procent_paper' => '70%',
             'theme_id' => $themeId,
             'evaluation_subject_id'=> $evaluation_subjectId,
         ];

@@ -120,6 +120,7 @@ class EvaluationSubjectController extends Controller
             theme_id,
             subject_id,
             item_id,
+            SUM(max_points) AS item_maxpoints,
             sum(student_points) *100/ sum(max_points) AS student_procent
         FROM temp_student_points 
         GROUP BY 
@@ -131,21 +132,29 @@ class EvaluationSubjectController extends Controller
         $result = DB::select("
         SELECT 
             EI.theme_id,
+            EFP.task form_task,
+            EFP.hint form_hint,
+            EFP.id AS form_id,
             EI.evaluation_subject_id,
+            ES.name AS evaluation_subject_name,
             EI.id AS item_id,
             EA.id answer_id,
             EA.order_number answer_order,
             EI.task,
             EI.statement,
             EI.image_path,
+            EI.procent_paper,
             EA.content answer_text,
             EA.max_points,
             EO.id option_id,
             EO.label,
             EO.points,
+            ST.item_maxpoints AS maxPoints,
             COALESCE(ST.student_procent, 0) AS student_procent 
         FROM
             evaluation_items EI
+        INNER JOIN
+            evaluation_form_pages EFP ON EFP.evaluation_item_id = EI.id
         INNER JOIN
             temp_student_procent ST ON ST.item_id = EI.id
         INNER JOIN
@@ -178,6 +187,17 @@ class EvaluationSubjectController extends Controller
         foreach ($groupedByItem as $itemGroup) {
             // Inițializăm array-ul pentru răspunsurile din acest item_id
             $answers = [];
+            $form = [];
+
+            $groupedByForm = $itemGroup->groupBy('form_id');
+            foreach ($groupedByForm as $formGroup) {
+                $firstForm = $formGroup->first();
+
+                $form[] = [
+                    'cerinte' => $firstForm->form_task,
+                    'hint' => $firstForm->form_hint,
+                ];
+            }
 
             // Grupăm acum pe answer_id în cadrul fiecărui item_id
             $groupedByAnswer = $itemGroup->groupBy('answer_id');
@@ -212,9 +232,7 @@ class EvaluationSubjectController extends Controller
                     'theme_id' => $firstAnswer->theme_id,
                     'subject_id' => $firstAnswer->evaluation_subject_id,
                     'answer_order' => $firstAnswer->answer_order,
-                    'task' => $firstAnswer->task,
                     'statement' => $firstAnswer->statement,
-                    'image_path' => $firstAnswer->image_path,
                     'answer_text' => $firstAnswer->answer_text,
                     'max_points' => $firstAnswer->max_points,
                     'options' => $options,
@@ -229,8 +247,14 @@ class EvaluationSubjectController extends Controller
                 'item_id' => $firstItem->item_id,
                 'theme_id' => $firstItem->theme_id,
                 'subject_id' => $firstItem->evaluation_subject_id,
+                'name' => $firstAnswer->evaluation_subject_name,
+                'cerinta' => $firstAnswer->task,
+                'procent_paper' => $firstAnswer->procent_paper,
+                'img' => $firstAnswer->image_path,
+                'maxPoints' => $firstItem->maxPoints,
                 'student_procent' => $firstItem->student_procent,
                 'answers' => $answers,
+                'form' => $form,
             ];
         }
 

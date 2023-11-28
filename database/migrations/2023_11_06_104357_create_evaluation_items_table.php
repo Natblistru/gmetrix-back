@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("task",1000);
             $table->string("statement",1000);
             $table->string("image_path",1000);
+            $table->string("procent_paper",5);
             $table->string("editable_image_path",1000);
             $table->unsignedBigInteger("theme_id");
             $table->unsignedBigInteger("evaluation_subject_id");
