@@ -28,6 +28,8 @@ class EvaluationFormPageFactory extends Factory
             ["task" => 'Cuprins. II argument', "hint" => [], "subject" => 3],
             ["task" => 'Cuprins. III argument', "hint" => [], "subject" => 3],
             ["task" => 'Incheiere', "hint" => [], "subject" => 3],
+            ["task" => 'Primul eveniment important', "hint" => [], "subject" => 2],
+            ["task" => 'Primul eveniment important', "hint" => [], "subject" => 2],
         ];
 
         $taskHint = $taskHints[$this->index];

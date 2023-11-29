@@ -50,6 +50,11 @@ class EvaluationAnswerOptionFactory extends Factory
             ["ans_id" => 11, "option" => '2 p. - refrințele sunt relevante pentru prezentarea temei'],
             ["ans_id" => 12, "option" => '0 p. - răspuns lipsă/ volum irelevant (2-3 enunțuri)'],
             ["ans_id" => 12, "option" => '1 p. - nu sunt comise greșeli științifice grave'],
+        
+            ["ans_id" => 13, "option" => '0 p. - răspuns greșit/ lipsă'],
+            ["ans_id" => 13, "option" => '1 p. - răspuns corect'],
+            ["ans_id" => 14, "option" => '0 p. - răspuns greșit/ lipsă'],
+            ["ans_id" => 14, "option" => '1 p. - răspuns corect'],
         ];
 
         $optionOrder = $optionOrders[$this->index];

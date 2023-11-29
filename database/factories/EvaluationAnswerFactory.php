@@ -98,7 +98,21 @@ class EvaluationAnswerFactory extends Factory
                 "orderItem" => 1,
                 "order_number" => 10,
                 "orderSubject" => 3,
-                "maxPoint" => 1],                              
+                "maxPoint" => 1],  
+                
+                
+            ["answers" => '', 
+                "task" => 'Identifică I eveniment..', 
+                "orderItem" => 1,
+                "order_number" => 1,
+                "orderSubject" => 2,
+                "maxPoint" => 1], 
+            ["answers" => '', 
+                "task" => 'Identifică II eveniment..', 
+                "orderItem" => 1,
+                "order_number" => 2,
+                "orderSubject" => 2,
+                "maxPoint" => 1],                 
         ];
 
         $answer = $answers[$this->index];

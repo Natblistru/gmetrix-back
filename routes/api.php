@@ -41,4 +41,6 @@ Route::get('/themeevaluations', [EvaluationSubjectController::class, "themeEvalu
 
 Route::get('/themeevaluation1', [EvaluationSubjectController::class, "themeEvaluation1"]);
 
+Route::get('/themeevaluation2', [EvaluationSubjectController::class, "themeEvaluation2"]);
+
 Route::get('/themeevaluation3', [EvaluationSubjectController::class, "themeEvaluation3"]);
