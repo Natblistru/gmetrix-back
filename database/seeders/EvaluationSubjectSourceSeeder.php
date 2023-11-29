@@ -11,6 +11,6 @@ class EvaluationSubjectSourceSeeder extends Seeder
 
     public function run(): void
     {
-        EvaluationSubjectSource::factory()->count(4)->create();
+        EvaluationSubjectSource::factory()->count(7)->create();
     }
 }

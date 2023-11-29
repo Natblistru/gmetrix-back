@@ -11,6 +11,6 @@ class EvaluationSourceSeeder extends Seeder
 
     public function run(): void
     {
-        EvaluationSource::factory()->count(4)->create();
+        EvaluationSource::factory()->count(7)->create();
     }
 }

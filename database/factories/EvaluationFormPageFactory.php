@@ -18,16 +18,23 @@ class EvaluationFormPageFactory extends Factory
     private $index = 0;
     public function definition(): array
     {
-        $task = [
-            'Numește un fapt istoric pe care autorul îl poate utiliza pentru a justifica titlul cărții.', 
-            'Argumentează răspunsul cu referire la copertă.'];
-        $hints = [ 
-            ["1" => "nu uita să indici data..."],
-            ["1" => "denumirea cărții face trimitere la...", "2" => "în imagine vedem..."],
+
+        $taskHints = [
+
+            ["task" => 'Numește un fapt istoric pe care autorul îl poate utiliza pentru a justifica titlul cărții.', "hint" => ["1" => "nu uita să indici data..."], "subject" => 1],
+            ["task" => 'Argumentează răspunsul cu referire la copertă.', "hint" => ["1" => "denumirea cărții face trimitere la...", "2" => "în imagine vedem..."], "subject" => 1],
+            ["task" => 'Introducere', "hint" => [], "subject" => 3],
+            ["task" => 'Cuprins. I argument', "hint" => [], "subject" => 3],
+            ["task" => 'Cuprins. II argument', "hint" => [], "subject" => 3],
+            ["task" => 'Cuprins. III argument', "hint" => [], "subject" => 3],
+            ["task" => 'Incheiere', "hint" => [], "subject" => 3],
         ];
 
-        $taskContent = $task[$this->index];
-        $hintContent = json_encode($hints[$this->index]);
+        $taskHint = $taskHints[$this->index];
+
+        $taskContent = $taskHint['task'];
+        $hintContent = json_encode($taskHint['hint']);
+        $subject = $taskHint['subject'];
 
         $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
         $subjectIstoriaId = Subject::firstWhere('name', 'Istoria')->id;
@@ -41,7 +48,7 @@ class EvaluationFormPageFactory extends Factory
                                          ->first()->id;
 
         $evaluation_subjectId = EvaluationSubject::where('evaluation_id', $evaluationId)
-                                         ->where('order_number', 1)
+                                         ->where('order_number', $subject)
                                          ->first()->id;
 
        $evaluation_itemId = EvaluationItem::where('evaluation_subject_id', $evaluation_subjectId)

@@ -11,6 +11,6 @@ class EvaluationFormPageSeeder extends Seeder
 
     public function run(): void
     {
-        EvaluationFormPage::factory()->count(2)->create();
+        EvaluationFormPage::factory()->count(7)->create();
     }
 }

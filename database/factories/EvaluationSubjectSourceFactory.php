@@ -17,27 +17,50 @@ class EvaluationSubjectSourceFactory extends Factory
     private $index = 0;
     public function definition(): array
     {
-        $titles = ['SURSA A. REPERE CRONOLOGICE',
-                'SURSA B.',
-                'SURSA C.',
-                'SURSA D.'
-            ];
-        $authors = ['',
-                    'Pierre Milza, Serge Bernstein',
-                    'Ewan Murray',
-                    'Dominique Vallaud'
-                    ];
+        $sources = [
+            ["title" => 'SURSA A. REPERE CRONOLOGICE',
+                "author" => '',
+                "text_sourse" => '',
+                "subject" => 2,
+            ],
+            ["title" => 'SURSA B.',
+                "author" => 'Pierre Milza, Serge Bernstein',
+                "text_sourse" => 'Istoria secolului XX ,Bucureşti, 1998, vol.I',
+                "subject" => 2,
+            ],            
+            ["title" => 'SURSA C.',
+                "author" => 'Ewan Murray',
+                "text_sourse" => 'Shut Up: Tale of Totalitarianism, 2005',
+                "subject" => 2,
+            ], 
+            ["title" => 'SURSA D.',
+                "author" => 'Dominique Vallaud',
+                "text_sourse" => 'Dicționar istoric, București, 2008',
+                "subject" => 2,
+            ],  
+            ["title" => 'SURSA A.',
+                "author" => '',
+                "text_sourse" => '(Din Legea de reformă agrară pentru Basarabia, votată de Parlamentul României la 11 martie 1920)',
+                "subject" => 3,
+            ],
+            ["title" => 'SURSA B.',
+                "author" => 'Svetlana Suveică',
+                "text_sourse" => 'Basarabia în primul deceniu interbelic (1918-1929). Modernizare prin reforme.',
+                "subject" => 3,
+            ], 
+            ["title" => 'SURSA C.',
+                "author" => 'Alexandra Georgescu',
+                "text_sourse" => 'Cum s-a aplicat reforma agrară din 1921// Adevărul.ro',
+                "subject" => 3,
+            ],             
+        ];
 
-        $text_sourses = ['',
-                    'Istoria secolului XX ,Bucureşti, 1998, vol.I',
-                    'Shut Up: Tale of Totalitarianism, 2005',
-                    'Dicționar istoric, București, 2008'
-                    ];
+        $source = $sources[$this->index];
 
-
-        $title = $titles[$this->index];
-        $author = $authors[$this->index];
-        $text_sourse = $text_sourses[$this->index];
+        $title = $source['title'];
+        $author = $source['author'];
+        $order_number = $source['subject'];
+        $text_sourse = $source['text_sourse'];
 
         $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
         $subjectIstoriaId = Subject::firstWhere('name', 'Istoria')->id;
@@ -50,7 +73,7 @@ class EvaluationSubjectSourceFactory extends Factory
                                     ->where('year', 2022)
                                     ->first()->id;
 
-        $evaluation_subjectId = EvaluationSubject::where('order_number', 2)
+        $evaluation_subjectId = EvaluationSubject::where('order_number', $order_number)
                                     ->where('evaluation_id', $evaluationId)
                                     ->first()->id;
 
