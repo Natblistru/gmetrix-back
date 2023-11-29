@@ -21,9 +21,9 @@ class EvaluationItemFactory extends Factory
     public function definition(): array
     {
         $task = ['Studiază coperta cărții. Numește un fapt istoric pe care autorul îl poate utiliza pentru a justifica titlul cărții. Argumentează răspunsul.', 
-                'cerinta2', 
+                'Utilizează sursa A și cunoștințele obținute anterior.', 
                 'Utilizează sursele pentru a argumenta, într-un text coerent, afirmația:'];
-        $statement = ['afirmația1', ' afirmația2', 'Reforma agrară din 1921 a contribuit la modernizarea societății românești.'];
+        $statement = ['afirmația1', 'Identifică două evenimente importante pentru evoluția regimurilor totalitare în perioada interbelică.', 'Reforma agrară din 1921 a contribuit la modernizarea societății românești.'];
         $pathImage = ['/images/carte_planul_marshall.jpg', '', ''];
         $note = ['', '', 'Notă: În elaborarea textului vei:\n- folosi sursele propuse;\n- respecta coerența textului cu structura: introducere, cuprins, concluzie;\n- formula cel puțin trei argumente;\n- utiliza în argumentare referințe cu privire la personalități sau repere cronologice;\n- formula un mesaj corect din punct de vedere științific.'];
         $pathEditImage = ['', 'calea-editable-img', ''];

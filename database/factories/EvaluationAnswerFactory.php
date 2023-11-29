@@ -101,13 +101,15 @@ class EvaluationAnswerFactory extends Factory
                 "maxPoint" => 1],  
                 
                 
-            ["answers" => '', 
+            ["answers" => '1922 - Marșul fasciștilor italieni spre Roma:\n\n
+                            Evenimentul marcant în ascensiunea fascismului italian a fost Marșul asupra Romei din 1922, condus de Benito Mussolini și trupele sale fasciste. Acest marș a dus la preluarea puterii de către Mussolini și la formarea unui guvern fascist în Italia. Consolidarea puterii fasciste în Italia a reprezentat un exemplu pentru alte mișcări totalitare din Europa și a contribuit la legitimitatea și popularitatea ideilor totalitare în perioada interbelică.\n', 
                 "task" => 'Identifică I eveniment..', 
                 "orderItem" => 1,
                 "order_number" => 1,
                 "orderSubject" => 2,
                 "maxPoint" => 1], 
-            ["answers" => '', 
+            ["answers" => '1933 - Numirea lui Adolf Hitler în postul de cancelar al Germaniei:\n\n
+            Evenimentul-cheie în ascensiunea nazismului german a fost numirea lui Adolf Hitler în funcția de cancelar al Germaniei în 1933. Acest moment a marcat începutul oficial al guvernării naziste în Germania. Prin preluarea puterii, Hitler a instituit o serie de politici totalitare, reprimând opoziția politică și consolidând controlul asupra statului și societății. Acest eveniment a avut consecințe semnificative asupra Europei și a contribuit la intensificarea regimurilor totalitare înainte de izbucnirea celui de-al Doilea Război Mondial în 1939.', 
                 "task" => 'Identifică II eveniment..', 
                 "orderItem" => 1,
                 "order_number" => 2,
