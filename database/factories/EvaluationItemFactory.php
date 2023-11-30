@@ -24,9 +24,9 @@ class EvaluationItemFactory extends Factory
                 'Utilizează sursa A și cunoștințele obținute anterior.', 
                 'Utilizează sursele pentru a argumenta, într-un text coerent, afirmația:'];
         $statement = ['afirmația1', 'Identifică două evenimente importante pentru evoluția regimurilor totalitare în perioada interbelică.', 'Reforma agrară din 1921 a contribuit la modernizarea societății românești.'];
-        $pathImage = ['/images/carte_planul_marshall.jpg', '', ''];
+        $pathImage = ['/images/carte_planul_marshall.jpg', '/images/Romania_1938.png', ''];
         $note = ['', '', 'Notă: În elaborarea textului vei:\n- folosi sursele propuse;\n- respecta coerența textului cu structura: introducere, cuprins, concluzie;\n- formula cel puțin trei argumente;\n- utiliza în argumentare referințe cu privire la personalități sau repere cronologice;\n- formula un mesaj corect din punct de vedere științific.'];
-        $pathEditImage = ['', 'calea-editable-img', ''];
+        $pathEditImage = ['', '/images/Romania_1938.png', ''];
         $procentPapers = ['70%', '100%', '100%'];
 
         $taskContent = $task[$this->index];
