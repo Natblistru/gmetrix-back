@@ -51,7 +51,8 @@ class TeacherTopicController extends Controller
             topics.order_number AS topic_order_number,
             TT.id as teacher_topic_id,
             subtopics.id as subtopic_id,
-            subtopics.name as subtopic_name
+            subtopics.name as subtopic_name,
+            subtopics.audio_path
         FROM
             teacher_topics TT
         JOIN
@@ -112,6 +113,7 @@ class TeacherTopicController extends Controller
             TS.teacher_topic_id,
             TS.subtopic_id,
             TS.subtopic_name,
+            TS.audio_path,
             COALESCE(SP.progress_percentage, 0) AS progress_percentage
         FROM
             temp_teacher_subtopics TS
@@ -130,13 +132,15 @@ class TeacherTopicController extends Controller
         SELECT 
             T.theme_id,
             T.topic_id,
+            T.teacher_topic_id,
             T.topic_name,
             SUM(T.progress_percentage) / COUNT(T.progress_percentage) AS procentTopic
         FROM temp_progress_all_subtopic T
                     GROUP BY
                         T.theme_id,
                         T.topic_name,
-                        T.topic_id;
+                        T.topic_id,
+                        T.teacher_topic_id;
         ");
 
         // Calcularea mediei progresului pe tema
@@ -182,6 +186,11 @@ class TeacherTopicController extends Controller
             COALESCE(PS.topic_path, TAT.topic_path) AS path,
             PS.subtopic_id,
             PS.subtopic_name,
+            COALESCE(SI.path, '') AS subtopic_images,
+            PSS.audio_path,
+            FC.id AS flip_id,
+            FC.task AS flip_task,
+            FC.answer AS flip_answer,
             COALESCE(PSS.progress_percentage, 0) AS procentSubtopic,
             COALESCE(PT.procentTopic, 0) AS procentTopic,
             COALESCE(PTh.procentTema, 0) AS procentTema    
@@ -192,33 +201,105 @@ class TeacherTopicController extends Controller
         LEFT JOIN
             temp_progress_topics PT ON PT.topic_id = PS.topic_id
         LEFT JOIN
+            flip_cards FC ON FC.teacher_topic_id = PS.teacher_topic_id
+        LEFT JOIN
             temp_progress_theme PTh ON PTh.theme_id = PS.theme_id
         LEFT JOIN
-            temp_progress_all_subtopic PSS ON PS.subtopic_id = PSS.subtopic_id;
+            temp_progress_all_subtopic PSS ON PS.subtopic_id = PSS.subtopic_id
+        LEFT JOIN
+        	subtopic_images SI ON SI.subtopic_id = PSS.subtopic_id;
         ");
 
-        // Array pentru a organiza datele într-o structură ierarhică
-        $organizedData = [];
+        // Convertim rezultatele într-o colecție Laravel
+        $collection = collect($result);
 
-        foreach ($result as $item) {
-            $topic_id = $item->topic_id;
-            $subtopic_id = $item->subtopic_id;
+        // Inițializăm un array pentru rezultatul final
+        $finalResult = [];
 
-            if (!isset($organizedData[$topic_id])) {
-                $organizedData[$topic_id] = (array)$item; 
-                $organizedData[$topic_id]['subtitles'] = []; // Inițializam un array pentru teme
+        // Grupăm pe topic_id
+        $groupedByTopic = $collection->groupBy('topic_id');
+
+        // Iterăm prin fiecare grup de topic_id
+        foreach ($groupedByTopic as $topicGroup) {
+            // Inițializăm array-urile pentru subgrupurile de date
+            $subtitles = [];
+            $flip_cards = [];
+
+            // Grupăm acum pe subtopic_id în cadrul fiecărui topic_id
+            $groupedBySubtopic = $topicGroup->groupBy('subtopic_id');
+
+            // Iterăm prin fiecare grup de subtopic_id
+            foreach ($groupedBySubtopic as $subtopicGroup) {
+                // Inițializăm array-urile pentru subgrupurile de imagini
+                $subtopicImages = [];
+
+                // Grupăm acum pe subtopic_images în cadrul fiecărui subtopic_id
+                $groupedByImages = $subtopicGroup->groupBy('subtopic_images');
+
+                // Iterăm prin fiecare grup de subtopic_images
+                foreach ($groupedByImages as $imagesGroup) {
+                    // Extragem prima intrare pentru a obține date comune
+                    $firstImage = $imagesGroup->first();
+
+                    // Adăugăm array-ul pentru imagini în array-ul intermediar
+                    $subtopicImages[] = [
+                        'path' => $firstImage->subtopic_images,
+                    ];
+                }
+
+                // Extragem prima intrare pentru a obține date comune pentru subtopic
+                $firstSubtopic = $subtopicGroup->first();
+
+                // Adăugăm array-ul pentru subtopic în array-ul intermediar
+                $subtitles[] = [
+                    'subtopic_id' => $firstSubtopic->subtopic_id,
+                    'subtopic_name' => $firstSubtopic->subtopic_name,
+                    'audio_path' => $firstSubtopic->audio_path,
+                    'id' => $firstSubtopic->subtopic_id,
+                    'procentSubtopic' => $firstSubtopic->procentSubtopic,
+                    'images' => $subtopicImages,
+                ];
             }
 
-            // Adăug tema în array-ul de teme al capitolului
-            $organizedData[$topic_id]['subtitles'][] = (array)$item; 
+            $groupedByFlipCards = $topicGroup->groupBy('flip_id');
+
+            // Iterăm prin fiecare grup de subtopic_id
+            foreach ($groupedByFlipCards as $flipGroup) {
+                // Inițializăm array-urile pentru subgrupurile de imagini
+
+                // Extragem prima intrare pentru a obține date comune pentru subtopic
+                $firstFlip = $flipGroup->first();
+
+                // Adăugăm array-ul pentru subtopic în array-ul intermediar
+                $flip_cards[] = [
+                    'card_id' => $firstFlip->flip_id,                    
+                    'sarcina' => $firstFlip->flip_task,
+                    'rezolvare' => $firstFlip->flip_answer,
+                ];
+            }
+
+            // Extragem prima intrare pentru a obține date comune pentru topic
+            $firstTopic = $topicGroup->first();
+
+            // Adăugăm array-ul pentru topic în array-ul final
+            $finalResult[] = [
+                'id' => $firstTopic->id,
+                'name' => $firstTopic->name,
+                'path' => $firstTopic->path,
+                'theme_id' => $firstTopic->theme_id,
+                'topic_id' => $firstTopic->topic_id,
+                'subtopic_id' => $firstSubtopic->subtopic_id,
+                'subtopic_name' => $firstSubtopic->subtopic_name,
+                'audio_path' => $firstSubtopic->audio_path,
+                'procentSubtopic' => $firstSubtopic->procentSubtopic,
+                'procentTopic' => $firstTopic->procentTopic,
+                'procentTema' => $firstTopic->procentTema,
+                'subtitles' => $subtitles,
+                'flip_cards' => $flip_cards,
+            ];
         }
 
-        // Convertim array-ul asociativ într-un array indexat pentru a obține o structură ușor de parcurs
-        $organizedArray = array_values($organizedData);
-
-        return $organizedArray;
+        return array_values($finalResult);
 
     }
-
-
 }

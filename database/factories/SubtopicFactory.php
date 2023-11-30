@@ -83,8 +83,8 @@ class SubtopicFactory extends Factory
     ];
 
     private $paths = [
-        'calea-spre-audio1', 'calea-spre-audio2', 'calea-spre-audio3','calea-spre-audio4','calea-spre-audio5',
-        'calea-spre-audio6', 'calea-spre-audio7', 'calea-spre-audio8','calea-spre-audio9','calea-spre-audio10',
+        '/sound/audio-joiner1_31.mp3', '/sound/soundsample.mp3', '/sound/soundsample.mp3','/sound/soundsample.mp3','/sound/soundsample.mp3',
+        '/sound/soundsample.mp3', '/sound/soundsample.mp3', '/sound/soundsample.mp3','/sound/soundsample.mp3','calea-spre-audio10',
         'calea-spre-audio11', 'calea-spre-audio12', 'calea-spre-audio13','calea-spre-audio14','calea-spre-audio15',
         'calea-spre-audio16', 'calea-spre-audio17', 'calea-spre-audio18','calea-spre-audio19','calea-spre-audio20',
         'calea-spre-audio21', 'calea-spre-audio22', 'calea-spre-audio23','calea-spre-audio24','calea-spre-audio25',
