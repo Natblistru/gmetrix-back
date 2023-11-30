@@ -224,6 +224,7 @@ class TeacherTopicController extends Controller
             // Inițializăm array-urile pentru subgrupurile de date
             $subtitles = [];
             $flip_cards = [];
+            $num_ord = 1;
 
             // Grupăm acum pe subtopic_id în cadrul fiecărui topic_id
             $groupedBySubtopic = $topicGroup->groupBy('subtopic_id');
@@ -255,10 +256,11 @@ class TeacherTopicController extends Controller
                     'subtopic_id' => $firstSubtopic->subtopic_id,
                     'subtopic_name' => $firstSubtopic->subtopic_name,
                     'audio_path' => $firstSubtopic->audio_path,
-                    'id' => $firstSubtopic->subtopic_id,
+                    'id' => $num_ord,
                     'procentSubtopic' => $firstSubtopic->procentSubtopic,
                     'images' => $subtopicImages,
                 ];
+                $num_ord = $num_ord +1;
             }
 
             $groupedByFlipCards = $topicGroup->groupBy('flip_id');

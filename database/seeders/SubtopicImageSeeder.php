@@ -10,6 +10,6 @@ class SubtopicImageSeeder extends Seeder
 {
     public function run(): void
     {
-        SubtopicImage::factory()->count(13)->create();
+        SubtopicImage::factory()->count(32)->create();
     }
 }
