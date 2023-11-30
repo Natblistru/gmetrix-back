@@ -11,6 +11,6 @@ class FlipCardSeeder extends Seeder
 
     public function run(): void
     {
-        FlipCard::factory()->count(2)->create();
+        FlipCard::factory()->count(22)->create();
     }
 }
