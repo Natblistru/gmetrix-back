@@ -187,8 +187,11 @@ class TeacherTopicController extends Controller
             TT.id,
             TT.topic_id,
             FT.title,
+            FT.path,
             FT.order_number,
             TC.name,
+            TC.level,
+            COUNT(COALESCE(SFTR.score, 0)) AS totalTests,
             AVG(COALESCE(SFTR.score, 0)) AS testResult
         FROM
             teacher_topics TT
@@ -216,7 +219,9 @@ class TeacherTopicController extends Controller
             TT.topic_id,
             FT.order_number,
             FT.title,
-            TC.name
+            FT.path,
+            TC.name,
+            TC.level
         ORDER BY
             FT.order_number;
         ", $paramsStudentTest);
@@ -227,8 +232,11 @@ class TeacherTopicController extends Controller
             TT.id,
             TT.topic_id,
             ST.title,
+            ST.path,
             11 AS order_number,
             TC.name,
+            TC.level,
+            COUNT(COALESCE(SSTR.score, 0)) AS totalTests,
             AVG(COALESCE(SSTR.score, 0)) AS testResult
         FROM
             teacher_topics TT
@@ -255,7 +263,9 @@ class TeacherTopicController extends Controller
             TT.id,
             TT.topic_id,
             ST.title,
-            TC.name;
+            ST.path,
+            TC.name,
+            TC.level;
         ", $paramsStudentTest);
 
         $result = DB::select("
@@ -273,7 +283,10 @@ class TeacherTopicController extends Controller
             FC.task AS flip_task,
             FC.answer AS flip_answer,
             TATest.title AS test_title,
+            TATest.path AS test_path,
             TATest.name AS complexity,
+            TATest.level AS complexity_level,
+            TATest.totalTests AS total_test_items,
             TATest.testResult AS testResult,
             COALESCE(PSS.progress_percentage, 0) AS procentSubtopic,
             COALESCE(PT.procentTopic, 0) AS procentTopic,
@@ -380,8 +393,12 @@ class TeacherTopicController extends Controller
                 // Adăugăm array-ul pentru subtopic în array-ul intermediar
                 $tests[] = [
                     'id' => $num_ord_test,
-                    'test_title' => $firstTest->test_title,                    
+                    'path' => $firstTest->path,
+                    'name' => $firstTest->test_title,                    
                     'complexity' => $firstTest->complexity,
+                    'complexityNumber' => $firstTest->complexity_level,
+                    'addressTest' => $firstTest->test_path,
+                    'length' => $firstTest->total_test_items,
                     'testResult' => $firstTest->testResult,
                 ];
                 $num_ord_test = $num_ord_test +1;

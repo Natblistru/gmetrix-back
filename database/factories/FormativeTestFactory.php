@@ -11,6 +11,26 @@ use App\Models\Topic;
 class FormativeTestFactory extends Factory
 {
     private $index = 0;
+
+    public function transformaText($text) {
+
+        $text = trim($text);
+
+        $text = strtolower($text);
+    
+        // Definim diacriticele și caracterele cu spațiu
+        $diacritice = array('ă', 'â', 'ș', 'ț', 'î', ' ', 'ă', 'â', 'ș', 'ț', 'î');
+        $replace = array('a', 'a', 's', 't', 'i', '-', 'a', 'a', 's', 't', 'i');
+    
+        // Înlocuim diacriticele și spațiile cu cratime
+        $text = str_replace($diacritice, $replace, $text);
+    
+        // Înlăturăm orice alte caractere speciale
+        $text = preg_replace('/[^a-z0-9-]/', '', $text);
+    
+        return '/' . $text;
+    }
+
     public function definition(): array
     {
         
@@ -36,7 +56,7 @@ class FormativeTestFactory extends Factory
             [
                 "order" => 4,
                 "title" => "Verifică corectitudinea afirmațiilor",
-                "type" => "check",
+                 "type" => "check",
                 "complexity" => 1
             ],
             [
@@ -82,6 +102,7 @@ class FormativeTestFactory extends Factory
         $type = $formativeTest['type']; 
         $order = $formativeTest['order']; 
         $title = $formativeTest['title'];  
+        $path = $this->transformaText($formativeTest['title']); 
         $complexityId = $formativeTest['complexity'];       
 
         $teacherId = Teacher::firstWhere('name', 'userT1 teacher')->id;
@@ -96,6 +117,7 @@ class FormativeTestFactory extends Factory
         return [
             'order_number' => $order,
             'title' => $title,
+            'path' => $path,
             'type' => $type,
             'teacher_topic_id' => $teacherTopictId,
             'test_complexity_id' => $complexityId,

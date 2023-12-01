@@ -14,6 +14,7 @@ return new class extends Migration
             $table->id();
             $table->string('title',500)->default("Test de totalizare");
             $table->integer("time")->default(300);
+            $table->string('path',500)->default("/test-de-totalizare"); 
             $table->unsignedBigInteger("teacher_topic_id")->unique();
             $table->unsignedBigInteger("test_complexity_id"); 
             $table->timestamps();

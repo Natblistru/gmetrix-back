@@ -17,28 +17,23 @@ class FormativeTestItemFactory extends Factory
     private $index = 0;
     public function definition(): array
     {
-        $types = ["quiz", 
-            "dnd", 
-            "dnd", 
-            "check", 
-            "snap", 
-            "dnd_group", 
-            "dnd", 
-            "words", 
-            "dnd_chrono_double", 
-            "dnd_chrono"
+        $taskTypes = [
+            ["type" => "quiz", "task" => "Alege afirmația corectă"],
+            ["type" => "dnd", "task" => "Stabilește cauzele evenimentelor"],
+            ["type" => "dnd", "task" => "Stabilește consecințele evenimentelor"],
+            ["type" => "check", "task" => "Verifică corectitudinea afirmațiilor"],
+            ["type" => "snap", "task" => "Formează perechi logice"],
+            ["type" => "dnd_group", "task" => "Grupează elementele"],
+            ["type" => "dnd", "task" => "Caracteristicile evenimentelor"],
+            ["type" => "words", "task" => "Completează propoziția"],
+            ["type" => "dnd_chrono_double", "task" => "Elaborează un fragment de text"],
+            ["type" => "dnd_chrono", "task" => "Succesiunea cronologică a evenimentelor"],
         ];
-        $tasks = ["Alege afirmația corectă", 
-            "Stabilește cauzele evenimentelor", 
-            "Stabilește consecințele evenimentelor", 
-            "Verifică corectitudinea afirmațiilor", 
-            "Formează perechi logice", 
-            "Grupează elementele", 
-            "Caracteristicile evenimentelor", 
-            "Completează propoziția", 
-            "Elaborează un fragment de text", 
-            "Succesiunea cronologică a evenimentelor"
-        ];
+        
+        $taskType = $taskTypes[$this->index];
+        $type = $taskType['type'];
+        $task = $taskType['task'];
+
         $teacherId = Teacher::firstWhere('name', 'userT1 teacher')->id;
         $topicId = Topic::firstWhere('name', 'Opțiunile politice în perioada neutralității')->id;
 
@@ -46,11 +41,11 @@ class FormativeTestItemFactory extends Factory
                                             ->where('topic_id', $topicId)
                                             ->first()->id;
         $formativeTestId = FormativeTest::where('teacher_topic_id', $teacherTopictId)
-                                            ->where('type', $types[$this->index])
+                                            ->where('type', $type)
                                             ->first()->id;
 
-        $testItemId = TestItem::where('type', $types[$this->index])
-                                ->where('task', $tasks[$this->index])
+        $testItemId = TestItem::where('type', $type)
+                                ->where('task', $task)
                                 ->first()->id;
 
         $this->index++;

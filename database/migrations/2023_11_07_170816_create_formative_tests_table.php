@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->integer("order_number")->default(1);
             $table->string('title',500);
+            $table->string('path',500);            
             $table->enum('type', ["quiz", "check", "snap", "words", "dnd", "dnd_chrono","dnd_chrono_double", "dnd_group"]);
             $table->unsignedBigInteger("teacher_topic_id");  
             $table->unsignedBigInteger("test_complexity_id");            
