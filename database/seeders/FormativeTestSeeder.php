@@ -11,6 +11,6 @@ class FormativeTestSeeder extends Seeder
 
     public function run(): void
     {
-        FormativeTest::factory()->count(8)->create();
+        FormativeTest::factory()->count(10)->create();
     }
 }

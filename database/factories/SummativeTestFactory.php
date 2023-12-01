@@ -21,6 +21,7 @@ class SummativeTestFactory extends Factory
 
         return [
             'teacher_topic_id' => $teacherTopicId,
+            'test_complexity_id' => 2,
         ];
     }
 }

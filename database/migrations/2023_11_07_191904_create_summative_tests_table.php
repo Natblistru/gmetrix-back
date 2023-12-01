@@ -12,11 +12,15 @@ return new class extends Migration
     {
         Schema::create('summative_tests', function (Blueprint $table) {
             $table->id();
+            $table->string('title',500)->default("Test de totalizare");
             $table->integer("time")->default(300);
             $table->unsignedBigInteger("teacher_topic_id")->unique();
+            $table->unsignedBigInteger("test_complexity_id"); 
             $table->timestamps();
 
             $table->foreign("teacher_topic_id")->references("id")->on("teacher_topics");
+            $table->foreign("test_complexity_id")->references("id")->on("test_comlexities");
+
         });
     }
 
