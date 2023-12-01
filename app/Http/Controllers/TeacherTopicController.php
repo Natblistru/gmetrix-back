@@ -30,6 +30,7 @@ class TeacherTopicController extends Controller
             $params = [$year, $subjectId, $level, $teacher, $theme];
             $paramsGeneral = [$year, $subjectId, $level, $theme];
             $paramsStudent = [$year, $student, $subjectId, $level, $teacher, $theme];
+            $paramsStudentTest = [$student, $year, $subjectId, $level, $teacher, $theme];
         } else {
             $yearCondition = " LP.year = (SELECT MAX(LP2.year) 
                             FROM learning_programs LP2
@@ -38,6 +39,7 @@ class TeacherTopicController extends Controller
             $params = [$subjectId, $level, $subjectId, $level, $teacher, $theme];
             $paramsGeneral = [$subjectId, $level, $subjectId, $level, $theme];
             $paramsStudent = [$subjectId, $level, $student, $subjectId, $level, $teacher, $theme];
+            $paramsStudentTest = [$student, $subjectId, $level, $subjectId, $level, $teacher, $theme];
         }
 
         DB::statement("
@@ -177,6 +179,85 @@ class TeacherTopicController extends Controller
             AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TLP.theme_id = ?;     
         ", $paramsGeneral);
 
+
+        // Lista tuturor testelor formative
+        DB::statement("
+        CREATE TEMPORARY TABLE temp_all_tests AS 
+        SELECT
+            TT.id,
+            TT.topic_id,
+            FT.title,
+            FT.order_number,
+            TC.name,
+            AVG(COALESCE(SFTR.score, 0)) AS testResult
+        FROM
+            teacher_topics TT
+        LEFT JOIN
+            formative_tests FT ON FT.teacher_topic_id = TT.id
+        INNER JOIN 
+            formative_test_items FTI ON FTI.formative_test_id = FT.id
+        LEFT JOIN
+            student_formative_test_results SFTR ON SFTR.formative_test_item_id = FTI.id AND SFTR.student_id = ?
+        INNER JOIN
+            test_comlexities TC ON FT.test_complexity_id = TC.id
+        JOIN
+            topics ON TT.topic_id = topics.id    
+        JOIN
+            theme_learning_programs TLP ON TLP.id = topics.theme_learning_program_id
+        JOIN
+            learning_programs LP ON TLP.learning_program_id = LP.id
+        JOIN
+            subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id
+        WHERE
+            {$yearCondition} 
+            AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TT.teacher_id = ? AND TLP.theme_id = ?
+        GROUP BY 
+            TT.id,
+            TT.topic_id,
+            FT.order_number,
+            FT.title,
+            TC.name
+        ORDER BY
+            FT.order_number;
+        ", $paramsStudentTest);
+
+        DB::insert("
+		INSERT INTO temp_all_tests
+        SELECT
+            TT.id,
+            TT.topic_id,
+            ST.title,
+            11 AS order_number,
+            TC.name,
+            AVG(COALESCE(SSTR.score, 0)) AS testResult
+        FROM
+            teacher_topics TT
+        LEFT JOIN
+            summative_tests ST ON ST.teacher_topic_id = TT.id
+         INNER JOIN 
+            summative_test_items STI ON STI.summative_test_id = ST.id
+        LEFT JOIN
+            student_summative_test_results SSTR ON SSTR.summative_test_item_id = STI.id AND SSTR.student_id = ? 
+        INNER JOIN
+            test_comlexities TC ON ST.test_complexity_id = TC.id
+        JOIN
+            topics ON TT.topic_id = topics.id    
+        JOIN
+            theme_learning_programs TLP ON TLP.id = topics.theme_learning_program_id
+        JOIN
+            learning_programs LP ON TLP.learning_program_id = LP.id
+        JOIN
+            subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id
+        WHERE
+            {$yearCondition} 
+            AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TT.teacher_id = ? AND TLP.theme_id = ?
+        GROUP BY 
+            TT.id,
+            TT.topic_id,
+            ST.title,
+            TC.name;
+        ", $paramsStudentTest);
+
         $result = DB::select("
         SELECT 
             COALESCE(PS.theme_id, TAT.theme_id) AS theme_id,
@@ -191,6 +272,9 @@ class TeacherTopicController extends Controller
             FC.id AS flip_id,
             FC.task AS flip_task,
             FC.answer AS flip_answer,
+            TATest.title AS test_title,
+            TATest.name AS complexity,
+            TATest.testResult AS testResult,
             COALESCE(PSS.progress_percentage, 0) AS procentSubtopic,
             COALESCE(PT.procentTopic, 0) AS procentTopic,
             COALESCE(PTh.procentTema, 0) AS procentTema    
@@ -198,6 +282,8 @@ class TeacherTopicController extends Controller
         LEFT JOIN
             temp_progress_all_subtopic PS ON TAT.theme_id = PS.theme_id AND 
                                              TAT.topic_id = PS.topic_id
+        LEFT JOIN 
+            temp_all_tests TATest ON TATest.topic_id = PS.topic_id
         LEFT JOIN
             temp_progress_topics PT ON PT.topic_id = PS.topic_id
         LEFT JOIN
@@ -224,7 +310,9 @@ class TeacherTopicController extends Controller
             // Inițializăm array-urile pentru subgrupurile de date
             $subtitles = [];
             $flip_cards = [];
+            $tests = [];
             $num_ord = 1;
+            $num_ord_test = 1;
 
             // Grupăm acum pe subtopic_id în cadrul fiecărui topic_id
             $groupedBySubtopic = $topicGroup->groupBy('subtopic_id');
@@ -280,6 +368,25 @@ class TeacherTopicController extends Controller
                 ];
             }
 
+            $groupedByTests = $topicGroup->groupBy('test_title');
+
+            // Iterăm prin fiecare grup de subtopic_id
+            foreach ($groupedByTests as $testGroup) {
+                // Inițializăm array-urile pentru subgrupurile de imagini
+
+                // Extragem prima intrare pentru a obține date comune pentru subtopic
+                $firstTest = $testGroup->first();
+
+                // Adăugăm array-ul pentru subtopic în array-ul intermediar
+                $tests[] = [
+                    'id' => $num_ord_test,
+                    'test_title' => $firstTest->test_title,                    
+                    'complexity' => $firstTest->complexity,
+                    'testResult' => $firstTest->testResult,
+                ];
+                $num_ord_test = $num_ord_test +1;
+            }
+
             // Extragem prima intrare pentru a obține date comune pentru topic
             $firstTopic = $topicGroup->first();
 
@@ -298,6 +405,7 @@ class TeacherTopicController extends Controller
                 'procentTema' => $firstTopic->procentTema,
                 'subtitles' => $subtitles,
                 'flip_cards' => $flip_cards,
+                'tests' => $tests
             ];
         }
 
