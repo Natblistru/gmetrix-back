@@ -10,6 +10,6 @@ class FormativeTestItemSeeder extends Seeder
 {
     public function run(): void
     {
-        FormativeTestItem::factory()->count(10)->create();
+        FormativeTestItem::factory()->count(14)->create();
     }
 }

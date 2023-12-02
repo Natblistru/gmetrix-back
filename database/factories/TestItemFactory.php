@@ -15,33 +15,43 @@ class TestItemFactory extends Factory
     private $index = 0;
     public function definition(): array
     {
-        $tasks = ["Alege afirmația corectă", 
-                "Stabilește cauzele evenimentelor", 
-                "Stabilește consecințele evenimentelor", 
-                "Verifică corectitudinea afirmațiilor", 
-                "Formează perechi logice", 
-                "Grupează elementele", 
-                "Caracteristicile evenimentelor", 
-                "Completează propoziția", 
-                "Elaborează un fragment de text", 
-                "Succesiunea cronologică a evenimentelor"
-            ];
-        $complexities = ["simplu", 
-            "moderat", 
-            "moderat", 
-            "simplu", 
-            "simplu", 
-            "simplu", 
-            "moderat", 
-            "simplu", 
-            "dificil", 
-            "moderat"
-           ];
 
-        $types = ["quiz","dnd","dnd","check", "snap", "dnd_group", "dnd", "words", "dnd_chrono_double", "dnd_chrono" ];
-        $type = $types[$this->index];
-        $task = $tasks[$this->index];
-        $complexityId = TestComlexity::where('name', $complexities[$this->index])
+
+
+        $testItems = [
+            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu"],
+            ["task" => "Stabilește cauzele evenimentelor", "type" => "dnd", "complexity" => "moderat"],
+            ["task" => "Stabilește consecințele evenimentelor", "type" => "dnd", "complexity" => "moderat"],
+            ["task" => "Verifică corectitudinea afirmațiilor", "type" => "check", "complexity" => "simplu"],
+            ["task" => "Formează perechi logice", "type" => "snap", "complexity" => "simplu"],
+            ["task" => "Grupează elementele", "type" => "dnd_group", "complexity" => "simplu"],
+            ["task" => "Caracteristicile evenimentelor", "type" => "dnd", "complexity" => "moderat"],
+            ["task" => "Completează propoziția", "type" => "words", "complexity" => "simplu"],
+            ["task" => "Elaborează un fragment de text", "type" => "dnd_chrono_double", "complexity" => "dificil"],
+            ["task" => "Succesiunea cronologică a evenimentelor", "type" => "dnd_chrono", "complexity" => "moderat"],
+            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu"],
+            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu"],
+            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu"],
+            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu"],
+            ["task" => "Stabilește cauzele evenimentelor", "type" => "dnd", "complexity" => "moderat"],
+            ["task" => "Stabilește consecințele evenimentelor", "type" => "dnd", "complexity" => "moderat"],
+            ["task" => "Verifică corectitudinea afirmațiilor", "type" => "check", "complexity" => "simplu"],
+            ["task" => "Formează perechi logice", "type" => "snap", "complexity" => "simplu"],
+            ["task" => "Grupează elementele", "type" => "dnd_group", "complexity" => "simplu"],
+            ["task" => "Caracteristicile evenimentelor", "type" => "dnd", "complexity" => "moderat"],
+            ["task" => "Completează propoziția", "type" => "words", "complexity" => "simplu"],
+            ["task" => "Elaborează un fragment de text", "type" => "dnd_chrono_double", "complexity" => "dificil"],
+            ["task" => "Succesiunea cronologică a evenimentelor", "type" => "dnd_chrono", "complexity" => "moderat"],
+
+        ];
+
+        $testItem = $testItems[$this->index];
+        
+        $task = $testItem['task'];
+        $complexity = $testItem['complexity'];
+        $type = $testItem['type'];
+
+        $complexityId = TestComlexity::where('name', $complexity)
                                          ->first()->id;
 
         $this->index++;
