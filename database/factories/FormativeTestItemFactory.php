@@ -18,24 +18,24 @@ class FormativeTestItemFactory extends Factory
     public function definition(): array
     {
         $taskTypes = [
-            ["type" => "quiz", "task" => "Alege afirmația corectă", "test_item_id" => 1, "order" => 1],
-            ["type" => "dnd", "task" => "Stabilește cauzele evenimentelor", "test_item_id" => 2, "order" => 1],
-            ["type" => "dnd", "task" => "Stabilește consecințele evenimentelor", "test_item_id" => 3, "order" => 1],
-            ["type" => "check", "task" => "Verifică corectitudinea afirmațiilor", "test_item_id" => 4, "order" => 1],
-            ["type" => "snap", "task" => "Formează perechi logice", "test_item_id" => 5, "order" => 1],
-            ["type" => "dnd_group", "task" => "Grupează elementele", "test_item_id" => 6, "order" => 1],
-            ["type" => "dnd", "task" => "Caracteristicile evenimentelor", "test_item_id" => 7, "order" => 1],
-            ["type" => "words", "task" => "Completează propoziția", "test_item_id" => 8, "order" => 1],
-            ["type" => "dnd_chrono_double", "task" => "Elaborează un fragment de text", "test_item_id" => 9, "order" => 1],
-            ["type" => "dnd_chrono", "task" => "Succesiunea cronologică a evenimentelor", "test_item_id" => 10, "order" => 1],
-            ["type" => "quiz", "task" => "Alege afirmația corectă", "test_item_id" => 11, "order" => 2], 
-            ["type" => "quiz", "task" => "Alege afirmația corectă", "test_item_id" => 12, "order" => 3],        
-            ["type" => "quiz", "task" => "Alege afirmația corectă", "test_item_id" => 13, "order" => 4],        
-            ["type" => "quiz", "task" => "Alege afirmația corectă", "test_item_id" => 14, "order" => 5],               
+            ["task" => "Alege afirmația corectă", "test_item_id" => 1, "order" => 1],
+            ["task" => "Stabilește cauzele evenimentelor", "test_item_id" => 2, "order" => 1],
+            ["task" => "Stabilește consecințele evenimentelor", "test_item_id" => 3, "order" => 1],
+            ["task" => "Verifică corectitudinea afirmațiilor", "test_item_id" => 4, "order" => 1],
+            ["task" => "Formează perechi logice", "test_item_id" => 5, "order" => 1],
+            ["task" => "Grupează elementele", "test_item_id" => 6, "order" => 1],
+            ["task" => "Caracteristicile evenimentelor", "test_item_id" => 7, "order" => 1],
+            ["task" => "Completează propoziția", "test_item_id" => 8, "order" => 1],
+            ["task" => "Elaborează un fragment de text", "test_item_id" => 9, "order" => 1],
+            ["task" => "Succesiunea cronologică a evenimentelor", "test_item_id" => 10, "order" => 1],
+            ["task" => "Alege afirmația corectă", "test_item_id" => 11, "order" => 2], 
+            ["task" => "Alege afirmația corectă", "test_item_id" => 12, "order" => 3],        
+            ["task" => "Alege afirmația corectă", "test_item_id" => 13, "order" => 4],        
+            ["task" => "Alege afirmația corectă", "test_item_id" => 14, "order" => 5],               
         ];
         
         $taskType = $taskTypes[$this->index];
-        $type = $taskType['type'];
+        $path = $taskType['path'];
         $task = $taskType['task'];
         $testItemId = $taskType['test_item_id'];
         $order = $taskType['order'];
@@ -48,7 +48,7 @@ class FormativeTestItemFactory extends Factory
                                             ->where('topic_id', $topicId)
                                             ->first()->id;
         $formativeTestId = FormativeTest::where('teacher_topic_id', $teacherTopictId)
-                                            ->where('type', $type)
+                                            ->where('title', $task)
                                             ->first()->id;
 
         // $testItemId = TestItem::where('type', $type)
