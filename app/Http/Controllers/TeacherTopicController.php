@@ -188,6 +188,7 @@ class TeacherTopicController extends Controller
             TT.topic_id,
             FT.title,
             FT.path,
+            FT.type AS testType,
             FT.order_number,
             TC.name,
             TC.level,
@@ -220,6 +221,7 @@ class TeacherTopicController extends Controller
             FT.order_number,
             FT.title,
             FT.path,
+            FT.type,
             TC.name,
             TC.level
         ORDER BY
@@ -233,6 +235,7 @@ class TeacherTopicController extends Controller
             TT.topic_id,
             ST.title,
             ST.path,
+            null,
             11 AS order_number,
             TC.name,
             TC.level,
@@ -285,6 +288,7 @@ class TeacherTopicController extends Controller
             FC.answer AS flip_answer,
             TATest.title AS test_title,
             TATest.path AS test_path,
+            TATest.testType,
             TATest.name AS complexity,
             TATest.level AS complexity_level,
             TATest.totalTests AS total_test_items,
@@ -395,6 +399,7 @@ class TeacherTopicController extends Controller
                 $tests[] = [
                     'id' => $num_ord_test,
                     'path' => $firstTest->path,
+                    'type' => $firstTest->testType,
                     'name' => $firstTest->test_title,                    
                     'complexity' => $firstTest->complexity,
                     'complexityNumber' => $firstTest->complexity_level,

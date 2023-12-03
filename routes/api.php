@@ -7,6 +7,7 @@ use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\TeacherTopicController;
 use App\Http\Controllers\TeacherThemeVideoController;
 use App\Http\Controllers\EvaluationSubjectController;
+use App\Http\Controllers\FormativeTestController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,3 +45,7 @@ Route::get('/themeevaluation1', [EvaluationSubjectController::class, "themeEvalu
 Route::get('/themeevaluation2', [EvaluationSubjectController::class, "themeEvaluation2"]);
 
 Route::get('/themeevaluation3', [EvaluationSubjectController::class, "themeEvaluation3"]);
+
+Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
+
+Route::get('/formativetest', [FormativeTestController::class, "formativeTest"]);
