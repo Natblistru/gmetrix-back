@@ -10,6 +10,6 @@ class SummativeTestItemSeeder extends Seeder
 {
     public function run(): void
     {
-        SummativeTestItem::factory()->count(4)->create();
+        SummativeTestItem::factory()->count(8)->create();
     }
 }

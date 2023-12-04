@@ -10,6 +10,6 @@ class StudentFormativeTestResultSeeder extends Seeder
 {
     public function run(): void
     {
-        StudentFormativeTestResult::factory()->count(4)->create();
+        StudentFormativeTestResult::factory()->count(5)->create();
     }
 }

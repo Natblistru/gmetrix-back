@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreign("summative_test_id")->references("id")->on("summative_tests");
             $table->foreign("test_item_id")->references("id")->on("test_items");
 
-            // Adăugarea cheii unică compuse
-            $table->unique(['summative_test_id', 'test_item_id']);
+            // // Adăugarea cheii unică compuse
+            // $table->unique(['summative_test_id', 'test_item_id']);
 
         });
     }

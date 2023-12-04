@@ -35,7 +35,7 @@ class FormativeTestItemFactory extends Factory
         ];
         
         $taskType = $taskTypes[$this->index];
-        $path = $taskType['path'];
+        // $path = $taskType['path'];
         $task = $taskType['task'];
         $testItemId = $taskType['test_item_id'];
         $order = $taskType['order'];

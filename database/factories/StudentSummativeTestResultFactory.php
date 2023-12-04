@@ -29,11 +29,14 @@ class StudentSummativeTestResultFactory extends Factory
                                          ->first()->id;
         $studentId = Student::firstWhere('name', 'userS1 student')->id;                                 
 
+        $id_test_summ_items = [1,2,3,4];
+        $id_test_summ_item = $id_test_summ_items[$this->index];                                        
+
         $this->index++;
 
         return [
             'student_id' => $studentId,
-            'summative_test_item_id' => $summativeTestItemId,
+            'summative_test_item_id' => $id_test_summ_item,
 
         ];
     }
