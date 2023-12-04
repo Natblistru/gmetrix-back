@@ -22,6 +22,22 @@ class FormativeTestController extends Controller
 
         $params = [$teacher_topic_id];
 
+        DB::statement("
+        CREATE TEMPORARY TABLE temp_test_item_columns AS
+        SELECT 
+            TI.id,
+            GROUP_CONCAT(TIC.title ORDER BY TIC.order_number SEPARATOR ', ') AS column_titles
+        FROM  
+            formative_test_items AS FTI
+        INNER JOIN
+            formative_tests FT ON FTI.formative_test_id = FT.id AND FT.teacher_topic_id = ?
+        INNER JOIN 
+            test_items TI ON FTI.test_item_id = TI.id
+        LEFT JOIN 
+            test_item_columns TIC ON TIC.test_item_id = TI.id
+        GROUP BY TI.id;
+        ", $params);
+
         $result = DB::select("
         SELECT 
             FTI.formative_test_id,
@@ -34,6 +50,7 @@ class FormativeTestController extends Controller
             TI.task,
             TI.type AS item_type,
             TI.test_complexity_id,
+            COALESCE(TTIC.column_titles, '') AS column_title,
             TIO.id AS option_id,
             TIO.option,
             TIO.explanation,
@@ -47,6 +64,8 @@ class FormativeTestController extends Controller
             test_items TI ON FTI.test_item_id = TI.id
         INNER JOIN
             test_item_options TIO ON TIO.test_item_id = TI.id
+        LEFT JOIN 
+        	temp_test_item_columns TTIC ON TTIC.id = TI.id 
         ", $params);
 
         $collection = collect($result);
@@ -92,6 +111,7 @@ class FormativeTestController extends Controller
                 'order_test' => $formativeTestGroup->first()->order_test,
                 'type' => $formativeTestGroup->first()->type,
                 'title' => $formativeTestGroup->first()->title,
+                'column_title' => $formativeTestGroup->first()->column_title,
                 'path' => $formativeTestGroup->first()->path,
                 'order_number_options' => $orderNumberOptions,
             ];
