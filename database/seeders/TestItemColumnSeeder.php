@@ -11,6 +11,6 @@ class TestItemColumnSeeder extends Seeder
 
     public function run(): void
     {
-        TestItemColumn::factory()->count(12)->create();
+        TestItemColumn::factory()->count(24)->create();
     }
 }
