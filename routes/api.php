@@ -47,7 +47,7 @@ Route::get('/themeevaluation2', [EvaluationSubjectController::class, "themeEvalu
 
 Route::get('/themeevaluation3', [EvaluationSubjectController::class, "themeEvaluation3"]);
 
-Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
+// Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
 
 Route::get('/formativetest', [FormativeTestController::class, "formativeTest"]);
 

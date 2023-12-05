@@ -399,7 +399,7 @@ class TeacherTopicController extends Controller
                 $tests[] = [
                     'id' => $num_ord_test,
                     'path' => $firstTest->path,
-                    'type' => $firstTest->testType,
+                    'type' => $firstTest->testType ?? 'testGeneralizator',
                     'name' => $firstTest->test_title,                    
                     'complexity' => $firstTest->complexity,
                     'complexityNumber' => $firstTest->complexity_level,
