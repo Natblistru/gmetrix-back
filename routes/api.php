@@ -9,6 +9,7 @@ use App\Http\Controllers\TeacherThemeVideoController;
 use App\Http\Controllers\EvaluationSubjectController;
 use App\Http\Controllers\FormativeTestController;
 use App\Http\Controllers\SummativeTestController;
+use App\Http\Controllers\StudentSubopicProgressController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -47,8 +48,8 @@ Route::get('/themeevaluation2', [EvaluationSubjectController::class, "themeEvalu
 
 Route::get('/themeevaluation3', [EvaluationSubjectController::class, "themeEvaluation3"]);
 
-// Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
-
 Route::get('/formativetest', [FormativeTestController::class, "formativeTest"]);
 
 Route::get('/summativetest', [SummativeTestController::class, "summativeTest"]);
+
+Route::post('/student-subtopic-progress', [StudentSubopicProgressController::class, "store"]);
