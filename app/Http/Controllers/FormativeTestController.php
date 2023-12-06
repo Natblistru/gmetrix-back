@@ -100,6 +100,7 @@ class FormativeTestController extends Controller
                     'order_number' => $formativeTestDetails->order_number,
                     'test_item_id' => $formativeTestDetails->test_item_id,
                     'test_item_task' => $formativeTestDetails->task,
+                    'formative_test_id' => $formativeTestDetails->formative_test_id,
                     'test_item_complexity' => $formativeTestDetails->test_complexity_id,
                     'test_item_options' => $testItemOptions,
                 ];
