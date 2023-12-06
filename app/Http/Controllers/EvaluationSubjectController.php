@@ -150,6 +150,7 @@ class EvaluationSubjectController extends Controller
             EO.id option_id,
             EO.label,
             EO.points,
+            EAO.id evaluation_answer_id,
             ST.item_maxpoints AS maxPoints,
             COALESCE(ST.student_procent, 0) AS student_procent 
         FROM
@@ -221,6 +222,7 @@ class EvaluationSubjectController extends Controller
                         'option_id' => $firstOption->option_id,
                         'label' => $firstOption->label,
                         'points' => $firstOption->points,
+                        'evaluation_answer_id' => $firstOption->evaluation_answer_id,
                     ];
                 }
 
@@ -376,6 +378,7 @@ class EvaluationSubjectController extends Controller
             EO.id option_id,
             EO.label,
             EO.points,
+            EAO.id evaluation_answer_id,
             ST.item_maxpoints AS maxPoints,
             COALESCE(ST.student_procent, 0) AS student_procent 
         FROM
@@ -465,6 +468,7 @@ class EvaluationSubjectController extends Controller
                         'option_id' => $firstOption->option_id,
                         'label' => $firstOption->label,
                         'points' => $firstOption->points,
+                        'evaluation_answer_id' => $firstOption->evaluation_answer_id,
                     ];
                 }
 
@@ -623,6 +627,7 @@ class EvaluationSubjectController extends Controller
             EO.id option_id,
             EO.label,
             EO.points,
+            EAO.id evaluation_answer_id,
             ST.item_maxpoints AS maxPoints,
             COALESCE(ST.student_procent, 0) AS student_procent 
         FROM
@@ -712,6 +717,7 @@ class EvaluationSubjectController extends Controller
                         'option_id' => $firstOption->option_id,
                         'label' => $firstOption->label,
                         'points' => $firstOption->points,
+                        'evaluation_answer_id' => $firstOption->evaluation_answer_id,
                     ];
                 }
 

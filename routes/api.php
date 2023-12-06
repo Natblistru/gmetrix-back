@@ -10,6 +10,7 @@ use App\Http\Controllers\EvaluationSubjectController;
 use App\Http\Controllers\FormativeTestController;
 use App\Http\Controllers\SummativeTestController;
 use App\Http\Controllers\StudentSubopicProgressController;
+use App\Http\Controllers\StudentEvaluationAnswerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -53,3 +54,5 @@ Route::get('/formativetest', [FormativeTestController::class, "formativeTest"]);
 Route::get('/summativetest', [SummativeTestController::class, "summativeTest"]);
 
 Route::post('/student-subtopic-progress', [StudentSubopicProgressController::class, "store"]);
+
+Route::post('/student-evaluation-answers', [StudentEvaluationAnswerController::class, "store"]);
