@@ -738,9 +738,89 @@ class TestItemOptionFactory extends Factory
 
 //words
             [
-                "option" => "În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale.",
+                "option" => "1914",
                 "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
-                "texts_add" => ["1" => "1918", "2" => "1919 "],
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 1,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "1916",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 2,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "neutra",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 3,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "Tripla Alianță",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 4,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "4 august 1916",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 5,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "Antanta",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 6,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "Transilvaniei",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 7,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "1918",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 8
+            ],
+            [
+                "option" => "1919",
+                "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
+                "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
                 "correctAnswer" => 0,
                 "topic" => "Opțiunile politice în perioada neutralității",
                 "testType" => "words",
@@ -749,9 +829,49 @@ class TestItemOptionFactory extends Factory
             ],
 //21
             [
-                "option" => "În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale.",
+                "option" => "brown",
                 "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
-                "texts_add" => ["1" => "1918", "2" => "1919 "],
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 1,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 21
+            ],
+            [
+                "option" => "jumped",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 2,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 21
+            ],
+            [
+                "option" => "dog",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 3,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 21
+            ],
+            [
+                "option" => "potato",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 21
+            ],
+            [
+                "option" => "apple",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
                 "correctAnswer" => 0,
                 "topic" => "Opțiunile politice în perioada neutralității",
                 "testType" => "words",
