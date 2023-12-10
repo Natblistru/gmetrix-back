@@ -468,10 +468,10 @@ class TestItemOptionFactory extends Factory
                 "task" => "Verifică corectitudinea afirmațiilor",
                 "test_item_id" => 17
             ],
-//snap
+//snap  //1
             [
                 "option" => "1. Regele Mihai|B. Prim-ministru al României",
-                "explanation" => "",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
                 "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "109"],
                 "correctAnswer" => 1,
                 "topic" => "Opțiunile politice în perioada neutralității",
@@ -480,8 +480,39 @@ class TestItemOptionFactory extends Factory
                 "test_item_id" => 5
             ],
             [
+                "option" => "1. Regele Mihai|A. Instituirea regimului monarhiei autoritare",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
+                "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "201"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "1. Regele Mihai|C.'Rege unificator'",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
+                "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "293"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "1. Regele Mihai|D. Greva regală",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
+                "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "17"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            //2
+            [
                 "option" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
-                "explanation" => "",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
                 "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "201"],
                 "correctAnswer" => 1,
                 "topic" => "Opțiunile politice în perioada neutralității",
@@ -490,8 +521,39 @@ class TestItemOptionFactory extends Factory
                 "test_item_id" => 5
             ],
             [
-                "option" => "2. Generalul Alexandru Averescu|C.'Rege unificator",
-                "explanation" => "",
+                "option" => "4. Regele Ferdinand I|B. Prim-ministru al României",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
+                "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "109"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "4. Regele Ferdinand I|C.'Rege unificator'",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
+                "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "293"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "4. Regele Ferdinand I|D. Greva regală",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
+                "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "17"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            //3
+            [
+                "option" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
                 "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "293"],
                 "correctAnswer" => 1,
                 "topic" => "Opțiunile politice în perioada neutralității",
@@ -500,10 +562,71 @@ class TestItemOptionFactory extends Factory
                 "test_item_id" => 5
             ],
             [
+                "option" => "2. Generalul Alexandru Averescu|A. Instituirea regimului monarhiei autoritare",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "201"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "2. Generalul Alexandru Averescu|D. Greva regală",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "17"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "2. Generalul Alexandru Averescu|B. Prim-ministru al României",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "109"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            //4
+            [
                 "option" => "3. Regele Carol II|D. Greva regală",
-                "explanation" => "",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
                 "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "17"],
                 "correctAnswer" => 1,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "3. Regele Carol II|A. Instituirea regimului monarhiei autoritare",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
+                "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "201"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "3. Regele Carol II|B. Prim-ministru al României",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
+                "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "109"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 5
+            ],
+            [
+                "option" => "3. Regele Carol II|C.'Rege unificator'",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
+                "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "293"],
+                "correctAnswer" => 0,
                 "topic" => "Opțiunile politice în perioada neutralității",
                 "testType" => "snap",
                 "task" => "Formează perechi logice",
@@ -512,7 +635,7 @@ class TestItemOptionFactory extends Factory
 //18
             [
                 "option" => "1. Regele Mihai|B. Prim-ministru al României",
-                "explanation" => "",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
                 "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "109"],
                 "correctAnswer" => 1,
                 "topic" => "Opțiunile politice în perioada neutralității",
@@ -521,8 +644,39 @@ class TestItemOptionFactory extends Factory
                 "test_item_id" => 18
             ],
             [
+                "option" => "1. Regele Mihai|A. Instituirea regimului monarhiei autoritare",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
+                "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "201"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "1. Regele Mihai|C.'Rege unificator'",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
+                "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "293"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "1. Regele Mihai|D. Greva regală",
+                "explanation" => "1. Regele Mihai|B. Prim-ministru al României",
+                "texts_add" => ["x1" => "285", "y1" => "17", "x2" => "342", "y2" => "17"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            //2
+            [
                 "option" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
-                "explanation" => "",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
                 "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "201"],
                 "correctAnswer" => 1,
                 "topic" => "Opțiunile politice în perioada neutralității",
@@ -531,8 +685,39 @@ class TestItemOptionFactory extends Factory
                 "test_item_id" => 18
             ],
             [
-                "option" => "2. Generalul Alexandru Averescu|C.'Rege unificator",
-                "explanation" => "",
+                "option" => "4. Regele Ferdinand I|B. Prim-ministru al României",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
+                "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "109"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "4. Regele Ferdinand I|C.'Rege unificator'",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
+                "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "293"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "4. Regele Ferdinand I|D. Greva regală",
+                "explanation" => "4. Regele Ferdinand I|A. Instituirea regimului monarhiei autoritare",
+                "texts_add" => ["x1" => "285", "y1" => "109", "x2" => "342", "y2" => "17"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            //3
+            [
+                "option" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
                 "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "293"],
                 "correctAnswer" => 1,
                 "topic" => "Opțiunile politice în perioada neutralității",
@@ -541,8 +726,39 @@ class TestItemOptionFactory extends Factory
                 "test_item_id" => 18
             ],
             [
+                "option" => "2. Generalul Alexandru Averescu|A. Instituirea regimului monarhiei autoritare",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "201"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "2. Generalul Alexandru Averescu|D. Greva regală",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "17"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "2. Generalul Alexandru Averescu|B. Prim-ministru al României",
+                "explanation" => "2. Generalul Alexandru Averescu|C.'Rege unificator'",
+                "texts_add" => ["x1" => "285", "y1" => "201", "x2" => "342", "y2" => "109"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            //4
+            [
                 "option" => "3. Regele Carol II|D. Greva regală",
-                "explanation" => "",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
                 "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "17"],
                 "correctAnswer" => 1,
                 "topic" => "Opțiunile politice în perioada neutralității",
@@ -550,7 +766,36 @@ class TestItemOptionFactory extends Factory
                 "task" => "Formează perechi logice",
                 "test_item_id" => 18
             ],
-
+            [
+                "option" => "3. Regele Carol II|A. Instituirea regimului monarhiei autoritare",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
+                "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "201"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "3. Regele Carol II|B. Prim-ministru al României",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
+                "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "109"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
+            [
+                "option" => "3. Regele Carol II|C.'Rege unificator'",
+                "explanation" => "3. Regele Carol II|D. Greva regală",
+                "texts_add" => ["x1" => "285", "y1" => "293", "x2" => "342", "y2" => "293"],
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "snap",
+                "task" => "Formează perechi logice",
+                "test_item_id" => 18
+            ],
 //dnd_group
             [
                 "option" => "Germania",

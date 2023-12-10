@@ -27,6 +27,7 @@ class StudentFormativeTestOptionController extends Controller
         'score' => 'required|numeric|min:0',
         'option' => 'required|string|max:500',
         'type' => 'required|string|max:50',
+        'explanation' => 'required_if:type,snap|string|max:500',
     ]);
         // Verificăm dacă validarea a eșuat
         if ($validator->fails()) {
@@ -34,13 +35,14 @@ class StudentFormativeTestOptionController extends Controller
         }
 
         // Apelul procedurii stocate
-        DB::select('CALL InsertOrUpdateStudentFormativeTestOption(?, ?, ?, ?, ?, ?)', [
+        DB::select('CALL InsertOrUpdateStudentFormativeTestOption(?, ?, ?, ?, ?, ?, ?)', [
             $request->input('student_id'),
             $request->input('formative_test_id'),
             $request->input('test_item_id'),
             $request->input('score'),
             $request->input('option'),
             $request->input('type'),
+            $request->input('explanation'),
         ]);
 
         return response()->json(['message' => 'Success'], 200);

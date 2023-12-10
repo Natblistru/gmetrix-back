@@ -16,7 +16,8 @@ class CreateInsertOrUpdateStudentFormativeTestOptionProcedure extends Migration
             p_test_item_id bigint,
             p_score decimal(25,2),
             p_option varchar(500),
-            p_type varchar(50)
+            p_type varchar(50),
+            p_explanation varchar(500)
         )
         BEGIN
             DECLARE existing_row_count int;
@@ -82,6 +83,53 @@ class CreateInsertOrUpdateStudentFormativeTestOptionProcedure extends Migration
                     AND FTI.formative_test_id = p_formative_test_id
                     AND FTI.test_item_id = p_test_item_id
                     AND TIO.option = p_option;
+                ELSE
+                    -- Dacă nu există, obtinem existing_formative_test_item_id
+                    SELECT FTI.id INTO existing_formative_test_item_id 
+                    FROM formative_test_items FTI 
+                    WHERE FTI.formative_test_id = p_formative_test_id
+                    AND FTI.test_item_id = p_test_item_id;
+
+                    -- Si obtinem existing_test_item_option_id
+                    SELECT TIO.id INTO existing_test_item_option_id 
+                    FROM test_item_options TIO 
+                    WHERE TIO.option = p_option
+                    AND TIO.test_item_id = p_test_item_id;
+
+                    -- Si adăugăm un nou rând în student_formative_test_options
+                    INSERT INTO student_formative_test_options (student_id, formative_test_item_id, test_item_option_id, score, created_at, updated_at)
+                    VALUES (p_student_id, existing_formative_test_item_id, existing_test_item_option_id, p_score, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+                END IF;
+            ELSEIF p_type = 'snap' THEN
+                -- Verificăm dacă există un rând cu același student_id și test_item_id si explanation
+                SELECT COUNT(*) INTO existing_row_count
+                FROM student_formative_test_options SFTO
+                INNER JOIN formative_test_items FTI ON SFTO.formative_test_item_id = FTI.id
+                INNER JOIN test_item_options TIO ON SFTO.test_item_option_id = TIO.id
+                WHERE student_id = p_student_id
+                AND FTI.formative_test_id = p_formative_test_id
+                AND FTI.test_item_id = p_test_item_id
+                AND TIO.explanation = p_explanation;
+
+                -- Dacă există, actualizăm rândul
+                IF existing_row_count > 0 THEN
+
+                    -- Obtinem existing_test_item_option_id
+                    SELECT TIO.id INTO existing_test_item_option_id 
+                    FROM test_item_options TIO 
+                    WHERE TIO.option = p_option
+                    AND TIO.test_item_id = p_test_item_id;
+
+                    UPDATE student_formative_test_options AS SFTO
+                    JOIN formative_test_items FTI ON SFTO.formative_test_item_id = FTI.id
+                    INNER JOIN test_item_options TIO ON SFTO.test_item_option_id = TIO.id
+                    SET SFTO.score = p_score,
+                        SFTO.test_item_option_id = existing_test_item_option_id,
+                        SFTO.updated_at = CURRENT_TIMESTAMP
+                    WHERE student_id = p_student_id
+                    AND FTI.formative_test_id = p_formative_test_id
+                    AND FTI.test_item_id = p_test_item_id
+                    AND TIO.explanation = p_explanation;
                 ELSE
                     -- Dacă nu există, obtinem existing_formative_test_item_id
                     SELECT FTI.id INTO existing_formative_test_item_id 
