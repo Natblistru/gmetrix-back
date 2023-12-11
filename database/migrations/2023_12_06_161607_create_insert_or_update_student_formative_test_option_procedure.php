@@ -57,6 +57,12 @@ class CreateInsertOrUpdateStudentFormativeTestOptionProcedure extends Migration
                     WHERE FTI.formative_test_id = p_formative_test_id
                     AND FTI.test_item_id = p_test_item_id;
 
+                    -- Obtinem existing_test_item_option_id
+                    SELECT TIO.id INTO existing_test_item_option_id 
+                    FROM test_item_options TIO 
+                    WHERE TIO.option = p_option
+                    AND TIO.test_item_id = p_test_item_id;
+
                     -- Si adăugăm un nou rând în student_formative_test_options
                     INSERT INTO student_formative_test_options (student_id, formative_test_item_id, test_item_option_id, score, created_at, updated_at)
                     VALUES (p_student_id, existing_formative_test_item_id, existing_test_item_option_id, p_score, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
