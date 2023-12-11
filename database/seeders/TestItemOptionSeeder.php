@@ -11,6 +11,6 @@ class TestItemOptionSeeder extends Seeder
 
     public function run(): void
     {
-        TestItemOption::factory()->count(126)->create();
+        TestItemOption::factory()->count(130)->create();
     }
 }

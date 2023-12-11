@@ -20,11 +20,11 @@ class SummativeTestItemFactory extends Factory
             ["order" => 1, "summative_test_id" => 1, "test_item_id" => 4],
             ["order" => 2, "summative_test_id" => 1, "test_item_id" => 8],
             ["order" => 3, "summative_test_id" => 1, "test_item_id" => 21],
-            ["order" => 4, "summative_test_id" => 1, "test_item_id" => 8],
+            ["order" => 4, "summative_test_id" => 1, "test_item_id" => 24],
             ["order" => 1, "summative_test_id" => 2, "test_item_id" => 17],
             ["order" => 2, "summative_test_id" => 2, "test_item_id" => 8],
             ["order" => 3, "summative_test_id" => 2, "test_item_id" => 21],
-            ["order" => 4, "summative_test_id" => 2, "test_item_id" => 8],
+            ["order" => 4, "summative_test_id" => 2, "test_item_id" => 24],
         ];
 
         $summativeTest = $summativetests[$this->index];

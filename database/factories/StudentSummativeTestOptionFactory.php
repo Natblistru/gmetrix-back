@@ -55,7 +55,7 @@ class StudentSummativeTestOptionFactory extends Factory
         $id_test_summ_items = [1,2,3,4];
         $id_test_summ_item = $id_test_summ_items[$this->index];                                        
 
-        $id_test_options = [38,71,72,71];
+        $id_test_options = [38,102,108,112];
         $id_test_option = $id_test_options[$this->index]; 
 
 

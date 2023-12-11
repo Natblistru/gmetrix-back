@@ -42,7 +42,7 @@ class TestItemFactory extends Factory
             ["task" => "Completează propoziția", "type" => "words", "complexity" => "simplu"],
             ["task" => "Elaborează un fragment de text", "type" => "dnd_chrono_double", "complexity" => "dificil"],
             ["task" => "Succesiunea cronologică a evenimentelor", "type" => "dnd_chrono", "complexity" => "moderat"],
-
+            ["task" => "Completează propoziția", "type" => "words", "complexity" => "simplu"],
         ];
 
         $testItem = $testItems[$this->index];

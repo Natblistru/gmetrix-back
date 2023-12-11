@@ -80,6 +80,7 @@ class SummativeTestController extends Controller
                     'order_number' => $formativeTestDetails->order_number,
                     'test_item_id' => $formativeTestDetails->test_item_id,
                     'test_item_task' => $formativeTestDetails->task,
+                    'summative_test_id' => $formativeTestDetails->summative_test_id,
                     'item_type' => $formativeTestDetails->item_type,
                     'test_item_complexity' => $formativeTestDetails->test_complexity_id,
                     'test_item_options' => $testItemOptions,

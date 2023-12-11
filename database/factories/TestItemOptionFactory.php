@@ -1003,7 +1003,7 @@ class TestItemOptionFactory extends Factory
                 "test_item_id" => 8
             ],
             [
-                "option" => "neutra",
+                "option" => "neutră",
                 "explanation" => "În perioada 1914-1916, România a fost neutră, deși avea un tratat de alianță cu Tripla Alianță. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe 4 august 1916, România a semnat un tratat de alianță cu Antanta, care prevedea eliberarea Transilvaniei și realizarea unității naționale.",
                 "texts_add" => '"În perioada ;<1914>;-;<1916>; România a fost ;<neutră>;, deși avea un tratat de alianță cu ;<Tripla Alianță>;. Au existat dezbateri în țară privind participarea la război, iar în cele din urmă, pe ;<4 august 1916>;, România a semnat un tratat de alianță cu ;<Antanta>;, care prevedea eliberarea ;<Transilvaniei>; și realizarea unității naționale."',
                 "correctAnswer" => 3,
@@ -1123,6 +1123,58 @@ class TestItemOptionFactory extends Factory
                 "task" => "Completează propoziția",
                 "test_item_id" => 21
             ],
+//24        
+            [
+                "option" => "brown",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 1,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 24
+            ],
+            [
+                "option" => "jumped",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 2,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 24
+            ],
+            [
+                "option" => "dog",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 3,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 24
+            ],
+            [
+                "option" => "potato",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 24
+            ],
+            [
+                "option" => "apple",
+                "explanation" => "Europa de Vest era dominată de 2 state brown fox jumped over the dog",
+                "texts_add" => '"Europa de Vest era dominată de 2 state:;<brown>; fox ;<jumped>; over the ;<dog>"',
+                "correctAnswer" => 0,
+                "topic" => "Opțiunile politice în perioada neutralității",
+                "testType" => "words",
+                "task" => "Completează propoziția",
+                "test_item_id" => 24
+            ],
+
 //dnd_chrono_double
             [
                 "option" => "România a intrat în Primul Război Mondial",
