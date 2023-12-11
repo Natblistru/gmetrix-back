@@ -13,6 +13,8 @@ use App\Http\Controllers\StudentSubopicProgressController;
 use App\Http\Controllers\StudentEvaluationAnswerController;
 use App\Http\Controllers\StudentFormativeTestOptionController;
 use App\Http\Controllers\StudentSummativeTestOptionController;
+use App\Http\Controllers\StudentFormativeTestResultController;
+use App\Http\Controllers\StudentSummativeTestResultController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -62,3 +64,7 @@ Route::post('/student-evaluation-answers', [StudentEvaluationAnswerController::c
 Route::post('/student-formative-test-options', [StudentFormativeTestOptionController::class, "store"]);
 
 Route::post('/student-summative-test-options', [StudentSummativeTestOptionController::class, "store"]);
+
+Route::post('/student-formative-test-results', [StudentFormativeTestResultController::class, "store"]);
+
+Route::post('/student-summative-test-results', [StudentSummativeTestResultController::class, "store"]);
