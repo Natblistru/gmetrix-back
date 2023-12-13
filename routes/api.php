@@ -15,6 +15,7 @@ use App\Http\Controllers\StudentFormativeTestOptionController;
 use App\Http\Controllers\StudentSummativeTestOptionController;
 use App\Http\Controllers\StudentFormativeTestResultController;
 use App\Http\Controllers\StudentSummativeTestResultController;
+use App\Http\Controllers\API\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -68,3 +69,5 @@ Route::post('/student-summative-test-options', [StudentSummativeTestOptionContro
 Route::post('/student-formative-test-results', [StudentFormativeTestResultController::class, "store"]);
 
 Route::post('/student-summative-test-results', [StudentSummativeTestResultController::class, "store"]);
+
+Route::post('/register', [AuthController::class, "register"]);
