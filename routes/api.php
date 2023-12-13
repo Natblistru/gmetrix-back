@@ -71,3 +71,5 @@ Route::post('/student-formative-test-results', [StudentFormativeTestResultContro
 Route::post('/student-summative-test-results', [StudentSummativeTestResultController::class, "store"]);
 
 Route::post('/register', [AuthController::class, "register"]);
+
+Route::post('/login', [AuthController::class, "login"]);
