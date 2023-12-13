@@ -31,6 +31,10 @@ use App\Http\Controllers\API\AuthController;
 //     return $request->user();
 // });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, "logout"]);
+});
+
 Route::group(["namespace"=> "App\Http\Controllers"], function() {
     Route::apiResource("chapters", ChapterController::class);
 });
@@ -73,3 +77,4 @@ Route::post('/student-summative-test-results', [StudentSummativeTestResultContro
 Route::post('/register', [AuthController::class, "register"]);
 
 Route::post('/login', [AuthController::class, "login"]);
+
