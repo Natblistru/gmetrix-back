@@ -10,20 +10,28 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    private $index = 0;
     public function definition(): array
     {
-        $uniqueNames = $this->faker->unique()->randomElements(['userT1', 'userT2', 'userS1', 'userS2'], 4);
+
+        $usersInfo = [
+            ["name" => 'userT1', "email" => 'npfeffer@example.com', "password" => '12345678', "role_as" => 0],
+            ["name" => 'userT2', "email" => 'tremblay.alayna@example.org', "password" => '12345678', "role_as" => 0],
+            ["name" => 'userS1', "email" => 'bayer.kevin@example.net', "password" => '12345678', "role_as" => 0],        
+            ["name" => 'userS2', "email" => 'deron.okon@example.org', "password" => '12345678', "role_as" => 0],  
+            ["name" => 'test', "email" => 'test@gmail.com', "password" => '12345678', "role_as" => 0], 
+            ["name" => 'admin', "email" => 'admin@gmail.com', "password" => '12345678', "role_as" => 1], 
+        ];
+
+        $userInfo = $usersInfo[$this->index];
+
+        $this->index++;
+
         return [
-            'name' => $this->faker->unique()->randomElement($uniqueNames),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' =>'test',
-            'remember_token' => Str::random(10),
+            'name' => $userInfo['name'],
+            'email' => $userInfo['email'],
+            'password' => $userInfo['password'],
+            'role_as' => $userInfo['role_as'],
         ];
     }
 
