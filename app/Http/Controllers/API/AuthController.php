@@ -4,8 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ResetPasswordRequest;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Models\PasswordReset;
+use App\Mail\ForgotPasswordMail;
+use Mail;
+use Str;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -38,7 +45,7 @@ class AuthController extends Controller
             $token = $user->createToken($user->email.'_Token')->plainTextToken;
 
             return response()->json([
-                'status'=>200,
+                'status'=>201,
                 'username'=>$user->name,
                 'token'=>$token,
                 'message'=>'Registered Successfully',
@@ -98,5 +105,75 @@ class AuthController extends Controller
             'status'=>200,
             'message'=>'Logged Out Successfully',
         ]);
+    }
+
+    public function forgot(Request $request)
+    {
+        $validator =  Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
+        }
+        else
+        {
+            $user = User::where('email', $request->input('email'))->first();
+
+            if(!$user || !$user->email) {
+                return response()->json([
+                    'status'=>404,
+                    'message'=>'Incorect Email Address Provided',
+                ]);
+            }
+
+            $user->remember_token = Str::random(30);
+            $user->save();
+
+            Mail::to($user->email)->send(new ForgotPasswordMail($user));
+
+            return response()->json([
+                'status'=>200,
+                'message'=>'A code has been sent to your email address.',
+            ]);
+        }
+    }
+
+    public function reset($token, Request $request): JsonResponse
+    {
+        $validator =  Validator::make($request->all(), [
+            'password' => 'required|min:8',
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
+        }
+        else
+        {
+        
+            $user = User::where('remember_token',$token)->first();
+
+            if(!$user ) {
+                return response()->json(['message' => 'The token is not valid'], 404);
+            }
+
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            $user->tokens()->delete();
+
+            return response()->json([
+                'status'=>200,
+                // 'username'=>$user->name,
+                // 'token'=>$token,
+                'message'=>'Password reset successfully',
+                // 'role'=>$role,
+            ]);
+        }
+
     }
 }

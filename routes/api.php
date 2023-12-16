@@ -31,6 +31,19 @@ use App\Http\Controllers\API\AuthController;
 //     return $request->user();
 // });
 
+
+Route::middleware('guest')->group(function () {
+    Route::post('/register', [AuthController::class, "register"]);
+    Route::post('/login', [AuthController::class, "login"]);
+
+    Route::post('/forgot-password', [AuthController::class, "forgot"]);       
+    Route::post('/reset-password/{token}', [AuthController::class, "reset"]);    
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, "logout"]);
+});
+
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     // Route::middleware('auth:sanctum')->group(function () {
     Route::get('/checkingAuthenticated', function () {
@@ -38,10 +51,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->group(function () {
 
-    Route::post('/logout', [AuthController::class, "logout"]);
-});
 
 
 
@@ -84,7 +94,5 @@ Route::post('/student-formative-test-results', [StudentFormativeTestResultContro
 
 Route::post('/student-summative-test-results', [StudentSummativeTestResultController::class, "store"]);
 
-Route::post('/register', [AuthController::class, "register"]);
 
-Route::post('/login', [AuthController::class, "login"]);
 
