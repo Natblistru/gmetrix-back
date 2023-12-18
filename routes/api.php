@@ -16,7 +16,7 @@ use App\Http\Controllers\StudentSummativeTestOptionController;
 use App\Http\Controllers\StudentFormativeTestResultController;
 use App\Http\Controllers\StudentSummativeTestResultController;
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controller\VideoController;
+use App\Http\Controllers\VideoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -51,7 +51,9 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
         return response()->json(['message'=>'You are in', 'status'=>200],200);
     });
 
-    Route::post('/store-store-video', [VideoController::class, "store"]);
+    Route::post('/store-video', [VideoController::class, "store"]);
+    Route::get('/view-videos', [VideoController::class, "index"]);
+    
 });
 
 
