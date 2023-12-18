@@ -15,6 +15,7 @@ return new class extends Migration
           $table->string("path",200);
           $table->integer("order_number")->default(1);
           $table->unsignedBigInteger("chapter_id");
+          $table->tinyInteger("status")->default(0);
           $table->timestamps();
   
           $table->foreign("chapter_id")->references("id")->on("chapters");

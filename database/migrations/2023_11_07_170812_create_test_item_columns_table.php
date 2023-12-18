@@ -14,6 +14,7 @@ return new class extends Migration
             $table->unsignedSmallInteger("order_number")->default(0);
             $table->string('title',100);
             $table->unsignedBigInteger("test_item_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("test_item_id")->references("id")->on("test_items");

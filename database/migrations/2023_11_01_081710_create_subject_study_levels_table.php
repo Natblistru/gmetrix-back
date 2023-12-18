@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("name",200);
             $table->string("path",200);
             $table->string("img",200);
+            $table->tinyInteger("status")->default(0);
 
             $table->timestamps();
 

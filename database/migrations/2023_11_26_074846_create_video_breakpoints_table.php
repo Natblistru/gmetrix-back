@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string("name",200);
             $table->string("time",10);
             $table->string("seconds",10);
-
             $table->unsignedBigInteger("video_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("video_id")->references("id")->on("videos");

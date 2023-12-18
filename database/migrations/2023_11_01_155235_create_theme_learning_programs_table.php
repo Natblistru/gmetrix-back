@@ -13,7 +13,8 @@ return new class extends Migration
         Schema::create('theme_learning_programs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("learning_program_id"); 
-            $table->unsignedBigInteger("theme_id");  
+            $table->unsignedBigInteger("theme_id"); 
+            $table->tinyInteger("status")->default(0); 
             $table->timestamps();
 
             $table->foreign("learning_program_id")->references("id")->on("learning_programs");

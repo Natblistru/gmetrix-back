@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("student_id");
             $table->unsignedBigInteger("subtopic_id");  
             $table->integer("progress_percentage")->default(0);
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("student_id")->references("id")->on("students");

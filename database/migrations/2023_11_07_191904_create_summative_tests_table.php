@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('path',500)->default("/test-de-totalizare"); 
             $table->unsignedBigInteger("teacher_topic_id");
             $table->unsignedBigInteger("test_complexity_id"); 
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("teacher_topic_id")->references("id")->on("teacher_topics");

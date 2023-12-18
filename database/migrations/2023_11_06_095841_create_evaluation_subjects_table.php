@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer("order_number")->default(1);
             $table->string("path",500);
             $table->unsignedBigInteger("evaluation_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("evaluation_id")->references("id")->on("evaluations");

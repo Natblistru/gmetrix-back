@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text("content");
             $table->integer("max_points")->default(0);
             $table->unsignedBigInteger("evaluation_item_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("evaluation_item_id")->references("id")->on("evaluation_items");

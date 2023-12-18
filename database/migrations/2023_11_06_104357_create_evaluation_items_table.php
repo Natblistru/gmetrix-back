@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("nota",2000);
             $table->unsignedBigInteger("theme_id");
             $table->unsignedBigInteger("evaluation_subject_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("theme_id")->references("id")->on("themes");

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string("name",500);
             $table->unsignedBigInteger("teacher_topic_id");  
-            $table->string("audio_path",1000);           
+            $table->string("audio_path",1000);    
+            $table->tinyInteger("status")->default(0);       
             $table->timestamps();
 
             $table->foreign("teacher_topic_id")->references("id")->on("teacher_topics"); 

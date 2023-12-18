@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("name",50);
             $table->integer("level")->default(1);
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("path",1000);
             $table->unsignedBigInteger("teacher_id");
             $table->unsignedBigInteger("theme_learning_program_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("teacher_id")->references("id")->on("teachers");

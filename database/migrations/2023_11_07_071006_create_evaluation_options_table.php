@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("label",500);
             $table->integer("points")->default(0);
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
         });
     }

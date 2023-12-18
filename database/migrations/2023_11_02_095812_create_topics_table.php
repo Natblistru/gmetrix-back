@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string("name",500);
             $table->string("path",500);
             $table->integer("order_number")->default(1);
-            $table->unsignedBigInteger("theme_learning_program_id");    
+            $table->unsignedBigInteger("theme_learning_program_id"); 
+            $table->tinyInteger("status")->default(0);   
             $table->timestamps();
 
             $table->foreign("theme_learning_program_id")->references("id")->on("theme_learning_programs");

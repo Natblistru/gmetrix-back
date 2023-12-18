@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("task",1000);
             $table->json('hint')->nullable();
             $table->unsignedBigInteger("evaluation_item_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("evaluation_item_id")->references("id")->on("evaluation_items");

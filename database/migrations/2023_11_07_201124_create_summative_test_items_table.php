@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer("order_number")->default(1);
             $table->unsignedBigInteger("summative_test_id");
             $table->unsignedBigInteger("test_item_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("summative_test_id")->references("id")->on("summative_tests");

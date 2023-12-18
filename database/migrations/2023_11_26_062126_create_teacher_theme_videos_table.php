@@ -19,7 +19,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("video_id");
             $table->unsignedBigInteger("teacher_id");  
-            $table->unsignedBigInteger("theme_learning_program_id");  
+            $table->unsignedBigInteger("theme_learning_program_id"); 
+            $table->tinyInteger("status")->default(0); 
             $table->timestamps();
 
             $table->foreign("video_id")->references("id")->on("videos");

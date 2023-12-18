@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("title",500);
             $table->string("source",500);
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
         });

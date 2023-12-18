@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("teacher_id");
             $table->unsignedBigInteger("topic_id");  
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("teacher_id")->references("id")->on("teachers");

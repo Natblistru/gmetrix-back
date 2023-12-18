@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("student_id");
             $table->unsignedBigInteger("formative_test_item_id");
             $table->decimal('score', 25, 2)->default(0.00);
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("student_id")->references("id")->on("students");

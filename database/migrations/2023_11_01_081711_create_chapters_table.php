@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("name",500);
             $table->integer("order_number")->default(1);
             $table->unsignedBigInteger("subject_study_level_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
     
             $table->foreign("subject_study_level_id")->references("id")->on("subject_study_levels");    

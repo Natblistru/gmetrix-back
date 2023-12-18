@@ -18,6 +18,7 @@ return new class extends Migration
             $table->json('content')->nullable();
             $table->string("author",500)->nullable();
             $table->string("text_sourse",500);
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
         });
     }

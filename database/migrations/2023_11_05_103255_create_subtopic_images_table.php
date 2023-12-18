@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('subtopic_images', function (Blueprint $table) {
             $table->id();
             $table->string("path",1000);
-            $table->unsignedBigInteger("subtopic_id");  
+            $table->unsignedBigInteger("subtopic_id"); 
+            $table->tinyInteger("status")->default(0); 
             $table->timestamps();
 
             $table->foreign("subtopic_id")->references("id")->on("subtopics"); 

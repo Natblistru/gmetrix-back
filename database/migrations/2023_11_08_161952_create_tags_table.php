@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('tag_name',50);
             $table->unsignedBigInteger('taggable_id');
             $table->string('taggable_type');
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
         });
     }

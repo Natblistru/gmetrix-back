@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("task",500);
             $table->string("answer",5000);
             $table->unsignedBigInteger("teacher_topic_id");  
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("teacher_topic_id")->references("id")->on("teacher_topics"); 

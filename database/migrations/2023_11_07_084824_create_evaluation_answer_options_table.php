@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("evaluation_answer_id");
             $table->unsignedBigInteger("evaluation_option_id");
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
 
             $table->foreign("evaluation_answer_id")->references("id")->on("evaluation_answers");
