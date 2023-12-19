@@ -53,7 +53,8 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
 
     Route::post('/store-video', [VideoController::class, "store"]);
     Route::get('/view-videos', [VideoController::class, "index"]);
-    
+    Route::get('/edit-video/{id}', [VideoController::class, "edit"]); 
+    Route::post('/update-video/{id}', [VideoController::class, "update"]);   
 });
 
 

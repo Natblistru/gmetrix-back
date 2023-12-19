@@ -41,7 +41,51 @@ class VideoController extends Controller
             'status'=>201,
             'message'=>'Video Added successfully',
         ]);
-
     }
 
+    public static function edit($id) {
+        $video =  Video::find($id);
+        if($video) {
+            return response()->json([
+                'status' => 200,
+                'video' => $video,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Video Id Found',
+            ]);
+        }
+    }
+
+    public static function update(Request $request,$id,) {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:500',
+            'source' => 'required|string|max:500',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $video = Video::find($id);
+        if($video) {
+            $video->title = $request->input('title');
+            $video->source = $request->input('source');
+            $video->status = $request->input('status');            
+            $video->update();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Video Updated successfully',
+            ]); 
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Video Id Found',
+            ]); 
+        }
+    }
 }
