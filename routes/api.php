@@ -17,6 +17,7 @@ use App\Http\Controllers\StudentFormativeTestResultController;
 use App\Http\Controllers\StudentSummativeTestResultController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\VideoBreakpointController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -54,7 +55,11 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::post('/store-video', [VideoController::class, "store"]);
     Route::get('/view-videos', [VideoController::class, "index"]);
     Route::get('/edit-video/{id}', [VideoController::class, "edit"]); 
-    Route::post('/update-video/{id}', [VideoController::class, "update"]);   
+    Route::post('/update-video/{id}', [VideoController::class, "update"]); 
+    Route::get('/all-videos', [VideoController::class, "allvideos"]);
+
+    Route::post('/store-breakpoint', [VideoBreakpointController::class, "store"]);
+    
 });
 
 

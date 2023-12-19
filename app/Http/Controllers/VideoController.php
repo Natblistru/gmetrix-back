@@ -20,6 +20,14 @@ class VideoController extends Controller
         return Video::find($id); 
     }
 
+    public static function allvideos() {
+        $video =  Video::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'video' => $video,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:500',
