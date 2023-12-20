@@ -48,8 +48,11 @@ class TeacherThemeVideoFactory extends Factory
         // $themeLearningProgramIstoria = ThemeLearningProgram::where('learning_program_id', 2)
         //                                  ->where('theme_id', $themeId)
         //                                  ->first();
+        $name = $titles[$this->index] . ' ( clasa 9, 2022, ' . $teacherName . ')';
+
         $this->index++;
         return [
+            'name' =>$name,
             'video_id' =>$videoId,
             'teacher_id' => $teacherId,
             'theme_learning_program_id' => $themeLearningProgramIstoria,

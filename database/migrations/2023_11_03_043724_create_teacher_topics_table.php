@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('teacher_topics', function (Blueprint $table) {
             $table->id();
+            $table->string("name",500);
             $table->unsignedBigInteger("teacher_id");
             $table->unsignedBigInteger("topic_id");  
             $table->tinyInteger("status")->default(0);

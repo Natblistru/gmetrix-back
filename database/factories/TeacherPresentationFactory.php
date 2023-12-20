@@ -50,7 +50,7 @@ class TeacherPresentationFactory extends Factory
 
         $path = $this->paths[$this->index];
 
-        $name = $themeName . ' (' . $teacherName . ', 2022)';
+        $name = $themeName . ' ( clasa 9, 2022, ' . $teacherName . ')';
 
         $this->index++;
 
