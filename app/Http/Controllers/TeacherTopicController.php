@@ -9,7 +9,12 @@ use App\Models\TeacherTopic;
 class TeacherTopicController extends Controller
 {
     public static function index() {
-        return TeacherTopic::all();
+        $teacherTopics =  TeacherTopic::all();
+        return response()->json([
+            'status' => 200,
+            'teacherTopics' => $teacherTopics,
+        ]);
+
     }
 
     public static function show($id) {

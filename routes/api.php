@@ -62,6 +62,8 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/view-breakpoints', [VideoBreakpointController::class, "index"]);
     Route::get('/edit-breakpoint/{id}', [VideoBreakpointController::class, "edit"]);
     Route::post('/update-breakpoint/{id}', [VideoBreakpointController::class, "update"]); 
+
+    Route::get('/view-teacherTopics', [TeacherTopicController::class, "index"]);
     
 });
 
