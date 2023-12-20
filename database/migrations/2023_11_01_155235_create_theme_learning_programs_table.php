@@ -12,6 +12,7 @@ return new class extends Migration
     {
         Schema::create('theme_learning_programs', function (Blueprint $table) {
             $table->id();
+            $table->string("name",500);
             $table->unsignedBigInteger("learning_program_id"); 
             $table->unsignedBigInteger("theme_id"); 
             $table->tinyInteger("status")->default(0); 

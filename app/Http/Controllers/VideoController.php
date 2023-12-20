@@ -51,11 +51,20 @@ class VideoController extends Controller
             'source' => $data['source'],
         ];
     
-        Video::updateOrInsert(
-            $combinatieColoane,
-            $data
-        );
+    
+        $existingRecord = Video::where($combinatieColoane)->first();
 
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            Video::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            Video::create($data);
+        }
+ 
         return response()->json([
             'status'=>201,
             'message'=>'Video Added successfully',
@@ -92,7 +101,8 @@ class VideoController extends Controller
         if($video) {
             $video->title = $request->input('title');
             $video->source = $request->input('source');
-            $video->status = $request->input('status');            
+            $video->status = $request->input('status');  
+            $video->updated_at = now();          
             $video->update();
             return response()->json([
                 'status'=>200,

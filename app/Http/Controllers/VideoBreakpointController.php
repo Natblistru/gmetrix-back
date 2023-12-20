@@ -49,10 +49,19 @@ class VideoBreakpointController extends Controller
             'video_id' => $data['video_id'],
         ];
     
-        VideoBreakpoint::updateOrInsert(
-            $combinatieColoane,
-            $data
-        );
+        $existingRecord = VideoBreakpoint::where($combinatieColoane)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            VideoBreakpoint::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            VideoBreakpoint::create($data);
+        }
+    
         return response()->json([
             'status'=>201,
             'message'=>'Video Added successfully',
@@ -91,7 +100,8 @@ class VideoBreakpointController extends Controller
             $breakpoint->name = $request->input('name');
             $breakpoint->time = $request->input('time');
             $breakpoint->video_id = $request->input('video_id');           
-            $breakpoint->status = $request->input('status');            
+            $breakpoint->status = $request->input('status'); 
+            $video->updated_at = now();             
             $breakpoint->update();
             return response()->json([
                 'status'=>200,

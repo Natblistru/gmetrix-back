@@ -42,9 +42,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password/{token}', [AuthController::class, "reset"]);    
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, "logout"]);
-});
+// });
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     // Route::middleware('auth:sanctum')->group(function () {

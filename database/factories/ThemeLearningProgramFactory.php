@@ -121,6 +121,114 @@ class ThemeLearningProgramFactory extends Factory
         'Interconexiunea literaturii cu alte disciplini',
         'Literatura în viața cotidiană', 
     ];
+    private $titles = [
+      //2022 MATEM CAPITOL 1 - Mulţimi numerice
+      'Mulțimea numerelor naturale (clasa 9, 2022)', 
+      'Mulțimea numerelor întregi (clasa 9, 2022)', 
+      'Mulțimea numerelor raționale (clasa 9, 2022)',
+      'Mulțimea numerelor reale (clasa 9, 2022)',
+      //2022 MATEM CAPITOL 2 - Rapoarte şi proporţii
+      'Rapoarte. Proporţii. Proprietatea fundamentală a proporţiilor (clasa 9, 2022)',
+      'Mărimi direct proporţionale şi mărimi invers proporţionale. Regula de trei simplă (clasa 9, 2022)',
+      'Procente. Aflarea % dintr-un număr dat. Aflarea unui număr din % (clasa 9, 2022)',
+      'Media aritmetică (clasa 9, 2022)',
+
+      // MATEM CAPITOL 3 - Calcul algebric
+      'Operaţii cu numere reale reprezentate prin litere (clasa 9, 2022)',
+      'Formule de calcul prescurtat (clasa 9, 2022)',
+      'Metode de descompunere în factori (clasa 9, 2022)',
+      'Transformări identice ale expresiilor algebrice (clasa 9, 2022)',
+      'Rapoarte (fracții) algebrice, DVA (clasa 9, 2022)',
+      // MATEM CAPITOL 4 - Funcţii 
+      'Coordonatele punctului pe plan (clasa 9, 2022)',
+      'Noţiune de funcţie. Graficul funcţiei (clasa 9, 2022)',
+      'Funcţia de gradul I. Reprezentarea grafică. Proprietăţi (clasa 9, 2022)',
+      'Funcţia de gradul II. Reprezentarea grafică. Proprietăţi (clasa 9, 2022)',    
+      // MATEM CAPITOL 5 - Ecuaţii, inecuaţii, sisteme de ecuaţii, sisteme de inecuaţii 
+      'Ecuaţii de gradul I cu o necunoscută (clasa 9, 2022)',
+      'Sisteme de ecuaţii de gradul I cu două necunoscute (clasa 9, 2022)', 
+      'Inecuaţii de gradul I cu o necunoscută (clasa 9, 2022)',
+      'Sisteme de inecuaţii de gradul I cu o necunoscută (clasa 9, 2022)',
+      'Ecuaţii de gradul II cu o necunoscută. Relaţiile Viète (clasa 9, 2022)',
+      'Inecuaţii de gradul II cu o necunoscută (clasa 9, 2022)',
+      'Ecuaţii raţionale cu o necunoscută (clasa 9, 2022)',
+      // MATEM CAPITOL 6 - Geometrie     
+    'Unități de măsură (lungime, timp, arie, volum) (clasa 9, 2022)', 
+      'Noțiuni geometrice fundamentale (clasa 9, 2022)', 
+      'Triunghiuri (clasa 9, 2022)',
+      'Patrulatere. Poligoane. (clasa 9, 2022)',
+      'Cercul. Discul (clasa 9, 2022)', 
+      'Arii (clasa 9, 2022)', 
+      'Poliedre (clasa 9, 2022)',
+      'Corpuri de rotație (clasa 9, 2022)',
+      //ISTORIA CAPITOL 1 - Primul Război Mondial și formarea statului național român
+      'România în Primul Război Mondial (clasa 9, 2022)',
+      'Mișcarea națională a românilor din Basarabia și teritoriile din stânga Nistrului (clasa 9, 2022)',
+      'Formarea Statului Național Unitar Român. Recunoașterea Marii Uniri de la 1918 (clasa 9, 2022)',
+      'Conferinţa de Pace de la Paris. Sistemul de la Versailles (clasa 9, 2022)',
+      //ISTORIA CAPITOL 2 - Lumea în perioada interbelică
+      'SUA în perioada interbelică (clasa 9, 2022)',
+      'Europa de Vest în perioada interbelică (clasa 9, 2022)',
+      'România în perioada interbelică (clasa 9, 2022)',
+      'Basarabia în cadrul României Mari (1918-1940) (clasa 9, 2022)',
+      'RASSM (1924-1940). Politica expansionistă a URSS (clasa 9, 2022)',
+      'Cultura și știința în perioada interbelică (clasa 9, 2022)',
+      'Cultura românească în 1918-40 (clasa 9, 2022)',
+      //ISTORIA CAPITOL 3 - Relațiile internaționale în perioada interbelică
+      'Alianțe și tratate politico-militare în perioada interbelică (clasa 9, 2022)',
+      'Relațiie sovieto-române(1918-1940). Pactul Molotov-Ribbentrop (clasa 9, 2022)',
+      'Pierderile teritoriale ale României în vara anului 1940 (clasa 9, 2022)',
+      'Formarea RSSM și instaurarea regimului comunist (clasa 9, 2022)',
+      //ISTORIA CAPITOL 4 - Al Doilea Război Mondial  
+      'Al Doilea Război Mondial 1939-1945 (clasa 9, 2022)',
+      'Spațiul românesc între 1941 şi 1944 (clasa 9, 2022)', 
+      'Crime de război. Holocaust (clasa 9, 2022)', 
+      'Consecințele celui de-al Doilea Război Mondial (clasa 9, 2022)',       
+      //ISTORIA CAPITOL 5 - Lumea postbelică 
+      'Relațiile internaționale în perioada 1945-1991. Constituirea ONU (clasa 9, 2022)', 
+      'Uniunea Sovietică în perioada postbelică (clasa 9, 2022)',
+      'RSSM. Economie şi societate (1944-1985) (clasa 9, 2022)',
+      'Foametea, represiile și deportările staliniste din RSSM (clasa 9, 2022)',
+      //ISTORIA CAPITOL 6 - Lumea la sfârșitul secolului XX - începutul secolului XXI 
+      'RSSM între 1985-1991. Proclamarea independenței Republicii Moldova (clasa 9, 2022)',
+      'Războiul de pe Nistru (clasa 9, 2022)',
+      //ISTORIA CAPITOL 7 - Cultura și știința în perioada postbelică      
+      'Cultura și știința în RSSM (1944-1991) (clasa 9, 2022)', 
+      'Evoluția culturii în Republica Moldova (clasa 9, 2022)',
+      'Cultura și știința universală în Epoca Contemporană (clasa 9, 2022)',
+     
+      //ROMANA CAPITOL 1 - Perceperea identității lingvistice și culturale proprii în context național
+      'Limba română (clasa 9, 2022)', 
+      'Personalitățile neamului (clasa 9, 2022)',
+      'Comunitatea vorbitorilor de limbă română (clasa 9, 2022)',
+      'Cultura națională și europeană (clasa 9, 2022)',
+      //ROMANA CAPITOL 2 - Utilizarea limbii ca sistem și a normelor lingvistice în realizarea actelor communicative
+      'Elemente de fonetică şi ortografie (clasa 9, 2022)',
+      'Lexicul (clasa 9, 2022)',
+      'Morfologia (clasa 9, 2022)',
+      'Sintaxa (clasa 9, 2022)',
+      //ROMANA CAPITOL 3 - Lectura și receptarea textelor literare și nonliterare
+      'Cartea (clasa 9, 2022)',
+      'Structura operii literare (clasa 9, 2022)',
+      'Personaje principale și personaje secundare (clasa 9, 2022)',
+      'Text narativ (clasa 9, 2022)',
+      'Text liric (clasa 9, 2022)',
+      'Text dramatic (clasa 9, 2022)',
+      'Elementele de versificație (clasa 9, 2022)',
+      'Figurile de stil (clasa 9, 2022)',
+      'Genuri și specii literare (clasa 9, 2022)',
+      'Literatura populară și literatura cultă (clasa 9, 2022)',
+      'Textul literar și nonliterar (clasa 9, 2022)',
+      //ROMANA CAPITOL 4 - Producerea textelor scrise
+      'Scrierea reflexivă (clasa 9, 2022)',
+      'Scrierea imaginativă (clasa 9, 2022)',
+      'Scrierea funcțională (clasa 9, 2022)',
+      //ROMANA CAPITOL 5 - Integrarea experiențelor lingvistice și de lectură în contexte şcolare şi de viață 
+      'Interese și preferințe de lectură (clasa 9, 2022)', 
+      'Raftul de literature artistică în biblioteca personală (clasa 9, 2022)', 
+      'Interconexiunea literaturii cu alte disciplini (clasa 9, 2022)',
+      'Literatura în viața cotidiană (clasa 9, 2022)', 
+    ];
     private $index = 0;
     public function definition(): array
     {
@@ -234,10 +342,11 @@ class ThemeLearningProgramFactory extends Factory
                                               -> where('year', 2022)->first()->id;
 
         $themeId = Theme::firstWhere('name', $this->thems[$this->index])->id;
-
+        $name = $this->titles[$this->index];
         $this->index++;
 
         return [
+            'name' => $name,
             'learning_program_id' => $learningProgramId,
             'theme_id' => $themeId,
         ];
