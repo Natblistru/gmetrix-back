@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\TeacherTopic;
 
@@ -19,6 +20,65 @@ class TeacherTopicController extends Controller
 
     public static function show($id) {
         return TeacherTopic::find($id); 
+    }
+
+    public static function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:500',
+            'teacher_id' => 'required|integer|min:0|exists:teachers,id',
+            'topic_id' => 'required|integer|min:0|exists:topics,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+
+        $data = [
+            'name' => $request->input('name'),
+            'teacher_id' => $request->input('teacher_id'),
+            'topic_id' => $request->input('topic_id'),
+            'status' => $request->input('status'),
+        ];
+    
+        $combinatieColoane = [
+            'teacher_id' => $data['teacher_id'],
+            'topic_id' => $data['topic_id'],
+        ];
+    
+        $existingRecord = TeacherTopic::where($combinatieColoane)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            TeacherTopic::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            TeacherTopic::create($data);
+        }
+ 
+        return response()->json([
+            'status'=>201,
+            'message'=>'Teacher Topic Added successfully',
+        ]);
+    }
+
+    public static function edit($id) {
+        $teacherTopics =  TeacherTopic::find($id);
+        if($teacherTopics) {
+            return response()->json([
+                'status' => 200,
+                'teacherTopics' => $teacherTopics,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Teacher Topic Id Found',
+            ]);
+        }
     }
 
     public static function teacherTheme(Request $request)  {

@@ -16,6 +16,14 @@ class LearningProgramController extends Controller
         return LearningProgram::find($id); 
     }
 
+    public static function allLearningPrograms() {
+        $learningProgram =  LearningProgram::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'learningProgram' => $learningProgram,
+        ]);
+    }
+
     public static function disciplineAni(Request $request)  {
 
         $year = $request->query('year');

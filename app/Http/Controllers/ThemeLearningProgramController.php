@@ -16,6 +16,14 @@ class ThemeLearningProgramController extends Controller
         return ThemeLearningProgram::find($id); 
     }
 
+    public static function allThemeLearningPrograms() {
+        $theme =  ThemeLearningProgram::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'theme' => $theme,
+        ]);
+    }
+
     public static function capitoleDisciplina(Request $request)  {
 
         $level = $request->query('level');

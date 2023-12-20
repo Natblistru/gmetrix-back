@@ -18,6 +18,8 @@ use App\Http\Controllers\StudentSummativeTestResultController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\VideoBreakpointController;
+use App\Http\Controllers\TopicController;
+use App\Http\Controllers\TeacherController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,7 +66,14 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::post('/update-breakpoint/{id}', [VideoBreakpointController::class, "update"]); 
 
     Route::get('/view-teacherTopics', [TeacherTopicController::class, "index"]);
-    
+    Route::post('/store-teacherTopic', [TeacherTopicController::class, "store"]);
+    Route::get('/edit-teacherTopic/{id}', [TeacherTopicController::class, "edit"]);
+
+    Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
+    Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
+    Route::get('/all-topics', [TopicController::class, "allTopics"]);
+
+    Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
 });
 
 

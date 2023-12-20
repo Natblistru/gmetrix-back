@@ -15,4 +15,12 @@ class TopicController extends Controller
         return Topic::find($id); 
     }
 
+    public static function allTopics() {
+        $topics =  Topic::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'topics' => $topics,
+        ]);
+    }
+
 }

@@ -14,4 +14,12 @@ class TeacherController extends Controller
         return Teacher::find($id); 
     }
 
+    public static function allTeachers() {
+        $teachers =  Teacher::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'teachers' => $teachers,
+        ]);
+    }
+
 }
