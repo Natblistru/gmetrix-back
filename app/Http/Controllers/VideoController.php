@@ -40,12 +40,6 @@ class VideoController extends Controller
             ]);
         }
 
-        // $video = new Video;
-        // $video->title = $request->input('title');
-        // $video->source = $request->input('source');
-        // $video->status = $request->input('status');
-        // $video->save();
-
         $data = [
             'title' => $request->input('title'),
             'source' => $request->input('source'),
