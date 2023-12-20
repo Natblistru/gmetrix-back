@@ -40,11 +40,28 @@ class VideoController extends Controller
             ]);
         }
 
-        $video = new Video;
-        $video->title = $request->input('title');
-        $video->source = $request->input('source');
-        $video->status = $request->input('status');
-        $video->save();
+        // $video = new Video;
+        // $video->title = $request->input('title');
+        // $video->source = $request->input('source');
+        // $video->status = $request->input('status');
+        // $video->save();
+
+        $data = [
+            'title' => $request->input('title'),
+            'source' => $request->input('source'),
+            'status' => $request->input('status'),
+        ];
+    
+        $combinatieColoane = [
+            'title' => $data['title'],
+            'source' => $data['source'],
+        ];
+    
+        Video::updateOrInsert(
+            $combinatieColoane,
+            $data
+        );
+
         return response()->json([
             'status'=>201,
             'message'=>'Video Added successfully',

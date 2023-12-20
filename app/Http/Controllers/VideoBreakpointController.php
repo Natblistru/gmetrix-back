@@ -29,17 +29,34 @@ class VideoBreakpointController extends Controller
             ]);
         }
 
-        $video = new VideoBreakpoint;
-        $video->name = $request->input('name');
-        $video->time = $request->input('time');
-        $video->video_id = $request->input('video_id');  
-
         $timestamp = strtotime($request->input('time'));
-        $seconds = date('H', $timestamp) * 3600 + date('i', $timestamp) * 60 + date('s', $timestamp);      
-        
-        $video->seconds  = strval($seconds);        
-        $video->status = $request->input('status');
-        $video->save();
+        $seconds = date('H', $timestamp) * 3600 + date('i', $timestamp) * 60 + date('s', $timestamp); 
+
+        // $video = new VideoBreakpoint;
+        // $video->name = $request->input('name');
+        // $video->time = $request->input('time');
+        // $video->video_id = $request->input('video_id');  
+        // $video->seconds  = strval($seconds);        
+        // $video->status = $request->input('status');
+        // $video->save();
+
+        $data = [
+            'name' => $request->input('name'),
+            'time' => $request->input('time'),
+            'video_id' => $request->input('video_id'),
+            'seconds' => strval($seconds),
+            'status' => $request->input('status'),
+        ];
+
+        $combinatieColoane = [
+            'name' => $data['name'],
+            'video_id' => $data['video_id'],
+        ];
+    
+        VideoBreakpoint::updateOrInsert(
+            $combinatieColoane,
+            $data
+        );
         return response()->json([
             'status'=>201,
             'message'=>'Video Added successfully',
