@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\PasswordReset;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Mail\ForgotPasswordMail;
 use Mail;
 use Str;
@@ -21,6 +23,7 @@ class AuthController extends Controller
             'first_name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
             'email' => 'required|email|max:191|unique:users,email',
+            'role' => 'required|string|in:student,teacher',
             'password' => 'required|min:8',
         ]);
 
@@ -39,6 +42,20 @@ class AuthController extends Controller
                 'email'=>$request->email,
                 'password'=>Hash::make($request->password),
             ]);
+
+            if ($request->role === 'student') {
+                Student::create([
+                    'name' => "{$request->first_name} {$request->last_name}",
+                    'user_id' => $user->id,
+                    'status' => 0,
+                ]);
+            } elseif ($request->role === 'teacher') {
+                Teacher::create([
+                    'name' => "{$request->first_name} {$request->last_name}",
+                    'user_id' => $user->id,
+                    'status' => 0,
+                ]);
+            }
 
             $token = $user->createToken($user->email.'_Token')->plainTextToken;
 
@@ -98,7 +115,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        // auth()->user()->tokens()->delete();
+        auth()->user()->tokens()->delete();
         return response()->json([
             'status'=>200,
             'message'=>'Logged Out Successfully',
