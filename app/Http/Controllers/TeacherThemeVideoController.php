@@ -4,17 +4,123 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use App\Models\TeacherThemeVideo;
 
 class TeacherThemeVideoController extends Controller
 {
     public static function index() {
-        return TeacherThemeVideo::all();
+        $teacherVideos =  TeacherThemeVideo::all();
+        return response()->json([
+            'status' => 200,
+            'teacherVideos' => $teacherVideos,
+        ]);
     }
 
     public static function show($id) {
         return TeacherThemeVideo::find($id); 
     }
+
+    public static function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:500',
+            'teacher_id' => 'required|integer|exists:teachers,id',
+            'video_id' => 'required|integer|exists:videos,id',
+            'theme_learning_program_id' => 'required|integer|exists:theme_learning_programs,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+
+        $data = [
+            'name' => $request->input('name'),
+            'teacher_id' => $request->input('teacher_id'),
+            'video_id' => $request->input('video_id'),
+            'theme_learning_program_id' => $request->input('theme_learning_program_id'),
+            'status' => $request->input('status'),
+        ];
+    
+        $combinatieColoane = [
+            'teacher_id' => $data['teacher_id'],
+            'video_id' => $data['video_id'],
+            'theme_learning_program_id' => $data['theme_learning_program_id'],            
+        ];
+    
+        $existingRecord = TeacherThemeVideo::where($combinatieColoane)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            TeacherThemeVideo::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            TeacherThemeVideo::create($data);
+        }
+ 
+        return response()->json([
+            'status'=>201,
+            'message'=>'Teacher Video Added successfully',
+        ]);
+    }
+
+
+    public static function edit($id) {
+        $teacherVideos = TeacherThemeVideo::with('theme_learning_program')->find($id);
+        if ($teacherVideos) {
+            return response()->json([
+                'status' => 200,
+                'teacherVideos' => $teacherVideos,
+                'learning_program_id' => $teacherVideos->theme_learning_program->learning_program_id ?? null,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Teacher Video Id Found',
+            ]);
+        }
+    }
+
+    public static function update(Request $request,$id,) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:500',
+            'teacher_id' => 'required|integer|exists:teachers,id',
+            'video_id' => 'required|integer|exists:videos,id',
+            'theme_learning_program_id' => 'required|integer|exists:theme_learning_programs,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $teacherVideo = TeacherThemeVideo::find($id);
+        if($teacherVideo) {
+            $teacherVideo->name = $request->input('name');
+            $teacherVideo->teacher_id = $request->input('teacher_id');
+            $teacherVideo->video_id = $request->input('video_id');   
+            $teacherVideo->theme_learning_program_id = $request->input('theme_learning_program_id');                     
+            $teacherVideo->status = $request->input('status'); 
+            $teacherVideo->updated_at = now();             
+            $teacherVideo->update();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Teacher Topic Updated successfully',
+            ]); 
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Teacher Video Id Found',
+            ]); 
+        }
+    }
+
 
     public static function teacherThemeVideo(Request $request)  {
 

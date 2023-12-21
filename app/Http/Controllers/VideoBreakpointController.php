@@ -101,7 +101,7 @@ class VideoBreakpointController extends Controller
             $breakpoint->time = $request->input('time');
             $breakpoint->video_id = $request->input('video_id');           
             $breakpoint->status = $request->input('status'); 
-            $video->updated_at = now();             
+            $breakpoint->updated_at = now();             
             $breakpoint->update();
             return response()->json([
                 'status'=>200,

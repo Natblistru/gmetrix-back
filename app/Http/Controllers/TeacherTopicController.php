@@ -15,7 +15,6 @@ class TeacherTopicController extends Controller
             'status' => 200,
             'teacherTopics' => $teacherTopics,
         ]);
-
     }
 
     public static function show($id) {
@@ -78,6 +77,40 @@ class TeacherTopicController extends Controller
                 'status' => 404,
                 'message' => 'No Teacher Topic Id Found',
             ]);
+        }
+    }
+
+    public static function update(Request $request,$id,) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:500',
+            'teacher_id' => 'required|integer|min:0|exists:teachers,id',
+            'topic_id' => 'required|integer|min:0|exists:topics,id',
+            ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $teacherTopic = TeacherTopic::find($id);
+        if($teacherTopic) {
+            $teacherTopic->name = $request->input('name');
+            $teacherTopic->teacher_id = $request->input('teacher_id');
+            $teacherTopic->topic_id = $request->input('topic_id');           
+            $teacherTopic->status = $request->input('status'); 
+            $teacherTopic->updated_at = now();             
+            $teacherTopic->update();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Teacher Topic Updated successfully',
+            ]); 
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Teacher Topic Id Found',
+            ]); 
         }
     }
 

@@ -58,7 +58,6 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/view-videos', [VideoController::class, "index"]);
     Route::get('/edit-video/{id}', [VideoController::class, "edit"]); 
     Route::post('/update-video/{id}', [VideoController::class, "update"]); 
-    Route::get('/all-videos', [VideoController::class, "allvideos"]);
 
     Route::post('/store-breakpoint', [VideoBreakpointController::class, "store"]);
     Route::get('/view-breakpoints', [VideoBreakpointController::class, "index"]);
@@ -68,11 +67,17 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/view-teacherTopics', [TeacherTopicController::class, "index"]);
     Route::post('/store-teacherTopic', [TeacherTopicController::class, "store"]);
     Route::get('/edit-teacherTopic/{id}', [TeacherTopicController::class, "edit"]);
+    Route::post('/update-teacherTopic/{id}', [TeacherTopicController::class, "update"]);
+
+    Route::get('/view-teacherVideos', [TeacherThemeVideoController::class, "index"]);
+    Route::post('/store-teacherVideo', [TeacherThemeVideoController::class, "store"]);
+    Route::get('/edit-teacherVideo/{id}', [TeacherThemeVideoController::class, "edit"]);
+    Route::post('/update-teacherVideo/{id}', [TeacherThemeVideoController::class, "update"]);
 
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
     Route::get('/all-topics', [TopicController::class, "allTopics"]);
-
+    Route::get('/all-videos', [VideoController::class, "allvideos"]);
     Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
 });
 
