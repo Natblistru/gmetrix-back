@@ -20,6 +20,7 @@ class EvaluationFactory extends Factory
         return [
             'year' => 2022,
             'subject_study_level_id' => $subjectStudyLevelId,
+            'type' => 'Testare de baza',
         ];
     }
 }

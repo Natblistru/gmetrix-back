@@ -16,6 +16,15 @@ class SubjectStudyLevelController extends Controller
     public static function show($id) {
         return SubjectStudyLevel::find($id); 
     }
+
+    public static function allSubjectStudyLevel() {
+        $subject =  SubjectStudyLevel::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'subject' => $subject 
+        ]);
+    }
+
     public function store(StoreSubjectStudyLevelRequest $request)
     {
         $varModel = SubjectStudyLevel::create($request->validated());
