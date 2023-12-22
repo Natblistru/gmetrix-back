@@ -11,6 +11,7 @@ class Evaluation extends Model
     use HasFactory;
     protected $table = 'evaluations';
     protected $fillable = [
+        'name',
         'year',
         'subject_study_level_id',
         'type',

@@ -22,9 +22,10 @@ class EvaluationController extends Controller
 
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:200',
             'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'subject_study_level_id' => 'required|exists:subject_study_levels,id',
-            'type' => 'required|in:Pretestare,Testare de baza,Suplimentara,Teste pentru exersare1,Teste pentru exersare2',
+            'type' => 'required|in:Pretestare,Testare de baza,Evaluare suplimentara,Teste pentru exersare1,Teste pentru exersare2',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -34,6 +35,7 @@ class EvaluationController extends Controller
         }
 
         $data = [
+            'name' => $request->input('name'),
             'year' => $request->input('year'),
             'subject_study_level_id' => $request->input('subject_study_level_id'),
             'type' => $request->input('type'),
@@ -82,9 +84,10 @@ class EvaluationController extends Controller
 
     public static function update(Request $request,$id,) {
         $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:200',
             'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'subject_study_level_id' => 'required|exists:subject_study_levels,id',
-            'type' => 'required|in:Pretestare,Testare de baza,Suplimentara,Teste pentru exersare1,Teste pentru exersare2',
+            'type' => 'required|in:Pretestare,Testare de baza,Evaluare suplimentara,Teste pentru exersare1,Teste pentru exersare2',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -94,6 +97,7 @@ class EvaluationController extends Controller
         }
         $evaluation = Evaluation::find($id);
         if($evaluation) {
+            $evaluation->name = $request->input('name');
             $evaluation->year = $request->input('year');
             $evaluation->type = $request->input('type');
             $evaluation->subject_study_level_id = $request->input('subject_study_level_id');                     

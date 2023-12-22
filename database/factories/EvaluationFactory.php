@@ -18,6 +18,7 @@ class EvaluationFactory extends Factory
         $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
         $subjectStudyLevelId = SubjectStudyLevel::where('study_level_id', $studyLevelId) ->where('subject_id', $subjectId) ->first()->id;
         return [
+            'name' => 'Testare de baza, Istoria, clasa 9 (2022)',
             'year' => 2022,
             'subject_study_level_id' => $subjectStudyLevelId,
             'type' => 'Testare de baza',
