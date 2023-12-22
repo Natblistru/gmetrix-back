@@ -114,6 +114,26 @@ class TeacherTopicController extends Controller
         }
     }
 
+    public function getAllTeachersWithThemes()
+    {
+        $teacherThemes = TeacherTopic::select(
+            'teachers.id as teacher_id',
+            'teachers.name as teacher_name',
+            'theme_learning_programs.id as theme_learning_programs_id',
+        )
+            ->join('topics', 'teacher_topics.topic_id', '=', 'topics.id')
+            ->join('theme_learning_programs', 'topics.theme_learning_program_id', '=', 'theme_learning_programs.id')
+            ->join('teachers', 'teacher_topics.teacher_id', '=', 'teachers.id')
+            ->distinct()
+            ->get();
+    
+        // Grupare după teme
+        $groupedTeacherThemes = $teacherThemes->groupBy('theme_learning_programs_id');
+    
+        return response()->json(['groupedTeacherThemes' => $groupedTeacherThemes]);
+    }
+    
+
     public static function teacherTheme(Request $request)  {
 
         $level = $request->query('level');

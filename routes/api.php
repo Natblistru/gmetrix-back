@@ -98,6 +98,8 @@ Route::get('/disciplineani', [LearningProgramController::class, "disciplineAni"]
 
 Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
 
+Route::get('/teachers-with-themes', [TeacherTopicController::class, 'getAllTeachersWithThemes']);
+
 Route::get('/teacherthemevideo', [TeacherThemeVideoController::class, "teacherThemeVideo"]);
 
 Route::get('/themeevaluations', [EvaluationSubjectController::class, "themeEvaluations"]);
