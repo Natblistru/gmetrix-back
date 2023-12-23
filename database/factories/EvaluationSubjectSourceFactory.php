@@ -22,36 +22,44 @@ class EvaluationSubjectSourceFactory extends Factory
                 "author" => '',
                 "text_sourse" => '',
                 "subject" => 2,
+                "order_number" => 1,
+
             ],
             ["title" => 'SURSA B.',
                 "author" => 'Pierre Milza, Serge Bernstein',
                 "text_sourse" => 'Istoria secolului XX ,Bucureşti, 1998, vol.I',
                 "subject" => 2,
+                "order_number" => 2,
             ],            
             ["title" => 'SURSA C.',
                 "author" => 'Ewan Murray',
                 "text_sourse" => 'Shut Up: Tale of Totalitarianism, 2005',
                 "subject" => 2,
+                "order_number" => 3,
             ], 
             ["title" => 'SURSA D.',
                 "author" => 'Dominique Vallaud',
                 "text_sourse" => 'Dicționar istoric, București, 2008',
                 "subject" => 2,
+                "order_number" => 4,
             ],  
             ["title" => 'SURSA A.',
                 "author" => '',
                 "text_sourse" => '(Din Legea de reformă agrară pentru Basarabia, votată de Parlamentul României la 11 martie 1920)',
                 "subject" => 3,
+                "order_number" => 1,
             ],
             ["title" => 'SURSA B.',
                 "author" => 'Svetlana Suveică',
                 "text_sourse" => 'Basarabia în primul deceniu interbelic (1918-1929). Modernizare prin reforme.',
                 "subject" => 3,
+                "order_number" => 2,
             ], 
             ["title" => 'SURSA C.',
                 "author" => 'Alexandra Georgescu',
                 "text_sourse" => 'Cum s-a aplicat reforma agrară din 1921// Adevărul.ro',
                 "subject" => 3,
+                "order_number" => 3,
             ],             
         ];
 
@@ -60,6 +68,7 @@ class EvaluationSubjectSourceFactory extends Factory
         $title = $source['title'];
         $author = $source['author'];
         $order_number = $source['subject'];
+        $order = $source['order_number'];
         $text_sourse = $source['text_sourse'];
 
         $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
@@ -86,6 +95,7 @@ class EvaluationSubjectSourceFactory extends Factory
         $this->index++;
 
         return [
+            'order_number' => $order,
             'evaluation_source_id' => $sourceId,
             'evaluation_subject_id' => $evaluation_subjectId,
         ];

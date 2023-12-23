@@ -83,7 +83,7 @@ class EvaluationSourceFactory extends Factory
 
         return [
 
-            'order_number' => $this->index,
+            // 'order_number' => $this->index,
             'name' => $name,
             'title' => $title,
             'content' => $content,

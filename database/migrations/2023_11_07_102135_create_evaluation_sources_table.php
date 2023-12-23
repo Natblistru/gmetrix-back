@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('evaluation_sources', function (Blueprint $table) {
             $table->id();
             $table->string("name",500);
-            $table->integer("order_number")->default(1);
+            // $table->integer("order_number")->default(1);
             $table->string("title",500)->nullable();
             $table->json('content')->nullable();
             $table->string("author",500)->nullable();
