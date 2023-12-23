@@ -4,17 +4,120 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use App\Models\EvaluationSubject;
 
 class EvaluationSubjectController extends Controller
 {
     public static function index() {
-        return EvaluationSubject::all();
+        $evaluationSubjects =  EvaluationSubject::all();
+        return response()->json([
+            'status' => 200,
+            'evaluationSubjects' => $evaluationSubjects,
+        ]);
     }
 
     public static function show($id) {
         return EvaluationSubject::find($id); 
     }
+
+    public static function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|in:Subiectul I,Subiectul II,Subiectul III',
+            'order_number' => 'required|integer|in:1,2,3',
+            'evaluation_id' => 'required|exists:evaluations,id',
+            'path' => 'required|string|max:200',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+
+        $data = [
+            'name' => $request->input('name'),
+            'order_number' => $request->input('order_number'),
+            'evaluation_id' => $request->input('evaluation_id'),
+            'path' => $request->input('path'),
+            'status' => $request->input('status'),
+        ];
+    
+        $combinatieColoane = [
+            'name' => $data['name'],
+            'evaluation_id' => $data['evaluation_id'],         
+        ];
+    
+        $existingRecord = EvaluationSubject::where($combinatieColoane)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            EvaluationSubject::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            EvaluationSubject::create($data);
+        }
+ 
+        return response()->json([
+            'status'=>201,
+            'message'=>'Evaluation Subject Added successfully',
+        ]);
+    }
+
+    public static function edit($id) {
+        $evaluationSubjects = EvaluationSubject::find($id);
+        if ($evaluationSubjects) {
+            return response()->json([
+                'status' => 200,
+                'evaluationSubjects' => $evaluationSubjects,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Evaluation Id Found',
+            ]);
+        }
+    }
+
+    public static function update(Request $request,$id,) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|in:Subiectul I,Subiectul II,Subiectul III',
+            'order_number' => 'required|integer|in:1,2,3',
+            'evaluation_id' => 'required|exists:evaluations,id',
+            'path' => 'required|string|max:200',
+            ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $evaluation = EvaluationSubject::find($id);
+        if($evaluation) {
+            $evaluation->name = $request->input('name');
+            $evaluation->order_number = $request->input('order_number');
+            $evaluation->path = $request->input('path');
+            $evaluation->evaluation_id = $request->input('evaluation_id');                     
+            $evaluation->status = $request->input('status'); 
+            $evaluation->updated_at = now();             
+            $evaluation->update();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Evaluation Subject Updated successfully',
+            ]); 
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Evaluation Subject Id Found',
+            ]); 
+        }
+    }
+
 
     public static function themeEvaluations(Request $request)  {
 

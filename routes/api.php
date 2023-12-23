@@ -49,9 +49,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password/{token}', [AuthController::class, "reset"]);    
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, "logout"]);
-});
+// });
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     // Route::middleware('auth:sanctum')->group(function () {
@@ -84,14 +84,20 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-evaluation/{id}', [EvaluationController::class, "edit"]);
     Route::post('/update-evaluation/{id}', [EvaluationController::class, "update"]);
 
+    Route::get('/view-evaluation-subjects', [EvaluationSubjectController::class, "index"]);
+    Route::post('/store-evaluation-subject', [EvaluationSubjectController::class, "store"]);
+    Route::get('/edit-evaluation-subject/{id}', [EvaluationSubjectController::class, "edit"]);
+    Route::post('/update-evaluation-subject/{id}', [EvaluationSubjectController::class, "update"]);
+
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
     Route::get('/all-topics', [TopicController::class, "allTopics"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
     Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
 
-    Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
+    Route::get('/all-evaluations', [EvaluationController::class, "allEvaluations"]);
 
+    Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
 });
 
 

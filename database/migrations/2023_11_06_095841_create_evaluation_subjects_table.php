@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('evaluation_subjects', function (Blueprint $table) {
             $table->id();
-            $table->string("name",100);
+            $table->enum('name', ['Subiectul I', 'Subiectul II', 'Subiectul III']);
             $table->integer("order_number")->default(1);
             $table->string("path",500);
             $table->unsignedBigInteger("evaluation_id");
