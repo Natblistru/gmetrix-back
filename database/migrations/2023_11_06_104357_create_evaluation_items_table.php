@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer("order_number")->default(1);
             $table->string("task",1000);
-            $table->string("statement",1000);
-            $table->string("image_path",1000);
+            $table->string("statement",1000)->nullable();;
+            $table->string("image_path",1000)->nullable();;
             $table->string("procent_paper",5);
-            $table->string("editable_image_path",1000);
-            $table->string("nota",2000);
+            $table->string("editable_image_path",1000)->nullable();;
+            $table->string("nota",2000)->nullable();
             $table->unsignedBigInteger("theme_id");
             $table->unsignedBigInteger("evaluation_subject_id");
             $table->tinyInteger("status")->default(0);

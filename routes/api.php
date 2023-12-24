@@ -26,6 +26,7 @@ use App\Http\Controllers\EvaluationSourceController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\EvaluationSubjectSourceController;
+use App\Http\Controllers\EvaluationItemController;
 
 
 
@@ -103,6 +104,10 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-evaluation-subject-source/{id}', [EvaluationSubjectSourceController::class, "edit"]);
     Route::post('/update-evaluation-subject-source/{id}', [EvaluationSubjectSourceController::class, "update"]);
 
+    Route::get('/view-evaluation-item', [EvaluationItemController::class, "index"]);
+    Route::post('/store-evaluation-item', [EvaluationItemController::class, "store"]);
+    Route::get('/edit-evaluation-item/{id}', [EvaluationItemController::class, "edit"]);
+    Route::post('/update-evaluation-item/{id}', [EvaluationItemController::class, "update"]);
 
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
