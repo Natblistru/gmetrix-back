@@ -25,6 +25,7 @@ use App\Http\Controllers\SubjectStudyLevelController;
 use App\Http\Controllers\EvaluationSourceController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\EvaluationSubjectSourceController;
 
 
 
@@ -97,6 +98,12 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-evaluation-source/{id}', [EvaluationSourceController::class, "edit"]);
     Route::post('/update-evaluation-source/{id}', [EvaluationSourceController::class, "update"]);
 
+    Route::get('/view-evaluation-subject-sourse', [EvaluationSubjectSourceController::class, "index"]);
+    Route::post('/store-evaluation-subject-source', [EvaluationSubjectSourceController::class, "store"]);
+    Route::get('/edit-evaluation-subject-source/{id}', [EvaluationSubjectSourceController::class, "edit"]);
+    Route::post('/update-evaluation-subject-source/{id}', [EvaluationSubjectSourceController::class, "update"]);
+
+
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
     Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
@@ -104,9 +111,10 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-topics', [TopicController::class, "allTopics"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
     Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
-
     Route::get('/all-evaluations', [EvaluationController::class, "allEvaluations"]);
-
+    Route::get('/all-evaluation-subjects', [EvaluationSubjectController::class, "allEvaluationSubjects"]);   
+    Route::get('/all-evaluation-sources', [EvaluationSourceController::class, "allEvaluationSources"]);   
+    
     Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
 });
 

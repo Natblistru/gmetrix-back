@@ -14,6 +14,7 @@ class EvaluationSubject extends Model
         'name',
         'order_number',
         'path',
+        'title',
         'evaluation_id',
         'status'
     ];

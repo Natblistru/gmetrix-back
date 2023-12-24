@@ -21,6 +21,14 @@ class EvaluationSubjectController extends Controller
         return EvaluationSubject::find($id); 
     }
 
+    public static function allEvaluationSubjects() {
+        $evaluationSubjects =  EvaluationSubject::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'evaluationSubjects' => $evaluationSubjects,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|in:Subiectul I,Subiectul II,Subiectul III',

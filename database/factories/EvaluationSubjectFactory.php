@@ -35,12 +35,14 @@ class EvaluationSubjectFactory extends Factory
         $evaluation = Evaluation::where('subject_study_level_id', $subjectStudyLevelId)
                                         ->where('year', $this->years[$this->index])
                                         ->first();
+        $title = $name . ', ' . $evaluation->name;
 
         $this->index++;
         return [
             'name' => $name,
             'order_number' => $this->index,
             'path' => $path,
+            'title' => $title,            
             'evaluation_id'=> $evaluation->id,
         ];
     }

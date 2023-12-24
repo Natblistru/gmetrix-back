@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->enum('name', ['Subiectul I', 'Subiectul II', 'Subiectul III']);
             $table->integer("order_number")->default(1);
+            $table->string("title",500);
             $table->string("path",500);
             $table->unsignedBigInteger("evaluation_id");
             $table->tinyInteger("status")->default(0);

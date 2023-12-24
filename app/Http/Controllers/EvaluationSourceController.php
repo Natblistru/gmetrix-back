@@ -20,6 +20,14 @@ class EvaluationSourceController extends Controller
         return EvaluationSource::find($id); 
     }
 
+    public static function allEvaluationSources() {
+        $evaluationSources =  EvaluationSource::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'evaluationSources' => $evaluationSources,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',
