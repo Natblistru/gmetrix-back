@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\EvaluationSource;
+use App\Models\Theme;
 
 class EvaluationSourceFactory extends Factory
 {
@@ -78,6 +79,7 @@ class EvaluationSourceFactory extends Factory
         $author = $source['author'];
         $text_sourse = $source['text_sourse'];
 
+        $themeId = Theme::firstWhere('name','România în Primul Război Mondial')->id;
 
         $this->index++;
 
@@ -89,6 +91,7 @@ class EvaluationSourceFactory extends Factory
             'content' => $content,
             'author' => $author,
             'text_sourse' => $text_sourse,
+            'theme_id' => $themeId,
         ];
     }
 }

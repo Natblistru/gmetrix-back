@@ -13,5 +13,13 @@ class ThemeController extends Controller
     public static function show($id) {
         return Theme::find($id); 
     }
+
+    public static function allChapters() {
+        $themes =  Theme::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'themes' => $themes,
+        ]);
+    }
 }
 

@@ -20,6 +20,14 @@ class ChapterController extends Controller
         return response()->json($chapters);
     }
 
+    public static function allChapters() {
+        $chapters =  Chapter::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'chapters' => $chapters,
+        ]);
+    }
+
     public static function show($id) {
         return Chapter::find($id); 
     }

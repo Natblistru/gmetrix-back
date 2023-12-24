@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('evaluation_sources', function (Blueprint $table) {
             $table->id();
             $table->string("name",500);
-            // $table->integer("order_number")->default(1);
             $table->string("title",500)->nullable();
-            $table->json('content')->nullable();
+            $table->json('content');
             $table->string("author",500)->nullable();
-            $table->string("text_sourse",500);
+            $table->string("text_sourse",500)->nullable();
+            $table->unsignedBigInteger("theme_id");
             $table->tinyInteger("status")->default(0);
             $table->timestamps();
+
+            $table->foreign("theme_id")->references("id")->on("themes");
         });
     }
 
