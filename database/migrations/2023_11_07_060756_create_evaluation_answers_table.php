@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->integer("order_number")->default(1);
             $table->string("task",500);            
-            $table->text("content");
+            $table->text("content")->nullable();
             $table->integer("max_points")->default(0);
             $table->unsignedBigInteger("evaluation_item_id");
             $table->tinyInteger("status")->default(0);

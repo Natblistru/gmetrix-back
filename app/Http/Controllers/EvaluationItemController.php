@@ -22,6 +22,16 @@ class EvaluationItemController extends Controller
         return EvaluationItem::find($id); 
     }
 
+    public static function allEvaluationItems() {
+        $evaluationItems =  EvaluationItem::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'evaluationItems' => $evaluationItems,
+        ]);
+    }
+
+    
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'order_number' => 'required|integer|min:1',
