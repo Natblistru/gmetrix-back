@@ -2,32 +2,33 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ThemeLearningProgramController;
-use App\Http\Controllers\LearningProgramController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\TopicController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\TeacherTopicController;
-use App\Http\Controllers\TeacherThemeVideoController;
-use App\Http\Controllers\EvaluationSubjectController;
 use App\Http\Controllers\FormativeTestController;
 use App\Http\Controllers\SummativeTestController;
+use App\Http\Controllers\EvaluationItemController;
+use App\Http\Controllers\LearningProgramController;
+use App\Http\Controllers\VideoBreakpointController;
+use App\Http\Controllers\EvaluationAnswerController;
+use App\Http\Controllers\EvaluationOptionController;
+use App\Http\Controllers\EvaluationSourceController;
+use App\Http\Controllers\EvaluationSubjectController;
+use App\Http\Controllers\SubjectStudyLevelController;
+use App\Http\Controllers\TeacherThemeVideoController;
+use App\Http\Controllers\ThemeLearningProgramController;
 use App\Http\Controllers\StudentSubopicProgressController;
+use App\Http\Controllers\EvaluationSubjectSourceController;
 use App\Http\Controllers\StudentEvaluationAnswerController;
 use App\Http\Controllers\StudentFormativeTestOptionController;
-use App\Http\Controllers\StudentSummativeTestOptionController;
 use App\Http\Controllers\StudentFormativeTestResultController;
+use App\Http\Controllers\StudentSummativeTestOptionController;
 use App\Http\Controllers\StudentSummativeTestResultController;
-use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\VideoController;
-use App\Http\Controllers\VideoBreakpointController;
-use App\Http\Controllers\TopicController;
-use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\EvaluationController;
-use App\Http\Controllers\SubjectStudyLevelController;
-use App\Http\Controllers\EvaluationSourceController;
-use App\Http\Controllers\ChapterController;
-use App\Http\Controllers\ThemeController;
-use App\Http\Controllers\EvaluationSubjectSourceController;
-use App\Http\Controllers\EvaluationItemController;
-use App\Http\Controllers\EvaluationAnswerController;
 
 
 
@@ -114,6 +115,11 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::post('/store-evaluation-answer', [EvaluationAnswerController::class, "store"]);
     Route::get('/edit-evaluation-answer/{id}', [EvaluationAnswerController::class, "edit"]);
     Route::post('/update-evaluation-answer/{id}', [EvaluationAnswerController::class, "update"]);
+
+    Route::get('/view-evaluation-option', [EvaluationOptionController::class, "index"]);
+    Route::post('/store-evaluation-option', [EvaluationOptionController::class, "store"]);
+    Route::get('/edit-evaluation-option/{id}', [EvaluationOptionController::class, "edit"]);
+    Route::post('/update-evaluation-option/{id}', [EvaluationOptionController::class, "update"]);
 
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
