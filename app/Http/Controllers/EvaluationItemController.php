@@ -47,8 +47,8 @@ class EvaluationItemController extends Controller
             'order_number' => $request->input('order_number'),
             'task' => $request->input('task'),
             'statement' => $request->input('statement'),
-            // 'image_path' => $request->input('image_path'),
-            // 'editable_image_path' => $request->input('editable_image_path'),
+            'image_path' => $request->input('image_path'),
+            'editable_image_path' => $request->input('editable_image_path'),
             'nota' => $request->input('nota'),
             'procent_paper' => $request->input('procent_paper'),            
             'evaluation_subject_id' => $request->input('evaluation_subject_id'),
@@ -74,7 +74,8 @@ class EvaluationItemController extends Controller
                 }
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' .$extension;
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+                $filename = $originalName . '_' . time() . '.' . $extension;
                 $file->move('uploads/evaluationItem/', $filename);
                 $data['image_path'] = 'uploads/evaluationItem/' .$filename;
             }
@@ -85,7 +86,8 @@ class EvaluationItemController extends Controller
                 }
                 $file = $request->file('editableImage');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' .$extension;
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+                $filename = $originalName . '_' . time() . '.' . $extension;
                 $file->move('uploads/evaluationItem/', $filename);
                 $data['editable_image_path'] = 'uploads/evaluationItem/' .$filename;
             }
@@ -98,14 +100,16 @@ class EvaluationItemController extends Controller
             if($request->hasFile('image')) {
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' .$extension;
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+                $filename = $originalName . '_' . time() . '.' . $extension;
                 $file->move('uploads/evaluationItem/', $filename);
                 $data['image_path'] = 'uploads/evaluationItem/' .$filename;
             }
             if($request->hasFile('editableImage')) {
                 $file = $request->file('editableImage');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' .$extension;
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $filename = $originalName . '_' . time() . '.' . $extension;
                 $file->move('uploads/evaluationItem/', $filename);
                 $data['editable_image_path'] = 'uploads/evaluationItem/' .$filename;
             }
@@ -177,7 +181,8 @@ class EvaluationItemController extends Controller
                 }
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+                $filename = $originalName . '_' . time() . '.' . $extension;
                 $file->move('uploads/evaluationItem/', $filename);
                 $evaluationItem->image_path = 'uploads/evaluationItem/' . $filename;
             }
@@ -188,7 +193,8 @@ class EvaluationItemController extends Controller
                 }
                 $file = $request->file('editableImage');
                 $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+                $filename = $originalName . '_' . time() . '.' . $extension;
                 $file->move('uploads/evaluationItem/', $filename);
                 $evaluationItem->editable_image_path = 'uploads/evaluationItem/' . $filename;
             }
