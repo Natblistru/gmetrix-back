@@ -8,6 +8,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\SubtopicController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\TeacherTopicController;
 use App\Http\Controllers\FormativeTestController;
@@ -133,6 +134,11 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-evaluation-form-page/{id}', [EvaluationFormPageController::class, "edit"]);
     Route::post('/update-evaluation-form-page/{id}', [EvaluationFormPageController::class, "update"]);
 
+    Route::get('/view-subtopic', [SubtopicController::class, "index"]);
+    Route::post('/store-subtopic', [SubtopicController::class, "store"]);
+    Route::get('/edit-subtopic/{id}', [SubtopicController::class, "edit"]);
+    Route::post('/update-subtopic/{id}', [SubtopicController::class, "update"]);
+
 
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
@@ -141,6 +147,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-topics', [TopicController::class, "allTopics"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
     Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
+    Route::get('all-teacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);
     Route::get('/all-evaluations', [EvaluationController::class, "allEvaluations"]);
     Route::get('/all-evaluation-subjects', [EvaluationSubjectController::class, "allEvaluationSubjects"]);   
     Route::get('/all-evaluation-sources', [EvaluationSourceController::class, "allEvaluationSources"]);   

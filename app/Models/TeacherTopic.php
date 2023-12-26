@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Topic;
+use App\Models\Teacher;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TeacherTopic extends Model
 {
@@ -17,9 +18,13 @@ class TeacherTopic extends Model
         'status'
     ];
 
-    protected $with = ['topic'];
+    protected $with = ['topic', 'teacher'];
     public function topic() {
         return $this->belongsTo(Topic::class, 'topic_id', 'id');
+    }
+
+    public function teacher() {
+        return $this->belongsTo(Teacher::class, 'teacher_id', 'id');
     }
 
 }

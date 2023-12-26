@@ -21,6 +21,14 @@ class TeacherTopicController extends Controller
         return TeacherTopic::find($id); 
     }
 
+    public static function allTeacherTopics() {
+        $teacherTopics =  TeacherTopic::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'teacherTopics' => $teacherTopics,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',
