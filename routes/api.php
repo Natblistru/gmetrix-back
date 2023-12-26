@@ -21,6 +21,7 @@ use App\Http\Controllers\EvaluationSourceController;
 use App\Http\Controllers\EvaluationSubjectController;
 use App\Http\Controllers\SubjectStudyLevelController;
 use App\Http\Controllers\TeacherThemeVideoController;
+use App\Http\Controllers\EvaluationFormPageController;
 use App\Http\Controllers\ThemeLearningProgramController;
 use App\Http\Controllers\EvaluationAnswerOptionController;
 use App\Http\Controllers\StudentSubopicProgressController;
@@ -126,6 +127,11 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::post('/store-evaluation-answer-option', [EvaluationAnswerOptionController::class, "store"]);
     Route::get('/edit-evaluation-answer-option/{id}', [EvaluationAnswerOptionController::class, "edit"]);
     Route::post('/update-evaluation-answer-option/{id}', [EvaluationAnswerOptionController::class, "update"]);
+
+    Route::get('/view-evaluation-form-page', [EvaluationFormPageController::class, "index"]);
+    Route::post('/store-evaluation-form-page', [EvaluationFormPageController::class, "store"]);
+    Route::get('/edit-evaluation-form-page/{id}', [EvaluationFormPageController::class, "edit"]);
+    Route::post('/update-evaluation-form-page/{id}', [EvaluationFormPageController::class, "update"]);
 
 
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
