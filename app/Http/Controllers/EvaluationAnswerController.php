@@ -20,6 +20,14 @@ class EvaluationAnswerController extends Controller
         return EvaluationAnswer::find($id); 
     }
 
+    public static function allEvaluationAnswers() {
+        $evaluationAnswers =  EvaluationAnswer::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'evaluationAnswers' => $evaluationAnswers,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'order_number' => 'required|integer|min:1',

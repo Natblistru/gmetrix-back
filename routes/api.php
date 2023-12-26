@@ -22,6 +22,7 @@ use App\Http\Controllers\EvaluationSubjectController;
 use App\Http\Controllers\SubjectStudyLevelController;
 use App\Http\Controllers\TeacherThemeVideoController;
 use App\Http\Controllers\ThemeLearningProgramController;
+use App\Http\Controllers\EvaluationAnswerOptionController;
 use App\Http\Controllers\StudentSubopicProgressController;
 use App\Http\Controllers\EvaluationSubjectSourceController;
 use App\Http\Controllers\StudentEvaluationAnswerController;
@@ -121,6 +122,12 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-evaluation-option/{id}', [EvaluationOptionController::class, "edit"]);
     Route::post('/update-evaluation-option/{id}', [EvaluationOptionController::class, "update"]);
 
+    Route::get('/view-evaluation-answer-option', [EvaluationAnswerOptionController::class, "index"]);
+    Route::post('/store-evaluation-answer-option', [EvaluationAnswerOptionController::class, "store"]);
+    Route::get('/edit-evaluation-answer-option/{id}', [EvaluationAnswerOptionController::class, "edit"]);
+    Route::post('/update-evaluation-answer-option/{id}', [EvaluationAnswerOptionController::class, "update"]);
+
+
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
     Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
@@ -132,8 +139,9 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-evaluation-subjects', [EvaluationSubjectController::class, "allEvaluationSubjects"]);   
     Route::get('/all-evaluation-sources', [EvaluationSourceController::class, "allEvaluationSources"]);   
     Route::get('/all-evaluation-items', [EvaluationItemController::class, "allEvaluationItems"]);
+    Route::get('/all-evaluation-answers', [EvaluationAnswerController::class, "allEvaluationAnswers"]);
+    Route::get('/all-evaluation-options', [EvaluationOptionController::class, "allEvaluationOptions"]);
 
-    
     Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
 });
 
