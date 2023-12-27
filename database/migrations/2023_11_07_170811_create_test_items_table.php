@@ -16,11 +16,12 @@ return new class extends Migration
             $table->id();
             $table->string("task",1000);
             $table->enum('type', ["quiz", "check", "snap", "words", "dnd", "dnd_chrono","dnd_chrono_double", "dnd_group"]);
-            $table->unsignedBigInteger("test_complexity_id");   
+            $table->unsignedBigInteger("test_complexity_id");  
+            $table->unsignedBigInteger("teacher_topic_id");
             $table->tinyInteger("status")->default(0);         
             $table->timestamps();
-
             $table->foreign("test_complexity_id")->references("id")->on("test_comlexities");
+            $table->foreign("teacher_topic_id")->references("id")->on("teacher_topics"); 
         });
     }
 

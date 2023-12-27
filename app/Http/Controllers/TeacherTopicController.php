@@ -32,6 +32,7 @@ class TeacherTopicController extends Controller
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',
+            'order_number' => 'required|integer|min:1',
             'teacher_id' => 'required|integer|min:0|exists:teachers,id',
             'topic_id' => 'required|integer|min:0|exists:topics,id',
         ]);
@@ -44,6 +45,7 @@ class TeacherTopicController extends Controller
 
         $data = [
             'name' => $request->input('name'),
+            'order_number' => $request->input('order_number'),
             'teacher_id' => $request->input('teacher_id'),
             'topic_id' => $request->input('topic_id'),
             'status' => $request->input('status'),
@@ -91,6 +93,7 @@ class TeacherTopicController extends Controller
     public static function update(Request $request,$id,) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',
+            'order_number' => 'required|integer|min:1',
             'teacher_id' => 'required|integer|min:0|exists:teachers,id',
             'topic_id' => 'required|integer|min:0|exists:topics,id',
             ]);
@@ -103,6 +106,7 @@ class TeacherTopicController extends Controller
         $teacherTopic = TeacherTopic::find($id);
         if($teacherTopic) {
             $teacherTopic->name = $request->input('name');
+            $teacherTopic->order_number = $request->input('order_number');            
             $teacherTopic->teacher_id = $request->input('teacher_id');
             $teacherTopic->topic_id = $request->input('topic_id');           
             $teacherTopic->status = $request->input('status'); 
