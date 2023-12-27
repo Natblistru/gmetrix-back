@@ -21,6 +21,14 @@ class SubtopicController extends Controller
         return Subtopic::find($id); 
     }
 
+    public static function allSubtopics() {
+        $subtopics =  Subtopic::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'subtopics' => $subtopics,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',

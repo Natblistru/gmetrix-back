@@ -12,6 +12,7 @@ use App\Http\Controllers\SubtopicController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\TeacherTopicController;
 use App\Http\Controllers\FormativeTestController;
+use App\Http\Controllers\SubtopicImageController;
 use App\Http\Controllers\SummativeTestController;
 use App\Http\Controllers\EvaluationItemController;
 use App\Http\Controllers\LearningProgramController;
@@ -139,12 +140,17 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-subtopic/{id}', [SubtopicController::class, "edit"]);
     Route::post('/update-subtopic/{id}', [SubtopicController::class, "update"]);
 
+    Route::get('/view-subtopic-image', [SubtopicImageController::class, "index"]);
+    Route::post('/store-subtopic-image', [SubtopicImageController::class, "store"]);
+    Route::get('/edit-subtopic-image/{id}', [SubtopicImageController::class, "edit"]);
+    Route::post('/update-subtopic-image/{id}', [SubtopicImageController::class, "update"]);
 
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
     Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
     Route::get('/all-themes', [ThemeController::class, "allChapters"]);
     Route::get('/all-topics', [TopicController::class, "allTopics"]);
+    Route::get('/all-subtopics', [SubtopicController::class, "allSubtopics"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
     Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
     Route::get('all-teacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);
