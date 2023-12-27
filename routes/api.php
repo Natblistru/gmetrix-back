@@ -8,6 +8,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\FlipCardController;
 use App\Http\Controllers\SubtopicController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\TeacherTopicController;
@@ -144,6 +145,11 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::post('/store-subtopic-image', [SubtopicImageController::class, "store"]);
     Route::get('/edit-subtopic-image/{id}', [SubtopicImageController::class, "edit"]);
     Route::post('/update-subtopic-image/{id}', [SubtopicImageController::class, "update"]);
+
+    Route::get('/view-flip-card', [FlipCardController::class, "index"]);
+    Route::post('/store-flip-card', [FlipCardController::class, "store"]);
+    Route::get('/edit-flip-card/{id}', [FlipCardController::class, "edit"]);
+    Route::post('/update-flip-card/{id}', [FlipCardController::class, "update"]);
 
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
