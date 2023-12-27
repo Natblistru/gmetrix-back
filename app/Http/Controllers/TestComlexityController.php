@@ -14,4 +14,12 @@ class TestComlexityController extends Controller
     public static function show($id) {
         return TestComlexity::find($id); 
     }
+
+    public static function allTestComplexities() {
+        $testComplexities =  TestComlexity::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'testComplexities' => $testComplexities,
+        ]);
+    }
 }

@@ -10,11 +10,13 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\FlipCardController;
 use App\Http\Controllers\SubtopicController;
+use App\Http\Controllers\TestItemController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\TeacherTopicController;
 use App\Http\Controllers\FormativeTestController;
 use App\Http\Controllers\SubtopicImageController;
 use App\Http\Controllers\SummativeTestController;
+use App\Http\Controllers\TestComlexityController;
 use App\Http\Controllers\EvaluationItemController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\VideoBreakpointController;
@@ -151,6 +153,12 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-flip-card/{id}', [FlipCardController::class, "edit"]);
     Route::post('/update-flip-card/{id}', [FlipCardController::class, "update"]);
 
+    Route::get('/view-test-item', [TestItemController::class, "index"]);
+    Route::post('/store-test-item', [TestItemController::class, "store"]);
+    Route::get('/edit-test-item/{id}', [TestItemController::class, "edit"]);
+    Route::post('/update-test-item/{id}', [TestItemController::class, "update"]);
+
+    Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
     Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
@@ -167,7 +175,8 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-evaluation-answers', [EvaluationAnswerController::class, "allEvaluationAnswers"]);
     Route::get('/all-evaluation-options', [EvaluationOptionController::class, "allEvaluationOptions"]);
 
-    Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
+    Route::get('/all-test-complexities', [TestComlexityController::class, "allTestComplexities"]);
+
 });
 
 
