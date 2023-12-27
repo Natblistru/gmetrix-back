@@ -33,31 +33,31 @@ class TeacherTopicFactory extends Factory
                 ];
         $topics = [ 
             //Thema Mulțimea numerelor naturale
-            'Mulţimi.Operaţii cu mulţimi. Mulţimile: N,Z,Q,R',
-            'Operaţii cu numere naturale',
-            'Divizibilitate în N. Criteriile de divizibilitate cu 2, 3, 5, 9, 10',
-            'Cel mai mare divizor comun al două numere naturale',
-            'Cel mai mic multiplu comun al două numere naturale',
+            ["title" => 'Mulţimi.Operaţii cu mulţimi. Mulţimile: N,Z,Q,R', "order" => 1],
+            ["title" => 'Operaţii cu numere naturale', "order" => 2],
+            ["title" => 'Divizibilitate în N. Criteriile de divizibilitate cu 2, 3, 5, 9, 10',"order" => 3],
+            ["title" => 'Cel mai mare divizor comun al două numere naturale',"order" => 4],
+            ["title" => 'Cel mai mic multiplu comun al două numere naturale',"order" => 5],
 
             //Thema Mulțimea numerelor întregi
-            'Modulul numărului întreg', 
-            'Operaţii cu numere întregi',
+            ["title" => 'Modulul numărului întreg', "order" => 1],
+            ["title" => 'Operaţii cu numere întregi',"order" => 2],
 
             //Thema Mulțimea numerelor raționale
-            'Scrierea numerelor raţionale în diverse forme', 
-            'Operaţii cu numere raţionale',
+            ["title" => 'Scrierea numerelor raţionale în diverse forme', "order" => 1],
+            ["title" => 'Operaţii cu numere raţionale',"order" => 2],
             
             //Thema Mulțimea numerelor reale
-            'Rădăcina pătrată (radical), proprietăți',
-            'Introducerea factorilor sub radical, scoaterea factorilor de sub radical', 
-            'Compararea unor numere ce conțin radicali. Modulul numărului real',
-            'Operații cu radicali. Raţionalizarea numitorului', 
-            'Submulţimi ale mulţimii numerelor reale. Noţiune de număr iraţional',
+            ["title" => 'Rădăcina pătrată (radical), proprietăți',"order" => 1],
+            ["title" => 'Introducerea factorilor sub radical, scoaterea factorilor de sub radical', "order" => 2],
+            ["title" => 'Compararea unor numere ce conțin radicali. Modulul numărului real',"order" => 3],
+            ["title" => 'Operații cu radicali. Raţionalizarea numitorului', "order" => 4],
+            ["title" => 'Submulţimi ale mulţimii numerelor reale. Noţiune de număr iraţional',"order" => 5],
 
-            'Opțiunile politice în perioada neutralității',
-            'Mișcarea națională a românilor din Basarabia până în octombrie 1917',
-            'Recunoașterea internațională a Marii Uniri',
-            'Conferința de Pace de la Paris (18 ianuarie 1919 - 21 ianuarie 1920)',
+            ["title" => 'Opțiunile politice în perioada neutralității',"order" => 1],
+            ["title" => 'Mișcarea națională a românilor din Basarabia până în octombrie 1917',"order" => 2],
+            ["title" => 'Recunoașterea internațională a Marii Uniri',"order" => 3],
+            ["title" => 'Conferința de Pace de la Paris (18 ianuarie 1919 - 21 ianuarie 1920)',"order" => 4],
             ];
 
             $titles = [ 
@@ -89,11 +89,14 @@ class TeacherTopicFactory extends Factory
                 'Conferința de Pace de la Paris (18 ianuarie 1919 - 21 ianuarie 1920) (userT1 teacher)',
                 ];    
         $teacherId = Teacher::firstWhere('name', $teachers[$this->index])->id;
-        $topictId = Topic::firstWhere('name', $topics[$this->index])->id;
+
+        $topic = $topics[$this->index];
+        $topictId = Topic::firstWhere('name', $topic['title'])->id;
         $name = $titles[$this->index];
 
         $this->index++;
         return [
+            'order_number' => $topic['order'],
             'name' => $name,
             'teacher_id' => $teacherId,
             'topic_id' => $topictId,

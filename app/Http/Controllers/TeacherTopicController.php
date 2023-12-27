@@ -302,7 +302,8 @@ class TeacherTopicController extends Controller
             subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id
         WHERE
             {$yearCondition}
-            AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TLP.theme_id = ?;     
+            AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TLP.theme_id = ?
+        ORDER BY topics.order_number;     
         ", $paramsGeneral);
 
 
