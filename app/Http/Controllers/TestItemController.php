@@ -20,6 +20,15 @@ class TestItemController extends Controller
         return TestItem::find($id); 
     }
 
+    
+    public static function allTestItems() {
+        $testItems =  TestItem::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'testItems' => $testItems,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'task' => 'required|string|max:1000',

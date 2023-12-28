@@ -18,6 +18,7 @@ use App\Http\Controllers\SubtopicImageController;
 use App\Http\Controllers\SummativeTestController;
 use App\Http\Controllers\TestComlexityController;
 use App\Http\Controllers\EvaluationItemController;
+use App\Http\Controllers\TestItemColumnController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\VideoBreakpointController;
 use App\Http\Controllers\EvaluationAnswerController;
@@ -158,6 +159,11 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-test-item/{id}', [TestItemController::class, "edit"]);
     Route::post('/update-test-item/{id}', [TestItemController::class, "update"]);
 
+    Route::get('/view-test-item-column', [TestItemColumnController::class, "index"]);
+    Route::post('/store-test-item-column', [TestItemColumnController::class, "store"]);
+    Route::get('/edit-test-item-column/{id}', [TestItemColumnController::class, "edit"]);
+    Route::post('/update-test-item-column/{id}', [TestItemColumnController::class, "update"]);
+
     Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
@@ -176,7 +182,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-evaluation-options', [EvaluationOptionController::class, "allEvaluationOptions"]);
 
     Route::get('/all-test-complexities', [TestComlexityController::class, "allTestComplexities"]);
-
+    Route::get('/all-test-items', [TestItemController::class, "allTestItems"]);
 });
 
 
