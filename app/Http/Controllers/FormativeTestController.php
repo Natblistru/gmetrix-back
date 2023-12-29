@@ -21,6 +21,14 @@ class FormativeTestController extends Controller
         return FormativeTest::find($id); 
     }
 
+    public static function allFormativeTests() {
+        $formativeTests =  FormativeTest::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'formativeTests' => $formativeTests,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'order_number' => 'required|integer|min:1',
@@ -88,7 +96,7 @@ class FormativeTestController extends Controller
         }
     }
 
-    public static function update(Request $request,$id,) {
+    public static function update(Request $request,$id) {
         $validator = Validator::make($request->all(), [
             'order_number' => 'required|integer|min:1',
             'title' => 'required|string|max:500',

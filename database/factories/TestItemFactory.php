@@ -19,7 +19,7 @@ class TestItemFactory extends Factory
 
 
         $testItems = [
-            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
+            ["task" => "Alege afirmația corectă1", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Din lista prezentată selectați cauzele I Război Mondial:", "type" => "dnd", "complexity" => "moderat", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Din lista prezentată selectați consecințele I Război Mondial:", "type" => "dnd", "complexity" => "moderat", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Verifică corectitudinea afirmațiilor", "type" => "check", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
@@ -29,10 +29,10 @@ class TestItemFactory extends Factory
             ["task" => "Completează propoziția", "type" => "words", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Elaborează un fragment de text", "type" => "dnd_chrono_double", "complexity" => "dificil", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Succesiunea cronologică a evenimentelor", "type" => "dnd_chrono", "complexity" => "moderat", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
-            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
-            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
-            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
-            ["task" => "Alege afirmația corectă", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
+            ["task" => "Alege afirmația corectă2", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
+            ["task" => "Alege afirmația corectă3", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
+            ["task" => "Alege afirmația corectă4", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
+            ["task" => "Alege afirmația corectă5", "type" => "quiz", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Stabilește cauzele evenimentelor", "type" => "dnd", "complexity" => "moderat", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Stabilește consecințele evenimentelor", "type" => "dnd", "complexity" => "moderat", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],
             ["task" => "Verifică corectitudinea afirmațiilor", "type" => "check", "complexity" => "simplu", "teacher_topic" => "Opțiunile politice în perioada neutralității (userT1 teacher)"],

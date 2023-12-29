@@ -26,6 +26,7 @@ use App\Http\Controllers\EvaluationAnswerController;
 use App\Http\Controllers\EvaluationOptionController;
 use App\Http\Controllers\EvaluationSourceController;
 use App\Http\Controllers\EvaluationSubjectController;
+use App\Http\Controllers\FormativeTestItemController;
 use App\Http\Controllers\SubjectStudyLevelController;
 use App\Http\Controllers\TeacherThemeVideoController;
 use App\Http\Controllers\EvaluationFormPageController;
@@ -175,6 +176,12 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-formative-test/{id}', [FormativeTestController::class, "edit"]);
     Route::post('/update-formative-test/{id}', [FormativeTestController::class, "update"]);
 
+    Route::get('/view-formative-test-item', [FormativeTestItemController::class, "index"]);
+    Route::post('/store-formative-test-item', [FormativeTestItemController::class, "store"]);
+    Route::get('/edit-formative-test-item/{id}', [FormativeTestItemController::class, "edit"]);
+    Route::post('/update-formative-test-item/{id}', [FormativeTestItemController::class, "update"]);
+
+
     Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
@@ -194,6 +201,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
 
     Route::get('/all-test-complexities', [TestComlexityController::class, "allTestComplexities"]);
     Route::get('/all-test-items', [TestItemController::class, "allTestItems"]);
+    Route::get('/all-formative-tests', [FormativeTestController::class, "allFormativeTests"]);
 });
 
 
