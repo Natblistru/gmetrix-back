@@ -170,6 +170,11 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-test-item-option/{id}', [TestItemOptionController::class, "edit"]);
     Route::post('/update-test-item-option/{id}', [TestItemOptionController::class, "update"]);
 
+    Route::get('/view-formative-test', [FormativeTestController::class, "index"]);
+    Route::post('/store-formative-test', [FormativeTestController::class, "store"]);
+    Route::get('/edit-formative-test/{id}', [FormativeTestController::class, "edit"]);
+    Route::post('/update-formative-test/{id}', [FormativeTestController::class, "update"]);
+
     Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
     Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);

@@ -3,17 +3,129 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\FormativeTest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class FormativeTestController extends Controller
 {
     public static function index() {
-        return FormativeTest::all();
+        $formativeTest =  FormativeTest::all();
+        return response()->json([
+            'status' => 200,
+            'formativeTest' => $formativeTest,
+        ]);
     }
 
     public static function show($id) {
         return FormativeTest::find($id); 
+    }
+
+    public static function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'order_number' => 'required|integer|min:1',
+            'title' => 'required|string|max:500',
+            'path' => 'required|string|max:500',
+            'type' => 'required|in:quiz,check,snap,words,dnd,dnd_chrono,dnd_chrono_double,dnd_group',
+            'test_complexity_id' => 'required|exists:test_comlexities,id',
+            'teacher_topic_id' => 'required|exists:teacher_topics,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+
+        $data = [
+            'title' => $request->input('title'),
+            'order_number' => $request->input('order_number'),
+            'path' => $request->input('path'),
+            'type' => $request->input('type'),
+            'test_complexity_id' => $request->input('test_complexity_id'),
+            'teacher_topic_id' => $request->input('teacher_topic_id'),
+            'status' => $request->input('status'),
+        ];
+    
+        $combinatieColoane = [
+            'title' => $data['title'],
+            'type' => $data['type'],
+            'teacher_topic_id' => $data['teacher_topic_id'],         
+        ];
+    
+        $existingRecord = FormativeTest::where($combinatieColoane)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            FormativeTest::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            FormativeTest::create($data);
+        }
+ 
+        return response()->json([
+            'status'=>201,
+            'message'=>'Formative Test Added successfully',
+        ]);
+    }
+
+    public static function edit($id) {
+        $formativeTest = FormativeTest::with('teacher_topic')->find($id);
+       
+        if ($formativeTest) {
+            return response()->json([
+                'status' => 200,
+                'formativeTest' => $formativeTest,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Test Item Id Found',
+            ]);
+        }
+    }
+
+    public static function update(Request $request,$id,) {
+        $validator = Validator::make($request->all(), [
+            'order_number' => 'required|integer|min:1',
+            'title' => 'required|string|max:500',
+            'path' => 'required|string|max:500',
+            'type' => 'required|in:quiz,check,snap,words,dnd,dnd_chrono,dnd_chrono_double,dnd_group',
+            'test_complexity_id' => 'required|exists:test_comlexities,id',
+            'teacher_topic_id' => 'required|exists:teacher_topics,id',
+            ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $formativeTest = FormativeTest::find($id);
+        if($formativeTest) {
+            $formativeTest->title = $request->input('title');
+            $formativeTest->order_number = $request->input('order_number');            
+            $formativeTest->type = $request->input('type');
+            $formativeTest->path = $request->input('path');
+            $formativeTest->test_complexity_id = $request->input('test_complexity_id');
+            $formativeTest->teacher_topic_id = $request->input('teacher_topic_id');                     
+            $formativeTest->status = $request->input('status'); 
+            $formativeTest->updated_at = now();             
+            $formativeTest->update();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Formative Test Updated successfully',
+            ]); 
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Formative Test Id Found',
+            ]); 
+        }
     }
 
     public static function formativeTest(Request $request)  {
