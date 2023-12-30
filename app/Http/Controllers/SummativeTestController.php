@@ -3,17 +3,135 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\SummativeTest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class SummativeTestController extends Controller
 {
     public static function index() {
-        return SummativeTest::all();
+        $summativeTest =  SummativeTest::all();
+        return response()->json([
+            'status' => 200,
+            'summativeTest' => $summativeTest,
+        ]);
     }
 
     public static function show($id) {
         return SummativeTest::find($id); 
+    }
+
+    public static function allSummativeTests() {
+        $summativeTests =  SummativeTest::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'summativeTests' => $summativeTests,
+        ]);
+    }
+
+    public static function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:500',
+            'path' => 'required|string|max:500',
+            'time' => 'required|integer|min:60',
+            'test_complexity_id' => 'required|exists:test_comlexities,id',
+            'teacher_topic_id' => 'required|exists:teacher_topics,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+
+        $data = [
+            'title' => $request->input('title'),
+            'path' => $request->input('path'),
+            'time' => $request->input('time'),
+            'test_complexity_id' => $request->input('test_complexity_id'),
+            'teacher_topic_id' => $request->input('teacher_topic_id'),
+            'status' => $request->input('status'),
+        ];
+    
+        $combinatieColoane = [
+            'title' => $data['title'],
+            'teacher_topic_id' => $data['teacher_topic_id'],         
+        ];
+    
+        $existingRecord = SummativeTest::where($combinatieColoane)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            SummativeTest::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            SummativeTest::create($data);
+        }
+ 
+        return response()->json([
+            'status'=>201,
+            'message'=>'Summative Test Added successfully',
+        ]);
+    }
+
+    
+
+
+    public static function edit($id) {
+        $summativeTest = SummativeTest::with('teacher_topic')->find($id);
+       
+        if ($summativeTest) {
+            return response()->json([
+                'status' => 200,
+                'summativeTest' => $summativeTest,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Summative Test Item Id Found',
+            ]);
+        }
+    }
+
+    public static function update(Request $request,$id) {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:500',
+            'path' => 'required|string|max:500',
+            'time' => 'required|integer|min:60',
+            'test_complexity_id' => 'required|exists:test_comlexities,id',
+            'teacher_topic_id' => 'required|exists:teacher_topics,id',
+            ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $summativeTest = SummativeTest::find($id);
+        if($summativeTest) {
+            $summativeTest->title = $request->input('title');
+            $summativeTest->time = $request->input('time');
+            $summativeTest->path = $request->input('path');
+            $summativeTest->test_complexity_id = $request->input('test_complexity_id');
+            $summativeTest->teacher_topic_id = $request->input('teacher_topic_id');                     
+            $summativeTest->status = $request->input('status'); 
+            $summativeTest->updated_at = now();             
+            $summativeTest->update();
+            return response()->json([
+                'status'=>200,
+                'message'=>'Summative Test Updated successfully',
+            ]); 
+        }
+        else
+        {
+            return response()->json([
+                'status'=>404,
+                'message'=>'No Formative Test Id Found',
+            ]); 
+        }
     }
 
     public static function summativeTest(Request $request)  {

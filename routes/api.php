@@ -28,6 +28,7 @@ use App\Http\Controllers\EvaluationSourceController;
 use App\Http\Controllers\EvaluationSubjectController;
 use App\Http\Controllers\FormativeTestItemController;
 use App\Http\Controllers\SubjectStudyLevelController;
+use App\Http\Controllers\SummativeTestItemController;
 use App\Http\Controllers\TeacherThemeVideoController;
 use App\Http\Controllers\EvaluationFormPageController;
 use App\Http\Controllers\ThemeLearningProgramController;
@@ -181,6 +182,15 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-formative-test-item/{id}', [FormativeTestItemController::class, "edit"]);
     Route::post('/update-formative-test-item/{id}', [FormativeTestItemController::class, "update"]);
 
+    Route::get('/view-summative-test', [SummativeTestController::class, "index"]);
+    Route::post('/store-summative-test', [SummativeTestController::class, "store"]);
+    Route::get('/edit-summative-test/{id}', [SummativeTestController::class, "edit"]);
+    Route::post('/update-summative-test/{id}', [SummativeTestController::class, "update"]);
+
+    Route::get('/view-summative-test-item', [SummativeTestItemController::class, "index"]);
+    Route::post('/store-summative-test-item', [SummativeTestItemController::class, "store"]);
+    Route::get('/edit-summative-test-item/{id}', [SummativeTestItemController::class, "edit"]);
+    Route::post('/update-summative-test-item/{id}', [SummativeTestItemController::class, "update"]);
 
     Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
     Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
@@ -202,6 +212,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-test-complexities', [TestComlexityController::class, "allTestComplexities"]);
     Route::get('/all-test-items', [TestItemController::class, "allTestItems"]);
     Route::get('/all-formative-tests', [FormativeTestController::class, "allFormativeTests"]);
+    Route::get('/all-summative-tests', [SummativeTestController::class, "allSummativeTests"]);
 });
 
 
