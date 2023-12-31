@@ -13,15 +13,15 @@ class SummativeTestItemController extends Controller
         $search = $request->query('search');
         $sortColumn = $request->query('sortColumn');
         $sortOrder = $request->query('sortOrder');
-        $page = $request->query('page', 1); 
+        $page = $request->query('page', 1);
         $perPage = $request->query('perPage', 10);
     
-        $allowedColumns = ['id','order_number', 'task', 'type', 'title', 'name', 'status'];
+        $allowedColumns = ['id', 'order_number', 'task', 'type', 'title', 'name', 'status'];
     
         if (!in_array($sortColumn, $allowedColumns)) {
             $sortColumn = 'id';
         }
-
+    
         $columnTableMapping = [
             'id' => 'STI',
             'order_number' => 'STI',
@@ -99,16 +99,25 @@ class SummativeTestItemController extends Controller
         }
     
         $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
-
-        $sqlWithSortingAndSearch .= " LIMIT $perPage OFFSET " . ($page - 1) * $perPage;
     
-        $summativeTestItem = DB::select($sqlWithSortingAndSearch);
+        // Aplică paginarea utilizând metoda paginate
+        $summativeTestItem = DB::table(DB::raw("($sqlWithSortingAndSearch) as results"))
+            ->select('*')
+            ->paginate($perPage);
     
         return response()->json([
             'status' => 200,
-            'summativeTestItem' => $summativeTestItem,
+            'summativeTestItem' => $summativeTestItem->items(),
+            'pagination' => [
+                'last_page' => $summativeTestItem->lastPage(),
+                'current_page' => $summativeTestItem->currentPage(),
+                'from' => $summativeTestItem->firstItem(),
+                'to' => $summativeTestItem->lastItem(),
+                'total' => $summativeTestItem->total(),
+            ],
         ]);
     }
+    
     
 
     public static function show($id) {
