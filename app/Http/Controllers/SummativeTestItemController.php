@@ -10,26 +10,34 @@ use Illuminate\Support\Facades\Validator;
 class SummativeTestItemController extends Controller
 {
     public static function index(Request $request) {
-        
+        $search = $request->query('search');
         $sortColumn = $request->query('sortColumn');
         $sortOrder = $request->query('sortOrder');
-
-        $allowedColumns = ['order_number', 'test_item_task', 'test_item_type', 'summative_test_title', 'teacher_topic_name', 'status'];
-
+    
+        $allowedColumns = ['id','order_number', 'task', 'type', 'title', 'name', 'status'];
+    
         if (!in_array($sortColumn, $allowedColumns)) {
             $sortColumn = 'id';
         }
+
+        $columnTableMapping = [
+            'id' => 'STI',
+            'order_number' => 'STI',
+            'task' => 'TI',
+            'type' => 'TI',
+            'title' => 'ST',
+            'name' => 'TT',
+            'status' => 'STI',
+        ];
     
         $sqlTemplate = "
             SELECT
                 STI.id,
-                ST.title summative_test_title,
+                ST.title,
                 STI.order_number,
-                TI.id AS test_item_id,
-                TI.task test_item_task,
-                TI.type AS test_item_type,
-                TI.test_complexity_id,
-                TT.name teacher_topic_name,
+                TI.task,
+                TI.type,
+                TT.name,
                 STI.status
             FROM 
                 summative_test_items STI
@@ -38,15 +46,66 @@ class SummativeTestItemController extends Controller
                 INNER JOIN teacher_topics TT ON ST.teacher_topic_id = TT.id
         ";
     
-        $sqlWithSorting = $sqlTemplate . " ORDER BY $sortColumn $sortOrder";
+        $searchConditions = '';
+        if ($search) {
+            $searchLower = strtolower($search);
     
-        $summativeTestItem = DB::select($sqlWithSorting);
+            // Variantele posibile pentru "Hidden"
+            $hiddenVariants = ['i','d','e','n','hi', 'hid', 'id', 'idd', 'dd','dde', 'hidd', 'hidde', 'de', 'den', 'en'];
+    
+            // Variantele posibile pentru "Shown"
+            $shownVariants = ['s','o','w','sh','ho','sho', 'show', 'wn', 'ow', 'own'];
+    
+            // Verificăm dacă valoarea de căutare se potrivește cu una dintre variantele posibile pentru "Hidden"
+            if ($searchLower === 'hidden' || in_array($searchLower, $hiddenVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+    
+                    if ($column === 'status') {
+                        $searchConditions .= "$table.$column = 1 OR ";
+                    } else {
+                        $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                    }
+                }
+            }
+            // Verificăm dacă valoarea de căutare se potrivește cu una dintre variantele posibile pentru "Shown"
+            elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+    
+                    if ($column === 'status') {
+                        $searchConditions .= "$table.$column = 0 OR ";
+                    } else {
+                        $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                    }
+                }
+            }
+            else {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            }
+            // Eliminăm ultimul " OR " din șirul de condiții
+            $searchConditions = rtrim($searchConditions, ' OR ');
+        }
+    
+        $sqlWithSortingAndSearch = $sqlTemplate;
+    
+        if ($searchConditions) {
+            $sqlWithSortingAndSearch .= " WHERE $searchConditions";
+        }
+    
+        $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+    
+        $summativeTestItem = DB::select($sqlWithSortingAndSearch);
     
         return response()->json([
             'status' => 200,
             'summativeTestItem' => $summativeTestItem,
         ]);
     }
+    
 
     public static function show($id) {
         return SummativeTestItem::find($id); 
