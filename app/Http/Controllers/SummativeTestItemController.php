@@ -13,6 +13,8 @@ class SummativeTestItemController extends Controller
         $search = $request->query('search');
         $sortColumn = $request->query('sortColumn');
         $sortOrder = $request->query('sortOrder');
+        $page = $request->query('page', 1); 
+        $perPage = $request->query('perPage', 10);
     
         $allowedColumns = ['id','order_number', 'task', 'type', 'title', 'name', 'status'];
     
@@ -97,6 +99,8 @@ class SummativeTestItemController extends Controller
         }
     
         $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+
+        $sqlWithSortingAndSearch .= " LIMIT $perPage OFFSET " . ($page - 1) * $perPage;
     
         $summativeTestItem = DB::select($sqlWithSortingAndSearch);
     
