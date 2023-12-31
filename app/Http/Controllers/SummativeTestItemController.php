@@ -52,43 +52,25 @@ class SummativeTestItemController extends Controller
         if ($search) {
             $searchLower = strtolower($search);
     
-            // Variantele posibile pentru "Hidden"
             $hiddenVariants = ['i','d','e','n','hi', 'hid', 'id', 'idd', 'dd','dde', 'hidd', 'hidde', 'de', 'den', 'en'];
-    
-            // Variantele posibile pentru "Shown"
             $shownVariants = ['s','o','w','sh','ho','sho', 'show', 'wn', 'ow', 'own'];
     
-            // Verificăm dacă valoarea de căutare se potrivește cu una dintre variantele posibile pentru "Hidden"
             if ($searchLower === 'hidden' || in_array($searchLower, $hiddenVariants)) {
                 foreach ($allowedColumns as $column) {
                     $table = $columnTableMapping[$column];
-    
-                    if ($column === 'status') {
-                        $searchConditions .= "$table.$column = 1 OR ";
-                    } else {
-                        $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
-                    }
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 1 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
                 }
-            }
-            // Verificăm dacă valoarea de căutare se potrivește cu una dintre variantele posibile pentru "Shown"
-            elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
+            } elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
                 foreach ($allowedColumns as $column) {
                     $table = $columnTableMapping[$column];
-    
-                    if ($column === 'status') {
-                        $searchConditions .= "$table.$column = 0 OR ";
-                    } else {
-                        $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
-                    }
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 0 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
                 }
-            }
-            else {
+            } else {
                 foreach ($allowedColumns as $column) {
                     $table = $columnTableMapping[$column];
                     $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
                 }
             }
-            // Eliminăm ultimul " OR " din șirul de condiții
             $searchConditions = rtrim($searchConditions, ' OR ');
         }
     
@@ -99,24 +81,32 @@ class SummativeTestItemController extends Controller
         }
     
         $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+
+        // Obține numărul total de rezultate
+        $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
     
-        // Aplică paginarea utilizând metoda paginate
-        $summativeTestItem = DB::table(DB::raw("($sqlWithSortingAndSearch) as results"))
-            ->select('*')
-            ->paginate($perPage);
+        // Calculează numărul total de pagini
+        $lastPage = ceil($totalResults / $perPage);
+    
+        // Calculează offset-ul pentru pagina curentă
+        $offset = ($page - 1) * $perPage;
+    
+        // Obține rezultatele pentru pagina curentă
+        $rawResults = DB::select("$sqlWithSortingAndSearch LIMIT $perPage OFFSET $offset");
     
         return response()->json([
             'status' => 200,
-            'summativeTestItem' => $summativeTestItem->items(),
+            'summativeTestItem' => $rawResults,
             'pagination' => [
-                'last_page' => $summativeTestItem->lastPage(),
-                'current_page' => $summativeTestItem->currentPage(),
-                'from' => $summativeTestItem->firstItem(),
-                'to' => $summativeTestItem->lastItem(),
-                'total' => $summativeTestItem->total(),
+                'last_page' => $lastPage,
+                'current_page' => $page,
+                'from' => $offset + 1,
+                'to' => min($offset + $perPage, $totalResults),
+                'total' => $totalResults,
             ],
         ]);
     }
+    
     
     
 
