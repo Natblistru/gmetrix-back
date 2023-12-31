@@ -4,12 +4,44 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SummativeTestItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class SummativeTestItemController extends Controller
 {
-    public static function index() {
-        $summativeTestItem =  SummativeTestItem::all();
+    public static function index(Request $request) {
+        
+        $sortColumn = $request->query('sortColumn');
+        $sortOrder = $request->query('sortOrder');
+
+        $allowedColumns = ['order_number', 'test_item_task', 'test_item_type', 'summative_test_title', 'teacher_topic_name', 'status'];
+
+        if (!in_array($sortColumn, $allowedColumns)) {
+            $sortColumn = 'id';
+        }
+    
+        $sqlTemplate = "
+            SELECT
+                STI.id,
+                ST.title summative_test_title,
+                STI.order_number,
+                TI.id AS test_item_id,
+                TI.task test_item_task,
+                TI.type AS test_item_type,
+                TI.test_complexity_id,
+                TT.name teacher_topic_name,
+                STI.status
+            FROM 
+                summative_test_items STI
+                INNER JOIN summative_tests ST ON STI.summative_test_id = ST.id
+                INNER JOIN test_items TI ON STI.test_item_id = TI.id
+                INNER JOIN teacher_topics TT ON ST.teacher_topic_id = TT.id
+        ";
+    
+        $sqlWithSorting = $sqlTemplate . " ORDER BY $sortColumn $sortOrder";
+    
+        $summativeTestItem = DB::select($sqlWithSorting);
+    
         return response()->json([
             'status' => 200,
             'summativeTestItem' => $summativeTestItem,
