@@ -15,6 +15,9 @@ class SummativeTestItemController extends Controller
         $sortOrder = $request->query('sortOrder');
         $page = $request->query('page', 1);
         $perPage = $request->query('perPage', 10);
+        $filterTeacher = $request->query('filterTeacher');
+        $filterTheme = $request->query('filterTheme');
+        $filterProgram = $request->query('filterProgram');
     
         $allowedColumns = ['id', 'order_number', 'task', 'type', 'title', 'name', 'status'];
     
@@ -40,12 +43,19 @@ class SummativeTestItemController extends Controller
                 TI.task,
                 TI.type,
                 TT.name,
+                TT.teacher_id teacher_id,
+                TLP.theme_id theme_id,
+                LP.id program_id,
                 STI.status
             FROM 
                 summative_test_items STI
                 INNER JOIN summative_tests ST ON STI.summative_test_id = ST.id
                 INNER JOIN test_items TI ON STI.test_item_id = TI.id
                 INNER JOIN teacher_topics TT ON ST.teacher_topic_id = TT.id
+                INNER JOIN topics ON TT.topic_id = topics.id    
+                INNER JOIN theme_learning_programs TLP ON TLP.id = topics.theme_learning_program_id
+        		INNER JOIN learning_programs LP ON TLP.learning_program_id = LP.id
+            WHERE true
         ";
     
         $searchConditions = '';
@@ -77,9 +87,21 @@ class SummativeTestItemController extends Controller
         $sqlWithSortingAndSearch = $sqlTemplate;
     
         if ($searchConditions) {
-            $sqlWithSortingAndSearch .= " WHERE $searchConditions";
+            $sqlWithSortingAndSearch .= " AND $searchConditions";
+        }
+
+        if ($filterTeacher) {
+            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $filterTeacher";
+        }
+
+        if ($filterTheme) {
+            $sqlWithSortingAndSearch .= " AND TLP.theme_id = $filterTheme";
         }
     
+        if ($filterProgram) {
+            $sqlWithSortingAndSearch .= " AND LP.id = $filterProgram";
+        }
+
         $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
 
         // Obține numărul total de rezultate
