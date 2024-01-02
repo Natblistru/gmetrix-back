@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Theme;
 use App\Models\Topic;
+use Illuminate\Http\Request;
 
 class TopicController extends Controller
 {
@@ -20,6 +21,16 @@ class TopicController extends Controller
         return response()->json([
             'status' => 200,
             'topics' => $topics,
+        ]);
+    }
+
+    public function allPosts() {
+        $themes = Theme::where('status', 0)->get();
+        $topics = Topic::where('status', 0)->get();
+        $allPosts = $themes->merge($topics);
+        return response()->json([
+            'status' => 200,
+            'allPosts' => $allPosts,
         ]);
     }
 

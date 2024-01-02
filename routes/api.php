@@ -199,6 +199,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
     Route::get('/all-themes', [ThemeController::class, "allChapters"]);
     Route::get('/all-topics', [TopicController::class, "allTopics"]);
+    Route::get('/all-posts', [TopicController::class, "allPosts"]);
     Route::get('/all-subtopics', [SubtopicController::class, "allSubtopics"]);
     Route::get('/all-tests', [FormativeTestItemController::class, "allTests"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
