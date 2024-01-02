@@ -20,6 +20,14 @@ class FormativeTestItemController extends Controller
         return FormativeTestItem::find($id); 
     }
 
+    public static function allTests() {
+        $tests =  FormativeTestItem::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'tests' => $tests,
+        ]);
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'order_number' => 'required|integer|min:1',

@@ -104,16 +104,12 @@ class SummativeTestItemController extends Controller
 
         $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
 
-        // Obține numărul total de rezultate
         $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
     
-        // Calculează numărul total de pagini
         $lastPage = ceil($totalResults / $perPage);
     
-        // Calculează offset-ul pentru pagina curentă
         $offset = ($page - 1) * $perPage;
     
-        // Obține rezultatele pentru pagina curentă
         $rawResults = DB::select("$sqlWithSortingAndSearch LIMIT $perPage OFFSET $offset");
     
         return response()->json([
@@ -130,8 +126,6 @@ class SummativeTestItemController extends Controller
     }
     
     
-    
-
     public static function show($id) {
         return SummativeTestItem::find($id); 
     }

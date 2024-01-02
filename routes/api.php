@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\VideoController;
@@ -199,8 +200,10 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-themes', [ThemeController::class, "allChapters"]);
     Route::get('/all-topics', [TopicController::class, "allTopics"]);
     Route::get('/all-subtopics', [SubtopicController::class, "allSubtopics"]);
+    Route::get('/all-tests', [FormativeTestItemController::class, "allTests"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
     Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
+    Route::get('/all-users', [UserController::class, "allUsers"]);
     Route::get('all-teacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);
     Route::get('/all-evaluations', [EvaluationController::class, "allEvaluations"]);
     Route::get('/all-evaluation-subjects', [EvaluationSubjectController::class, "allEvaluationSubjects"]);   
