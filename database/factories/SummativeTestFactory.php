@@ -10,6 +10,8 @@ use App\Models\Topic;
 
 class SummativeTestFactory extends Factory
 {
+    private $index = 0;
+
     public function definition(): array
     {
         $titles = ['Test de totalizare1', 'Test de totalizare2'];
@@ -20,7 +22,7 @@ class SummativeTestFactory extends Factory
         $teacherTopicId = TeacherTopic::where('teacher_id', $teacherId)
                                          ->where('topic_id', $topicId)
                                          ->first()->id;
-
+        $this->index++;
         return [
             'title' => $title,
             'teacher_topic_id' => $teacherTopicId,

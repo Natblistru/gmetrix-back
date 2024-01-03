@@ -16,8 +16,12 @@ return new class extends Migration
             $table->string('tag_name',50);
             $table->unsignedBigInteger('taggable_id');
             $table->string('taggable_type');
+            $table->unsignedBigInteger("subject_study_level_id");
             $table->tinyInteger("status")->default(0);
             $table->timestamps();
+
+            $table->foreign("subject_study_level_id")->references("id")->on("subject_study_levels");
+
         });
     }
 

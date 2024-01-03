@@ -14,7 +14,7 @@ class ThemeController extends Controller
         return Theme::find($id); 
     }
 
-    public static function allChapters() {
+    public static function allThemes() {
         $themes =  Theme::where('status',0)->get();
         return response()->json([
             'status' => 200,

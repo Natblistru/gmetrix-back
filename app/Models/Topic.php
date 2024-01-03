@@ -28,4 +28,9 @@ class Topic extends Model
     public function theme_learning_program() {
         return $this->belongsTo(ThemeLearningProgram::class, 'theme_learning_program_id', 'id');
     }
+
+    public function teacherTopics()
+    {
+        return $this->hasMany(TeacherTopic::class, 'topic_id', 'id');
+    }
 }

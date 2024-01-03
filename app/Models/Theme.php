@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Tag;
 use App\Models\Chapter;
+use App\Models\ThemeLearningProgram;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Theme extends Model
 {
@@ -23,5 +24,10 @@ class Theme extends Model
     public function chapter()
     {
         return $this->belongsTo(Chapter::class, 'chapter_id', 'id');
+    }
+
+    public function themeLearningPrograms()
+    {
+        return $this->hasMany(ThemeLearningProgram::class, 'theme_id', 'id');
     }
 }

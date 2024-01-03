@@ -2,12 +2,15 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Tag;
 // TagFactory.php
 
-use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\Topic;
+use App\Models\Subject;
+use App\Models\StudyLevel;
+use App\Models\SubjectStudyLevel;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TagFactory extends Factory
 {
@@ -45,12 +48,17 @@ class TagFactory extends Factory
             Theme::firstWhere('name', $themes[$this->index])->id :
             Topic::firstWhere('name', $topics[$this->index])->id;
 
+        $studyLevelId = StudyLevel::firstWhere('name', 'Ciclu gimnazial')->id;
+        $subjectIstoriaId = Subject::firstWhere('name', 'Istoria')->id;
+        $subjectStudyLevelId = SubjectStudyLevel::where('study_level_id', $studyLevelId) 
+                                                ->where('subject_id', $subjectIstoriaId) ->first()->id;
         $this->index++;
 
         return [
             'tag_name' => $tag,
             'taggable_id' => $itemId,
             'taggable_type' => $this->index < 2 ? Theme::class : Topic::class,
+            'subject_study_level_id'=> $subjectStudyLevelId
         ];
     }
 }

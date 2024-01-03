@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Theme;
 use App\Models\LearningProgram;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ThemeLearningProgram extends Model
 {
@@ -18,10 +19,14 @@ class ThemeLearningProgram extends Model
         'status'
     ];
 
-    // protected $with = ['learning_program'];
-    // public function learning_program() {
-    //     return $this->belongsTo(LearningProgram::class, 'learning_program_id', 'id');
-    // }
+    protected $with = ['learning_program', 'theme'];
+    public function learning_program() {
+        return $this->belongsTo(LearningProgram::class, 'learning_program_id', 'id');
+    }
+
+    public function theme() {
+        return $this->belongsTo(Theme::class, 'theme_id', 'id');
+    }
 
 
 
