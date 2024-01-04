@@ -17,6 +17,25 @@ class StudentFormativeTestResultController extends Controller
         return StudentFormativeTestResult::find($id); 
     }
 
+    public function getStudentFormativeTestScore(Request $request) {
+        $itemId = $request->input('itemId');
+        $studentId = $request->input('studentId');
+
+        $studentFormativeTestResult = StudentFormativeTestResult::where('student_id', $studentId)->where('formative_test_item_id', $itemId)->first();
+
+        if ($studentFormativeTestResult) {
+            return response()->json([
+                'status' => 200,
+                'score' => $studentFormativeTestResult->score,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'ID not found',
+            ], 404);
+        }
+    }
+
     public function store(Request $request)
     {
        // Validarea datelor de intrare

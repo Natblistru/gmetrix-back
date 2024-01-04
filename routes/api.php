@@ -194,16 +194,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/edit-summative-test-item/{id}', [SummativeTestItemController::class, "edit"]);
     Route::post('/update-summative-test-item/{id}', [SummativeTestItemController::class, "update"]);
 
-    Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
-    Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
-    Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
-    Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
-    Route::get('/all-themes', [ThemeController::class, "allThemes"]);
-    Route::get('/all-topics', [TopicController::class, "allTopics"]);
-    Route::get('/all-posts', [TopicController::class, "allPosts"]);
-    Route::post('/all-tags', [TagController::class, "allTags"]);
-    Route::post('/get-posts-by-tags', [TagController::class, "getPostsByTags"]);
-
+ 
     Route::get('/all-subtopics', [SubtopicController::class, "allSubtopics"]);
     Route::get('/all-tests', [FormativeTestItemController::class, "allTests"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
@@ -226,6 +217,15 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
 });
 
 
+Route::get('/all-subject-study-level', [SubjectStudyLevelController::class, "allSubjectStudyLevel"]);
+Route::get('/all-learningPrograms', [LearningProgramController::class, "allLearningPrograms"]);
+Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class, "allThemeLearningPrograms"]);
+Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
+Route::get('/all-themes', [ThemeController::class, "allThemes"]);
+Route::get('/all-topics', [TopicController::class, "allTopics"]);
+Route::get('/all-posts', [TopicController::class, "allPosts"]);
+Route::post('/all-tags', [TagController::class, "allTags"]);
+Route::post('/get-posts-by-tags', [TagController::class, "getPostsByTags"]);
 
 
 
@@ -270,5 +270,5 @@ Route::post('/student-formative-test-results', [StudentFormativeTestResultContro
 
 Route::post('/student-summative-test-results', [StudentSummativeTestResultController::class, "store"]);
 
-
+Route::post('/student-formative-test-score', [StudentFormativeTestResultController::class, 'getStudentFormativeTestScore']);
 
