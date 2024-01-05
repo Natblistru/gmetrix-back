@@ -191,7 +191,7 @@ class SummativeTestItemController extends Controller
         }
     }
 
-    public static function update(Request $request,$id,) {
+    public static function update(Request $request,$id) {
         $validator = Validator::make($request->all(), [
             'order_number' => 'required|integer|min:1',
             'test_item_id' => 'required|exists:test_items,id',

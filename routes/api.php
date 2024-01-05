@@ -273,3 +273,5 @@ Route::post('/student-summative-test-results', [StudentSummativeTestResultContro
 Route::post('/student-formative-test-score', [StudentFormativeTestResultController::class, 'getStudentFormativeTestScore']);
 
 Route::post('/update-student-formative-test-result', [StudentFormativeTestResultController::class, "update"]);
+
+Route::patch('/update-student-summative-test-result', [StudentSummativeTestResultController::class, "update"]);
