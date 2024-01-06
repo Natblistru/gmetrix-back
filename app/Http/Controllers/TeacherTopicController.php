@@ -330,7 +330,7 @@ class TeacherTopicController extends Controller
         LEFT JOIN
             formative_tests FT ON FT.teacher_topic_id = TT.id
         INNER JOIN 
-            formative_test_items FTI ON FTI.formative_test_id = FT.id
+            formative_test_items FTI ON FTI.formative_test_id = FT.id AND FTI.status = 0
         LEFT JOIN
             student_formative_test_results SFTR ON SFTR.formative_test_item_id = FTI.id AND SFTR.student_id = ?
         INNER JOIN

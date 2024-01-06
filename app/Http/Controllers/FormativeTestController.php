@@ -186,6 +186,7 @@ class FormativeTestController extends Controller
             test_item_options TIO ON TIO.test_item_id = TI.id
         LEFT JOIN 
         	temp_test_item_columns TTIC ON TTIC.id = TI.id 
+        WHERE FTI.status = 0
         ", $params);
 
         $collection = collect($result);

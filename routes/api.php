@@ -223,7 +223,6 @@ Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class,
 Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
 Route::get('/all-themes', [ThemeController::class, "allThemes"]);
 Route::get('/all-topics', [TopicController::class, "allTopics"]);
-Route::get('/all-posts', [TopicController::class, "allPosts"]);
 Route::post('/all-tags', [TagController::class, "allTags"]);
 Route::post('/get-posts-by-tags', [TagController::class, "getPostsByTags"]);
 
@@ -273,5 +272,7 @@ Route::post('/student-summative-test-results', [StudentSummativeTestResultContro
 Route::post('/student-formative-test-score', [StudentFormativeTestResultController::class, 'getStudentFormativeTestScore']);
 
 Route::post('/update-student-formative-test-result', [StudentFormativeTestResultController::class, "update"]);
+
+Route::post('/update-student-formative-test-option', [StudentFormativeTestOptionController::class, "update"]);
 
 Route::patch('/update-student-summative-test-result', [StudentSummativeTestResultController::class, "update"]);
