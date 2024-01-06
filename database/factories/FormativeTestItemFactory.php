@@ -31,7 +31,18 @@ class FormativeTestItemFactory extends Factory
             ["task" => "Alege afirmația corectă", "test_item_id" => 11, "order" => 2], 
             ["task" => "Alege afirmația corectă", "test_item_id" => 12, "order" => 3],        
             ["task" => "Alege afirmația corectă", "test_item_id" => 13, "order" => 4],        
-            ["task" => "Alege afirmația corectă", "test_item_id" => 14, "order" => 5],               
+            ["task" => "Alege afirmația corectă", "test_item_id" => 14, "order" => 5], 
+            ["task" => "Stabilește cauzele evenimentelor", "test_item_id" => 15, "order" => 2],  
+            ["task" => "Stabilește consecințele evenimentelor", "test_item_id" => 16, "order" => 2],   
+            ["task" => "Verifică corectitudinea afirmațiilor", "test_item_id" => 17, "order" => 2],
+            ["task" => "Formează perechi logice", "test_item_id" => 18, "order" => 2], 
+            ["task" => "Grupează elementele", "test_item_id" => 19, "order" => 2], 
+            ["task" => "Caracteristicile evenimentelor", "test_item_id" => 20, "order" => 2],
+            ["task" => "Completează propoziția", "test_item_id" => 21, "order" => 2],        
+            ["task" => "Elaborează un fragment de text", "test_item_id" => 22, "order" => 2], 
+            ["task" => "Succesiunea cronologică a evenimentelor", "test_item_id" => 23, "order" => 2], 
+            ["task" => "Completează propoziția", "test_item_id" => 24, "order" => 3],          
+            
         ];
         
         $taskType = $taskTypes[$this->index];
