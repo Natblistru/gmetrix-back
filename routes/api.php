@@ -261,6 +261,8 @@ Route::post('/student-subtopic-progress', [StudentSubopicProgressController::cla
 
 Route::post('/student-evaluation-answers', [StudentEvaluationAnswerController::class, "store"]);
 
+Route::post('/update-student-evaluation-answers', [StudentEvaluationAnswerController::class, "update"]);
+
 Route::post('/student-formative-test-options', [StudentFormativeTestOptionController::class, "store"]);
 
 Route::post('/student-summative-test-options', [StudentSummativeTestOptionController::class, "store"]);
