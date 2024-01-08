@@ -32,6 +32,7 @@ class EvaluationSubjectController extends Controller
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|in:Subiectul I,Subiectul II,Subiectul III',
+            'title' => 'required|string|max:500',
             'order_number' => 'required|integer|in:1,2,3',
             'evaluation_id' => 'required|exists:evaluations,id',
             'path' => 'required|string|max:200',
@@ -45,6 +46,7 @@ class EvaluationSubjectController extends Controller
 
         $data = [
             'name' => $request->input('name'),
+            'title' => $request->input('title'),
             'order_number' => $request->input('order_number'),
             'evaluation_id' => $request->input('evaluation_id'),
             'path' => $request->input('path'),
@@ -53,6 +55,7 @@ class EvaluationSubjectController extends Controller
     
         $combinatieColoane = [
             'name' => $data['name'],
+            'title' => $data['title'],            
             'evaluation_id' => $data['evaluation_id'],         
         ];
     
