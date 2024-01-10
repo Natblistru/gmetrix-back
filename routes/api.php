@@ -71,7 +71,12 @@ Route::middleware('guest')->group(function () {
 
 // Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, "logout"]);
-// });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/get-user/{name}', [UserController::class, 'findUserByName']);
+    Route::patch('/update-user/{id}', [UserController::class, "update"]);
+    Route::patch('/change-password-user/{id}', [UserController::class, "changePass"]);
+});
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     // Route::middleware('auth:sanctum')->group(function () {

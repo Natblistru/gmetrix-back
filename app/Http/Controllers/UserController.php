@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -14,6 +18,22 @@ class UserController extends Controller
 
     public static function show($id) {
         return User::find($id); 
+    }
+
+    public function findUserByName($name) {
+        $user = User::with('teacher', 'student')->where('name', $name)->first();
+
+        if ($user) {
+            if ($user->student) {
+                return response()->json(['user' => $user, 'role' => 'student'], 200);
+            } elseif ($user->teacher) {
+                return response()->json(['user' => $user, 'role' => 'teacher'], 200);
+            } else {
+                return response()->json(['user' => $user, 'role' => 'user'], 200);
+            }
+        } else {
+            return response()->json(['message' => 'Utilizatorul nu a fost găsit'], 404);
+        }
     }
 
     public static function allUsers(Request $request) {
@@ -127,4 +147,65 @@ class UserController extends Controller
         ]);
     }
 
+    public static function update(Request $request, $id) {
+        // Log::info('Incep actualizarea utilizatorului', ['user_id' => $id, 'request_data' => $request->all()]);
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'nullable|string|max:191',
+            'last_name' => 'nullable|string|max:191',
+            'email' => 'nullable|email|max:191',
+            ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Utilizatorul nu a fost găsit'
+            ]);
+        }
+
+        $user->update($request->only(['first_name', 'last_name', 'email']));
+        // Log::info('Finalizez actualizarea utilizatorului', ['user_id' => $id, 'updated_user' => $user->toArray()]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Utilizatorul a fost actualizat cu succes',
+            'user' => $user,
+        ]);
+    }
+
+    public static function changePass(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'oldPassword' => 'required|string|min:8',
+            'newPassword' => 'required|string|min:8',
+            ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Utilizatorul nu a fost găsit'
+            ]);
+        }
+
+        if (!Hash::check($request->oldPassword, $user->password)) {
+            throw ValidationException::withMessages([
+                'oldPassword' => ['The provided old password is incorrect.'],
+            ]);
+        }
+
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully'], 200);
+    }
 }
