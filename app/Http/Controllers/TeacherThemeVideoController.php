@@ -21,6 +21,15 @@ class TeacherThemeVideoController extends Controller
         return TeacherThemeVideo::find($id); 
     }
 
+    public static function allTeacherVideo($teacherId) {
+        $videos = TeacherThemeVideo::where('teacher_id', $teacherId)
+        ->with('video', 'theme_learning_program')
+        ->get();
+
+        return response()->json(['videos' => $videos]);
+    }
+
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',

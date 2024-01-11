@@ -76,6 +76,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-user/{name}', [UserController::class, 'findUserByName']);
     Route::patch('/update-user/{id}', [UserController::class, "update"]);
     Route::patch('/change-password-user/{id}', [UserController::class, "changePass"]);
+    Route::get('/view-myTopics', [TeacherTopicController::class, "index"]);
+    Route::get('/view-mySubtopics', [SubtopicController::class, "index"]);
+    Route::get('/view-myTests', [FormativeTestController::class, "index"]);
+    Route::get('/all-myteachers', [TeacherController::class, "allTeachers"]);
+    Route::post('/store-myteacherTopic', [TeacherTopicController::class, "store"]);
+    Route::post('/store-myvideo', [VideoController::class, "store"]);
+    Route::get('/view-myvideos', [VideoController::class, "index"]);
+    Route::get('/view-myteacherVideos', [TeacherThemeVideoController::class, "index"]);
+    Route::get('/all-myteachervideo/{id}', [TeacherThemeVideoController::class, "allTeacherVideo"]);
+    Route::post('/store-myteacherVideo', [TeacherThemeVideoController::class, "store"]);
+    Route::post('/store-mybreakpoint', [VideoBreakpointController::class, "store"]);
 });
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
