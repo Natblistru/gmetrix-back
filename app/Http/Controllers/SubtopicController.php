@@ -21,6 +21,16 @@ class SubtopicController extends Controller
         return Subtopic::find($id); 
     }
 
+    public function findSubtopicByName($name) {
+        $subtopic = Subtopic::where('name', $name)->first();
+
+        if ($subtopic) {
+            return response()->json(['subtopic' => $subtopic], 200);
+        } else {
+            return response()->json(['message' => 'Subtopicul nu a fost găsit'], 404);
+        }
+    }
+
     public static function allSubtopics() {
         $subtopics =  Subtopic::where('status',0)->get();
         return response()->json([
@@ -30,10 +40,11 @@ class SubtopicController extends Controller
     }
 
     public static function store(Request $request) {
+        //     \Log::info($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',
             'teacher_topic_id' => 'required|integer|exists:teacher_topics,id',
-            'audio' => 'nullable|mimes:mp3,wav|max:10240',
+            'audio' => 'nullable|mimes:mp3,wav|max:1024000',
             'audio_path' => 'nullable|string|max:1000',
         ]);
         if ($validator->fails()) {

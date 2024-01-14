@@ -87,6 +87,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/all-myteachervideo/{id}', [TeacherThemeVideoController::class, "allTeacherVideo"]);
     Route::post('/store-myteacherVideo', [TeacherThemeVideoController::class, "store"]);
     Route::post('/store-mybreakpoint', [VideoBreakpointController::class, "store"]);
+    Route::get('/all-myteacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);
+    Route::post('/store-mysubtopic', [SubtopicController::class, "store"]);
+    Route::get('/get-mysubtopic/{name}', [SubtopicController::class, 'findSubtopicByName']);
+    Route::post('/store-mysubtopic-image', [SubtopicImageController::class, "store"]);
+    Route::post('/store-myflip-card', [FlipCardController::class, "store"]);
 });
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
