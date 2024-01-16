@@ -29,6 +29,16 @@ class TestItemController extends Controller
         ]);
     }
 
+    public function findTestItemByTask($task) {
+        $testItem = TestItem::where('task', $task)->first();
+
+        if ($testItem) {
+            return response()->json(['testItem' => $testItem], 200);
+        } else {
+            return response()->json(['message' => 'TestItem nu a fost găsit'], 404);
+        }
+    }
+
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'task' => 'required|string|max:1000',
@@ -63,17 +73,26 @@ class TestItemController extends Controller
             $data['updated_at'] = now();
     
             TestItem::where($combinatieColoane)->update($data);
+            $updatedTestItem = TestItem::where($combinatieColoane)->first();
+            return response()->json([
+                'status' => 201,
+                'message' => 'Test Item Updated successfully',
+                'testItem' => $updatedTestItem,
+            ]);
+        
         } else {
             $data['created_at'] = now();
             $data['updated_at'] = now();
     
-            TestItem::create($data);
+            $newTestItem = TestItem::create($data);
+            return response()->json([
+                'status'=>201,
+                'message'=>'Test Item Added successfully',
+                'testItem' => $newTestItem,
+            ]);
         }
  
-        return response()->json([
-            'status'=>201,
-            'message'=>'Evaluation Subject Added successfully',
-        ]);
+
     }
 
     public static function edit($id) {

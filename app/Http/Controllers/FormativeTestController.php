@@ -67,11 +67,22 @@ class FormativeTestController extends Controller
             $data['updated_at'] = now();
     
             FormativeTest::where($combinatieColoane)->update($data);
+            $updatedFormativeTest = FormativeTest::where($combinatieColoane)->first();
+            return response()->json([
+                'status' => 201,
+                'message' => 'Formative Test Updated successfully',
+                'formativeTest' => $updatedFormativeTest,
+            ]);
         } else {
             $data['created_at'] = now();
             $data['updated_at'] = now();
     
-            FormativeTest::create($data);
+            $newFormativeTest = FormativeTest::create($data);
+            return response()->json([
+                'status'=>201,
+                'message'=>'Formative Test Added successfully',
+                'formativeTest' => $newFormativeTest,
+            ]);
         }
  
         return response()->json([

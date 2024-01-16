@@ -92,6 +92,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-mysubtopic/{name}', [SubtopicController::class, 'findSubtopicByName']);
     Route::post('/store-mysubtopic-image', [SubtopicImageController::class, "store"]);
     Route::post('/store-myflip-card', [FlipCardController::class, "store"]);
+    Route::post('/store-myformative-test', [FormativeTestController::class, "store"]);
+    Route::post('/store-mytest-item', [TestItemController::class, "store"]);
+    Route::get('/get-mytestitem/{task}', [TestItemController::class, 'findTestItemByTask']);
+    Route::post('/store-mytest-item-option', [TestItemOptionController::class, "store"]);
+    Route::post('/store-myformative-test-item', [FormativeTestItemController::class, "store"]);
 });
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
@@ -219,9 +224,8 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-subtopics', [SubtopicController::class, "allSubtopics"]);
     Route::get('/all-tests', [FormativeTestItemController::class, "allTests"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
-    Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
     Route::get('/all-users', [UserController::class, "allUsers"]);
-    Route::get('all-teacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);
+
     Route::get('/all-evaluations', [EvaluationController::class, "allEvaluations"]);
     Route::get('/all-evaluation-subjects', [EvaluationSubjectController::class, "allEvaluationSubjects"]);   
     Route::get('/all-evaluation-sources', [EvaluationSourceController::class, "allEvaluationSources"]);   
@@ -229,7 +233,6 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
     Route::get('/all-evaluation-answers', [EvaluationAnswerController::class, "allEvaluationAnswers"]);
     Route::get('/all-evaluation-options', [EvaluationOptionController::class, "allEvaluationOptions"]);
 
-    Route::get('/all-test-complexities', [TestComlexityController::class, "allTestComplexities"]);
     Route::get('/all-test-items', [TestItemController::class, "allTestItems"]);
     Route::get('/all-formative-tests', [FormativeTestController::class, "allFormativeTests"]);
     Route::get('/all-summative-tests', [SummativeTestController::class, "allSummativeTests"]);
@@ -244,8 +247,12 @@ Route::get('/all-themeLearningPrograms', [ThemeLearningProgramController::class,
 Route::get('/all-chapters', [ChapterController::class, "allChapters"]);
 Route::get('/all-themes', [ThemeController::class, "allThemes"]);
 Route::get('/all-topics', [TopicController::class, "allTopics"]);
+Route::get('/all-teachers', [TeacherController::class, "allTeachers"]);
+Route::get('all-teacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);
 Route::post('/all-tags', [TagController::class, "allTags"]);
 Route::post('/get-posts-by-tags', [TagController::class, "getPostsByTags"]);
+Route::get('/all-test-complexities', [TestComlexityController::class, "allTestComplexities"]);
+
 
 
 
