@@ -97,6 +97,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-mytestitem/{task}', [TestItemController::class, 'findTestItemByTask']);
     Route::post('/store-mytest-item-option', [TestItemOptionController::class, "store"]);
     Route::post('/store-myformative-test-item', [FormativeTestItemController::class, "store"]);
+    Route::post('/store-mytest-item-column', [TestItemColumnController::class, "store"]);
 });
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
