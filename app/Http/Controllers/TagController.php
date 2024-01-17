@@ -8,6 +8,7 @@ use App\Models\Topic;
 use App\Models\TeacherTopic;
 use Illuminate\Http\Request;
 use App\Models\ThemeLearningProgram;
+use Illuminate\Support\Facades\Validator;
 
 class TagController extends Controller
 {
@@ -71,6 +72,62 @@ class TagController extends Controller
             'themes' => $themeLearningPrograms,
             'topics' => $teacherTopics,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'tag_name' => 'required|string|max:50',
+            'taggable_id' => 'required|integer',
+            'taggable_type' => 'required|string|max:255',
+            'subject_study_level_id' => 'required|exists:subject_study_levels,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages()
+            ]);
+        }
+
+        $data = [
+            'tag_name' => $request->input('tag_name'),
+            'taggable_id' => $request->input('taggable_id'),
+            'taggable_type' => $request->input('taggable_type'),
+            'subject_study_level_id' => $request->input('subject_study_level_id'),
+            'status' => $request->input('status'),
+        ];
+
+        $combinationColumns = [
+            'tag_name' => $data['tag_name'],
+            'taggable_id' => $data['taggable_id'],
+            'taggable_type' => $data['taggable_type'],
+            'subject_study_level_id' => $data['subject_study_level_id'],
+        ];
+
+        $existingRecord = Tag::where($combinationColumns)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+
+            Tag::where($combinationColumns)->update($data);
+            $updatedRecord = Tag::where($combinationColumns)->first();
+            return response()->json([
+                'status' => 201,
+                'message' => 'Tag Updated successfully',
+                'tag' => $updatedRecord,
+            ]);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+
+            $newTag = Tag::create($data);
+            return response()->json([
+                'status' => 201,
+                'message' => 'Tag Added successfully',
+                'tag' => $newTag,
+            ]);
+        }
     }
 
 }
