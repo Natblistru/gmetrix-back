@@ -81,6 +81,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/view-myTests', [FormativeTestController::class, "index"]);
     Route::get('/all-myteachers', [TeacherController::class, "allTeachers"]);
     Route::post('/store-myteacherTopic', [TeacherTopicController::class, "store"]);
+    Route::get('/edit-myteacherTopic/{id}', [TeacherTopicController::class, "edit"]);
+    Route::post('/update-myteacherTopic/{id}', [TeacherTopicController::class, "update"]);    
     Route::post('/store-myvideo', [VideoController::class, "store"]);
     Route::get('/view-myvideos', [VideoController::class, "index"]);
     Route::get('/view-myteacherVideos', [TeacherThemeVideoController::class, "index"]);
@@ -90,15 +92,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/all-myteacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);
     Route::post('/store-mysubtopic', [SubtopicController::class, "store"]);
     Route::get('/get-mysubtopic/{name}', [SubtopicController::class, 'findSubtopicByName']);
+    Route::get('/edit-mysubtopic/{id}', [SubtopicController::class, "edit"]);
+    Route::post('/update-mysubtopic/{id}', [SubtopicController::class, "update"]);    
     Route::post('/store-mysubtopic-image', [SubtopicImageController::class, "store"]);
     Route::post('/store-myflip-card', [FlipCardController::class, "store"]);
     Route::post('/store-myformative-test', [FormativeTestController::class, "store"]);
+    Route::get('/edit-myformative-test/{id}', [FormativeTestController::class, "edit"]);
+    Route::post('/update-myformative-test/{id}', [FormativeTestController::class, "update"]);
     Route::post('/store-mytest-item', [TestItemController::class, "store"]);
     Route::get('/get-mytestitem/{task}', [TestItemController::class, 'findTestItemByTask']);
     Route::post('/store-mytest-item-option', [TestItemOptionController::class, "store"]);
     Route::post('/store-myformative-test-item', [FormativeTestItemController::class, "store"]);
     Route::post('/store-mytest-item-column', [TestItemColumnController::class, "store"]);
     Route::post('/store-mytag', [TagController::class, "store"]);
+
 });
 
 Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
