@@ -77,7 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/update-user/{id}', [UserController::class, "update"]);
     Route::patch('/change-password-user/{id}', [UserController::class, "changePass"]);
     Route::get('/view-myTopics', [TeacherTopicController::class, "index_teacher"]);
-    Route::get('/view-mySubtopics', [SubtopicController::class, "index"]);
+    Route::get('/view-mySubtopics', [SubtopicController::class, "index_teacher"]);
     Route::get('/view-myTests', [FormativeTestController::class, "index"]);
     Route::get('/all-myteachers', [TeacherController::class, "allTeachers"]);
     Route::post('/store-myteacherTopic', [TeacherTopicController::class, "store"]);
