@@ -38,7 +38,6 @@ class SubtopicController extends Controller
             'id' => 'S',
             'name' => 'S',
             'topic_name' => 'VTT',
-
             'audio_path' => 'S',
             'status' => 'S',
         ];
@@ -49,7 +48,6 @@ class SubtopicController extends Controller
             S.audio_path,
             S.name,
             VTT.topic_name,
-       
             TT.teacher_id AS teacher_id,
             TLP.theme_id AS theme_id,
             LP.id AS program_id,
@@ -66,12 +64,6 @@ class SubtopicController extends Controller
                     TT.name AS topic_name
                 FROM teacher_topics TT
             ) AS VTT ON VTT.topic_id = TT.id
-            INNER JOIN (
-                SELECT 
-                    TLP.id AS theme_id,
-                    TLP.name AS theme_name
-                FROM theme_learning_programs TLP
-            ) AS VTLP ON VTLP.theme_id = TLP.id
         WHERE true
         ";
     
