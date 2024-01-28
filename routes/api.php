@@ -8,6 +8,7 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\FlipCardController;
@@ -317,3 +318,5 @@ Route::post('/update-student-formative-test-result', [StudentFormativeTestResult
 Route::post('/update-student-formative-test-option', [StudentFormativeTestOptionController::class, "update"]);
 
 Route::patch('/update-student-summative-test-result', [StudentSummativeTestResultController::class, "update"]);
+
+Route::post('/contact', [ContactController::class, 'sendEmail']);
