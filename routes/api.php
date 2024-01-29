@@ -15,6 +15,7 @@ use App\Http\Controllers\FlipCardController;
 use App\Http\Controllers\SubtopicController;
 use App\Http\Controllers\TestItemController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\TeacherTopicController;
 use App\Http\Controllers\FormativeTestController;
 use App\Http\Controllers\SubtopicImageController;
@@ -320,3 +321,7 @@ Route::post('/update-student-formative-test-option', [StudentFormativeTestOption
 Route::patch('/update-student-summative-test-result', [StudentSummativeTestResultController::class, "update"]);
 
 Route::post('/contact', [ContactController::class, 'sendEmail']);
+
+Route::post('/subscribe', [SubscriberController::class, 'subscribe']);
+
+Route::post('/notify-all-subscribers', [SubscriberController::class, 'notifyAllSubscribers']);
