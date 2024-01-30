@@ -31,9 +31,9 @@ class StudentFormativeTestResultController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'status' => 404,
-                'message' => 'ID not found',
-            ], 404);
+                'status' => 200,
+                'score' => 0,
+            ], 200);           
         }
     }
 
