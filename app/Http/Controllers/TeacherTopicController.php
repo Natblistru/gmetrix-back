@@ -443,7 +443,7 @@ class TeacherTopicController extends Controller
             TC.name,
             TC.level,
             COUNT(COALESCE(SFTR.score, 0)) AS totalTests,
-            AVG(COALESCE(SFTR.score, 0)) AS testResult
+            AVG(COALESCE(SFTR.score/TC.level, 0)) AS testResult
         FROM
             teacher_topics TT
         LEFT JOIN

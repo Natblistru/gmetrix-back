@@ -371,6 +371,10 @@ class FormativeTestController extends Controller
             ];
         }
 
+        usort($finalResult, function ($a, $b) {
+            return $a['order_test'] - $b['order_test'];
+        });
+
         return array_values($finalResult);
     }
 

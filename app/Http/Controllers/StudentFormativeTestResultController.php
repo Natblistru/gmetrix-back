@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FormativeTestItem;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Models\StudentFormativeTestResult;
 
@@ -19,23 +20,34 @@ class StudentFormativeTestResultController extends Controller
     }
 
     public function getStudentFormativeTestScore(Request $request) {
-        $itemId = $request->input('itemId');
+        $itemId = $request->input('test_item_id');
+        $formative_test_id = $request->input('formative_test_id');
         $studentId = $request->input('studentId');
+    
+        Log::info('formative_test_id', ['formative_test_id' => $formative_test_id]);
+        Log::info('itemId', ['itemId' => $itemId]);
 
-        $studentFormativeTestResult = StudentFormativeTestResult::where('student_id', $studentId)->where('formative_test_item_id', $itemId)->first();
-
-        if ($studentFormativeTestResult) {
-            return response()->json([
-                'status' => 200,
-                'score' => $studentFormativeTestResult->score,
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 200,
-                'score' => 0,
-            ], 200);           
+        $formativeTestItem = FormativeTestItem::where('test_item_id', $itemId)
+            ->where('formative_test_id', $formative_test_id)
+            ->first();
+    
+        $score = 0;
+    
+        if ($formativeTestItem) {
+            $studentFormativeTestResult = StudentFormativeTestResult::where('student_id', $studentId)
+                ->where('formative_test_item_id', $formativeTestItem->id)
+                ->first();
+    
+            // Utilizați metoda value() pentru a obține direct valoarea 'score'
+            $score = optional($studentFormativeTestResult)->score ?? 0;
         }
+    
+        return response()->json([
+            'status' => 200,
+            'score' => $score,
+        ], 200);
     }
+    
 
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
