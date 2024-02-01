@@ -157,4 +157,59 @@ class StudentEvaluationAnswerController extends Controller
             ]);
         }
     }
+
+    public static function getStudentEvaluationResultsAllThemes(Request $request) {
+        try {
+            $subject_id = $request->input('subject_id');
+            $study_level_id = $request->input('study_level_id');
+            $order_number = $request->input('order_number');
+            $studentId = $request->input('studentId');
+    
+            $sqlTemplate = "
+                SELECT
+                    EI.theme_id,
+                    SUM(EA.max_points) as total_max_points,
+                    SUM(EO.points) as total_student_points
+                FROM
+                    student_evaluation_answers SEA 
+                INNER JOIN
+                    students ST ON ST.id = SEA.student_id AND ST.id = ?
+                INNER JOIN
+                    evaluation_answer_options EAO ON SEA.evaluation_answer_option_id = EAO.id
+                INNER JOIN
+                    evaluation_answers EA ON EAO.evaluation_answer_id = EA.id
+                INNER JOIN
+                    evaluation_items EI ON EA.evaluation_item_id = EI.id
+                INNER JOIN
+                    evaluation_options EO ON EAO.evaluation_option_id = EO.id
+                INNER JOIN
+                    evaluation_subjects ES ON ES.id = EI.evaluation_subject_id 
+                    AND ES.order_number = ? 
+                INNER JOIN
+                    evaluations E ON E.id = ES.evaluation_id
+                INNER JOIN
+                    subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
+                    AND SSLev.subject_id = ? 
+                    AND SSLev.study_level_id = ?
+                GROUP BY
+                    EI.theme_id
+                    ;
+            ";
+    
+            $allResults = DB::select($sqlTemplate, [$studentId, $order_number, $subject_id, $study_level_id]);
+    
+            return response()->json([
+                'status' => 200,
+                'studentEvaluationResults' => $allResults,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'error' => 'Internal Server Error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+    
+    
 }

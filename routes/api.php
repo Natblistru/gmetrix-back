@@ -314,6 +314,8 @@ Route::post('/student-formative-test-score', [StudentFormativeTestResultControll
 
 Route::post('/student-evaluation-results', [StudentEvaluationAnswerController::class, "getStudentEvaluationResults"]);
 
+Route::post('/student-evaluation-results-all-themes', [StudentEvaluationAnswerController::class, "getStudentEvaluationResultsAllThemes"]);
+
 Route::post('/update-student-formative-test-result', [StudentFormativeTestResultController::class, "update"]);
 
 Route::post('/update-student-formative-test-option', [StudentFormativeTestOptionController::class, "update"]);

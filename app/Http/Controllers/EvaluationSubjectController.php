@@ -234,6 +234,7 @@ class EvaluationSubjectController extends Controller
             theme_id,
             subject_id,
             item_id,
+            sum(student_points) AS student_points,
             SUM(max_points) AS item_maxpoints,
             sum(student_points) *100/ sum(max_points) AS student_procent
         FROM temp_student_points 
@@ -266,6 +267,7 @@ class EvaluationSubjectController extends Controller
             EO.points,
             EAO.id evaluation_answer_id,
             ST.item_maxpoints AS maxPoints,
+            COALESCE(ST.student_points, 0) AS student_points,
             COALESCE(ST.student_procent, 0) AS student_procent 
         FROM
             evaluation_items EI
@@ -370,6 +372,7 @@ class EvaluationSubjectController extends Controller
                 'procent_paper' => $firstAnswer->procent_paper,
                 'img' => $firstAnswer->image_path,
                 'maxPoints' => $firstItem->maxPoints,
+                'student_points' => $firstItem->student_points,
                 'student_procent' => $firstItem->student_procent,
                 'answers' => $answers,
                 'form' => $form,
@@ -455,6 +458,7 @@ class EvaluationSubjectController extends Controller
             subject_id,
             item_id,
             SUM(max_points) AS item_maxpoints,
+            sum(student_points) AS student_points,
             sum(student_points) *100/ sum(max_points) AS student_procent
         FROM temp_student_points 
         GROUP BY 
@@ -494,6 +498,7 @@ class EvaluationSubjectController extends Controller
             EO.points,
             EAO.id evaluation_answer_id,
             ST.item_maxpoints AS maxPoints,
+            COALESCE(ST.student_points, 0) AS student_points,
             COALESCE(ST.student_procent, 0) AS student_procent 
         FROM
             evaluation_items EI
@@ -618,6 +623,7 @@ class EvaluationSubjectController extends Controller
                 'img' => $firstAnswer->image_path,
                 'harta' => $firstAnswer->editable_image_path,
                 'maxPoints' => $firstItem->maxPoints,
+                'student_points' => $firstItem->student_points,
                 'student_procent' => $firstItem->student_procent,
                 'answers' => $answers,
                 'form' => $form,
@@ -704,6 +710,7 @@ class EvaluationSubjectController extends Controller
             subject_id,
             item_id,
             SUM(max_points) AS item_maxpoints,
+            sum(student_points) AS student_points,
             sum(student_points) *100/ sum(max_points) AS student_procent
         FROM temp_student_points 
         GROUP BY 
@@ -743,6 +750,7 @@ class EvaluationSubjectController extends Controller
             EO.points,
             EAO.id evaluation_answer_id,
             ST.item_maxpoints AS maxPoints,
+            COALESCE(ST.student_points, 0) AS student_points,
             COALESCE(ST.student_procent, 0) AS student_procent 
         FROM
             evaluation_items EI
@@ -867,6 +875,7 @@ class EvaluationSubjectController extends Controller
                 'img' => $firstAnswer->image_path,
                 'harta' => $firstAnswer->editable_image_path,
                 'maxPoints' => $firstItem->maxPoints,
+                'student_points' => $firstItem->student_points,
                 'student_procent' => $firstItem->student_procent,
                 'answers' => $answers,
                 'form' => $form,
