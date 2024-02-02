@@ -162,75 +162,86 @@ class StudentEvaluationAnswerController extends Controller
         try {
             $subject_id = $request->input('subject_id');
             $study_level_id = $request->input('study_level_id');
-            $order_number = $request->input('order_number');
             $studentId = $request->input('studentId');
     
-            DB::statement("
-            CREATE TEMPORARY TABLE temp_student_points AS
-            SELECT
-                EI.theme_id,
-                EA.id AS answer_id,
-                SUM(EO.points) as points
-            FROM
-                evaluation_answers EA
-            INNER JOIN
-                evaluation_items EI ON EA.evaluation_item_id = EI.id
-            INNER JOIN
-                evaluation_subjects ES ON ES.id = EI.evaluation_subject_id 
-                AND ES.order_number = ?
-            INNER JOIN
-                evaluations E ON E.id = ES.evaluation_id
-            INNER JOIN
-                subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
-                AND SSLev.subject_id = ? 
-                AND SSLev.study_level_id = ?
-            INNER JOIN
-                evaluation_answer_options EAO ON EA.id = EAO.evaluation_answer_id
-            INNER JOIN
-                evaluation_options EO ON EAO.evaluation_option_id = EO.id
-            INNER JOIN
-                student_evaluation_answers SEA ON SEA.evaluation_answer_option_id = EAO.id
-            INNER JOIN
-                students ST ON ST.id = SEA.student_id AND ST.id = ?
-            GROUP BY EI.theme_id, EA.id;     
-            ", [$order_number, $subject_id, $study_level_id, $studentId ]);
-
-            DB::statement("   
-            CREATE TEMPORARY TABLE temp_total_points AS
-            SELECT
-                EI.theme_id,
-                EA.id AS answer_id,
-                SUM(EA.max_points) as max_points
-            FROM
-                evaluation_answers EA
-            INNER JOIN
-                evaluation_items EI ON EA.evaluation_item_id = EI.id
-            INNER JOIN
-                evaluation_subjects ES ON ES.id = EI.evaluation_subject_id 
-                AND ES.order_number = ?
-            INNER JOIN
-                evaluations E ON E.id = ES.evaluation_id
-            INNER JOIN
-                subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
-                AND SSLev.subject_id = ? 
-                AND SSLev.study_level_id = ?
-            GROUP BY EI.theme_id, EA.id; 
-            ", [$order_number, $subject_id, $study_level_id ]);         
-
-            $sqlTemplate = "
-            SELECT 
-                TTP.theme_id,
-                SUM(TTP.max_points) as total_max_points,
-                SUM(COALESCE(TSP.points,0)) as points
-            FROM
-                temp_total_points TTP
-            LEFT JOIN
-                temp_student_points TSP ON TSP.theme_id = TTP.theme_id AND TSP.answer_id = TTP.answer_id
-            GROUP BY TTP.theme_id;
-            ";
+            $orderNumbers = [1, 2, 3]; // Poți modifica aceasta pentru a include toate order_number-urile dorite
     
-            $allResults = DB::select($sqlTemplate);
-
+            $allResults = [];
+    
+            foreach ($orderNumbers as $order_number) {
+                DB::statement("DROP TEMPORARY TABLE IF EXISTS temp_student_points");
+    
+                DB::statement("
+                CREATE TEMPORARY TABLE temp_student_points AS
+                SELECT
+                    EI.theme_id,
+                    EA.id AS answer_id,
+                    SUM(EO.points) as points
+                FROM
+                    evaluation_answers EA
+                INNER JOIN
+                    evaluation_items EI ON EA.evaluation_item_id = EI.id
+                INNER JOIN
+                    evaluation_subjects ES ON ES.id = EI.evaluation_subject_id 
+                    AND ES.order_number = ?
+                INNER JOIN
+                    evaluations E ON E.id = ES.evaluation_id
+                INNER JOIN
+                    subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
+                    AND SSLev.subject_id = ? 
+                    AND SSLev.study_level_id = ?
+                INNER JOIN
+                    evaluation_answer_options EAO ON EA.id = EAO.evaluation_answer_id
+                INNER JOIN
+                    evaluation_options EO ON EAO.evaluation_option_id = EO.id
+                INNER JOIN
+                    student_evaluation_answers SEA ON SEA.evaluation_answer_option_id = EAO.id
+                INNER JOIN
+                    students ST ON ST.id = SEA.student_id AND ST.id = ?
+                GROUP BY EI.theme_id, EA.id;     
+                ", [$order_number, $subject_id, $study_level_id, $studentId]);
+    
+                DB::statement("DROP TEMPORARY TABLE IF EXISTS temp_total_points");
+    
+                DB::statement("   
+                CREATE TEMPORARY TABLE temp_total_points AS
+                SELECT
+                    EI.theme_id,
+                    EA.id AS answer_id,
+                    SUM(EA.max_points) as max_points
+                FROM
+                    evaluation_answers EA
+                INNER JOIN
+                    evaluation_items EI ON EA.evaluation_item_id = EI.id
+                INNER JOIN
+                    evaluation_subjects ES ON ES.id = EI.evaluation_subject_id 
+                    AND ES.order_number = ?
+                INNER JOIN
+                    evaluations E ON E.id = ES.evaluation_id
+                INNER JOIN
+                    subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
+                    AND SSLev.subject_id = ? 
+                    AND SSLev.study_level_id = ?
+                GROUP BY EI.theme_id, EA.id; 
+                ", [$order_number, $subject_id, $study_level_id]);
+    
+                $sqlTemplate = "
+                SELECT 
+                    TTP.theme_id,
+                    SUM(TTP.max_points) as total_max_points,
+                    SUM(COALESCE(TSP.points,0)) as points
+                FROM
+                    temp_total_points TTP
+                LEFT JOIN
+                    temp_student_points TSP ON TSP.theme_id = TTP.theme_id AND TSP.answer_id = TTP.answer_id
+                GROUP BY TTP.theme_id;
+                ";
+    
+                $result = DB::select($sqlTemplate);
+    
+                $allResults[$order_number] = $result;
+            }
+    
             return response()->json([
                 'status' => 200,
                 'studentEvaluationResults' => $allResults,
@@ -243,6 +254,8 @@ class StudentEvaluationAnswerController extends Controller
             ]);
         }
     }
+    
+    
     
     
 }
