@@ -298,6 +298,8 @@ Route::get('/summativetest', [SummativeTestController::class, "summativeTest"]);
 
 Route::post('/student-subtopic-progress', [StudentSubopicProgressController::class, "store"]);
 
+Route::post('/student-subtopic-progress-all-themes', [StudentSubopicProgressController::class, "getStudentProgressAllThemes"]);
+
 Route::post('/student-evaluation-answers', [StudentEvaluationAnswerController::class, "store"]);
 
 Route::post('/update-student-evaluation-answers', [StudentEvaluationAnswerController::class, "update"]);
