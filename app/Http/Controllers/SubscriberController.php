@@ -20,7 +20,7 @@ class SubscriberController extends Controller
         $email = $request->input('email');
         $this->subscriptionService->subscribe($email);
 
-        Log::info('SubscriberController', ['email' => $email]);
+        // Log::info('SubscriberController', ['email' => $email]);
 
         return response()->json(['message' => 'Successfully subscribed!']);
     }

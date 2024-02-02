@@ -24,9 +24,11 @@ class TeacherTopicController extends Controller
         $sortOrder = $request->query('sortOrder');
         $page = $request->query('page', 1);
         $perPage = $request->query('perPage', 10);
-        $filterTeacher = $request->query('filterTeacher');
+        $filterChapter = $request->query('filterChapter');
         $filterTheme = $request->query('filterTheme');
         $filterProgram = $request->query('filterProgram');
+        $paramTeacher = $request->query('paramTeacher');
+        
     
         $allowedColumns = ['id', 'order_number', 'name','theme_name', 'status'];
     
@@ -47,7 +49,8 @@ class TeacherTopicController extends Controller
             TT.id,
             TT.order_number,
             TT.name,
-            VT.theme_name,           
+            VT.theme_name, 
+            TH.chapter_id,          
             TT.teacher_id teacher_id,
             TLP.theme_id theme_id,
             LP.id program_id,
@@ -57,6 +60,7 @@ class TeacherTopicController extends Controller
             INNER JOIN topics ON TT.topic_id = topics.id    
             INNER JOIN theme_learning_programs TLP ON TLP.id = topics.theme_learning_program_id
             INNER JOIN learning_programs LP ON TLP.learning_program_id = LP.id
+            INNER JOIN themes TH ON TLP.theme_id = TH.id
             INNER JOIN (
                 SELECT 
                     topics.id AS topic_id,
@@ -66,7 +70,7 @@ class TeacherTopicController extends Controller
             ) AS VT ON VT.topic_id = TT.topic_id
         WHERE true
         ";
-    
+   
         $searchConditions = '';
         if ($search) {
             $searchLower = strtolower($search);
@@ -94,13 +98,17 @@ class TeacherTopicController extends Controller
         }
     
         $sqlWithSortingAndSearch = $sqlTemplate;
+
+        if ($paramTeacher) {
+            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $paramTeacher";
+        }
     
         if ($searchConditions) {
             $sqlWithSortingAndSearch .= " AND $searchConditions";
         }
 
-        if ($filterTeacher) {
-            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $filterTeacher";
+        if ($filterChapter) {
+            $sqlWithSortingAndSearch .= " AND TH.chapter_id = $filterChapter";
         }
 
         if ($filterTheme) {
@@ -113,7 +121,7 @@ class TeacherTopicController extends Controller
 
         $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
 
-         Log::info('select', [$sqlWithSortingAndSearch]);
+        //  Log::info('select', [$sqlWithSortingAndSearch]);
         
         $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
     

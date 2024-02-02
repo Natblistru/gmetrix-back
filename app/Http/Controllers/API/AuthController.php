@@ -102,9 +102,24 @@ class AuthController extends Controller
                     $token = $user->createToken($user->email.'_Token', [''])->plainTextToken;
                 }
 
+                $roleId = null;
+
+                $teacher = Teacher::where('user_id', $user->id)->first();
+                if ($teacher) {
+                    $roleId = $teacher->id;
+                }
+    
+                if (!$roleId) {
+                    $student = Student::where('user_id', $user->id)->first();
+                    if ($student) {
+                        $roleId = $student->id;
+                    }
+                }
+
                 return response()->json([
                     'status'=>200,
                     'username'=>$user->name,
+                    'roleId'=>$roleId,
                     'token'=>$token,
                     'message'=>'Login Successfully',
                     'role'=>$role,

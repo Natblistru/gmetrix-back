@@ -24,8 +24,8 @@ class StudentFormativeTestResultController extends Controller
         $formative_test_id = $request->input('formative_test_id');
         $studentId = $request->input('studentId');
     
-        Log::info('formative_test_id', ['formative_test_id' => $formative_test_id]);
-        Log::info('itemId', ['itemId' => $itemId]);
+        // Log::info('formative_test_id', ['formative_test_id' => $formative_test_id]);
+        // Log::info('itemId', ['itemId' => $itemId]);
 
         $formativeTestItem = FormativeTestItem::where('test_item_id', $itemId)
             ->where('formative_test_id', $formative_test_id)
