@@ -24,9 +24,10 @@ class SubtopicController extends Controller
         $sortOrder = $request->query('sortOrder');
         $page = $request->query('page', 1);
         $perPage = $request->query('perPage', 10);
-        $filterTeacher = $request->query('filterTeacher');
+        $filterTopic = $request->query('filterTopic');
         $filterTheme = $request->query('filterTheme');
         $filterProgram = $request->query('filterProgram');
+        $paramTeacher = $request->query('paramTeacher');
     
         $allowedColumns = ['id', 'name',  'topic_name','audio_path','status'];
     
@@ -49,6 +50,7 @@ class SubtopicController extends Controller
             S.name,
             VTT.topic_name,
             TT.teacher_id AS teacher_id,
+            TT.id AS topic_id,
             TLP.theme_id AS theme_id,
             LP.id AS program_id,
             S.status
@@ -95,13 +97,18 @@ class SubtopicController extends Controller
         }
     
         $sqlWithSortingAndSearch = $sqlTemplate;
+
+        if ($paramTeacher) {
+            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $paramTeacher";
+        }
+ 
     
         if ($searchConditions) {
             $sqlWithSortingAndSearch .= " AND $searchConditions";
         }
 
-        if ($filterTeacher) {
-            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $filterTeacher";
+        if ($filterTopic) {
+            $sqlWithSortingAndSearch .= " AND TT.id = $filterTopic";
         }
 
         if ($filterTheme) {
