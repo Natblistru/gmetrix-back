@@ -101,8 +101,7 @@ class SubtopicController extends Controller
         if ($paramTeacher) {
             $sqlWithSortingAndSearch .= " AND TT.teacher_id = $paramTeacher";
         }
- 
-    
+     
         if ($searchConditions) {
             $sqlWithSortingAndSearch .= " AND $searchConditions";
         }

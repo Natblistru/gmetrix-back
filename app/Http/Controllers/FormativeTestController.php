@@ -23,9 +23,10 @@ class FormativeTestController extends Controller
         $sortOrder = $request->query('sortOrder');
         $page = $request->query('page', 1);
         $perPage = $request->query('perPage', 10);
-        $filterTeacher = $request->query('filterTeacher');
+        $filterTopic = $request->query('filterTopic');
         $filterTheme = $request->query('filterTheme');
         $filterProgram = $request->query('filterProgram');
+        $paramTeacher = $request->query('paramTeacher');
     
         $allowedColumns = ['id', 'order_number', 'title', 'name', 'type', 'topic_name','status'];
     
@@ -52,6 +53,7 @@ class FormativeTestController extends Controller
             TC.name,
             VTT.topic_name,
             TT.teacher_id AS teacher_id,
+            TT.id as topic_id,
             LP.id AS program_id,
             FT.status
         FROM 
@@ -98,13 +100,17 @@ class FormativeTestController extends Controller
         }
     
         $sqlWithSortingAndSearch = $sqlTemplate;
+
+        if ($paramTeacher) {
+            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $paramTeacher";
+        }
     
         if ($searchConditions) {
             $sqlWithSortingAndSearch .= " AND $searchConditions";
         }
 
-        if ($filterTeacher) {
-            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $filterTeacher";
+        if ($filterTopic) {
+            $sqlWithSortingAndSearch .= " AND TT.id = $filterTopic";
         }
 
         if ($filterTheme) {
