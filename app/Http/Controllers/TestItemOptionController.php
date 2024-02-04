@@ -44,7 +44,7 @@ class TestItemOptionController extends Controller
         ];
     
         $sqlTemplate = "
-            SELECT
+        SELECT
             TIO.id,
             TIO.option,
             TIO.correct,
