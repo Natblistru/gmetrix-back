@@ -2,17 +2,124 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Evaluation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EvaluationController extends Controller
 {
-    public static function index() {
-        $evaluations =  Evaluation::all();
+    // public static function index() {
+    //     $evaluations =  Evaluation::all();
+    //     return response()->json([
+    //         'status' => 200,
+    //         'evaluations' => $evaluations,
+    //     ]);
+    // }
+
+    public static function index(Request $request) {
+        $search = $request->query('search');
+        $sortColumn = $request->query('sortColumn');
+        $sortOrder = $request->query('sortOrder');
+        $page = $request->query('page', 1);
+        $perPage = $request->query('perPage', 10);
+        $filterType = $request->query('filterType');
+        $filterYear = $request->query('filterYear');
+        $filterProgram = $request->query('filterProgram');
+
+        $allowedColumns = ['id', 'year', 'name', 'type', 'status'];
+    
+        if (!in_array($sortColumn, $allowedColumns)) {
+            $sortColumn = 'id';
+        }
+    
+        $columnTableMapping = [
+            'id' => 'E',
+            'year' => 'E',
+            'name' => 'SSLev',
+            'type' => 'E',
+            'status' => 'E',
+        ];
+
+        $sqlTemplate = "
+        SELECT
+            E.id,
+            E.year,
+            E.type,
+            SSLev.name,
+            SSLev.id subject_study_level_id,            
+            E.status
+        FROM 
+            evaluations E
+            INNER JOIN subject_study_levels SSLev ON E.subject_study_level_id = SSLev.id
+        WHERE true
+            ";
+
+        $searchConditions = '';
+        if ($search) {
+            $searchLower = strtolower($search);
+    
+            $hiddenVariants = ['i','d','e','n','hi', 'hid', 'id', 'idd', 'dd','dde', 'hidd', 'hidde', 'de', 'den', 'en'];
+            $shownVariants = ['s','o','w','sh','ho','sho', 'show', 'wn', 'ow', 'own'];
+    
+            if ($searchLower === 'hidden' || in_array($searchLower, $hiddenVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 1 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 0 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } else {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            }
+            $searchConditions = rtrim($searchConditions, ' OR ');
+        }
+    
+        $sqlWithSortingAndSearch = $sqlTemplate;
+    
+        if ($searchConditions) {
+            $sqlWithSortingAndSearch .= " AND $searchConditions";
+        }
+
+        if ($filterType) {
+            $sqlWithSortingAndSearch .= " AND E.type = '$filterType'";
+        }
+
+        if ($filterYear) {
+            $sqlWithSortingAndSearch .= " AND E.year = $filterYear";
+        }
+    
+        if ($filterProgram) {
+            $sqlWithSortingAndSearch .= " AND SSLev.id = $filterProgram";
+        }
+
+        $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+
+        $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
+    
+        $lastPage = ceil($totalResults / $perPage);
+    
+        $offset = ($page - 1) * $perPage;
+    
+        $rawResults = DB::select("$sqlWithSortingAndSearch LIMIT $perPage OFFSET $offset");
+
+
         return response()->json([
             'status' => 200,
-            'evaluations' => $evaluations,
+            'evaluations' => $rawResults,
+            'pagination' => [
+                'last_page' => $lastPage,
+                'current_page' => $page,
+                'from' => $offset + 1,
+                'to' => min($offset + $perPage, $totalResults),
+                'total' => $totalResults,
+            ],
         ]);
     }
 
@@ -21,9 +128,15 @@ class EvaluationController extends Controller
     }
 
     public static function allEvaluations() {
-        $evaluations =  Evaluation::where('status',0)->get();
+        $evaluations = Evaluation::where('status',0)->get();
+    
+        $years = $evaluations->pluck('year')->unique()->values()->all();
+        $types = $evaluations->pluck('type')->unique()->values()->all();
+    
         return response()->json([
             'status' => 200,
+            'years' => $years,
+            'types' => $types,
             'evaluations' => $evaluations,
         ]);
     }
