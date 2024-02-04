@@ -9,12 +9,133 @@ use App\Models\EvaluationSubject;
 
 class EvaluationSubjectController extends Controller
 {
-    public static function index() {
-        $evaluationSubjects =  EvaluationSubject::all();
-        return response()->json([
-            'status' => 200,
-            'evaluationSubjects' => $evaluationSubjects,
-        ]);
+    // public static function index() {
+    //     $evaluationSubjects =  EvaluationSubject::all();
+    //     return response()->json([
+    //         'status' => 200,
+    //         'evaluationSubjects' => $evaluationSubjects,
+    //     ]);
+    // }
+
+    public static function index(Request $request) {
+
+        $search = $request->query('search');
+        $sortColumn = $request->query('sortColumn');
+        $sortOrder = $request->query('sortOrder');
+        $page = $request->query('page', 1);
+        $perPage = $request->query('perPage', 10);
+        $filterType = $request->query('filterType');
+        $filterYear = $request->query('filterYear');
+        $filterProgram = $request->query('filterProgram');
+        $filterEvaluation = $request->query('filterEvaluation');
+
+        $allowedColumns = ['id', 'name', 'evaluation_name', 'status'];
+    
+        if (!in_array($sortColumn, $allowedColumns)) {
+            $sortColumn = 'id';
+        }
+    
+        $columnTableMapping = [
+            'id' => 'ES',
+            'name' => 'ES',
+            'evaluation_name' => 'EV',
+            'status' => 'E',
+        ];
+
+        $sqlTemplate = "
+        SELECT
+            ES.id,
+            ES.name,
+            EV.type,
+            EV.year,
+            EV.evaluation_name,
+            EV.evaluation_id,
+            SSLev.id subject_study_level_id,            
+            ES.status
+        FROM 
+        	evaluation_subjects ES 
+            INNER JOIN (
+                SELECT 
+                    E.name AS evaluation_name,
+                    E.id AS evaluation_id,
+                    E.year,
+                    E.type,
+                	E.subject_study_level_id
+                FROM evaluations E
+            ) AS EV ON EV.evaluation_id = ES.evaluation_id
+            INNER JOIN subject_study_levels SSLev ON EV.subject_study_level_id = SSLev.id
+        WHERE true
+            ";
+            $searchConditions = '';
+            if ($search) {
+                $searchLower = strtolower($search);
+        
+                $hiddenVariants = ['i','d','e','n','hi', 'hid', 'id', 'idd', 'dd','dde', 'hidd', 'hidde', 'de', 'den', 'en'];
+                $shownVariants = ['s','o','w','sh','ho','sho', 'show', 'wn', 'ow', 'own'];
+        
+                if ($searchLower === 'hidden' || in_array($searchLower, $hiddenVariants)) {
+                    foreach ($allowedColumns as $column) {
+                        $table = $columnTableMapping[$column];
+                        $searchConditions .= ($column === 'status') ? "$table.$column = 1 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                    }
+                } elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
+                    foreach ($allowedColumns as $column) {
+                        $table = $columnTableMapping[$column];
+                        $searchConditions .= ($column === 'status') ? "$table.$column = 0 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                    }
+                } else {
+                    foreach ($allowedColumns as $column) {
+                        $table = $columnTableMapping[$column];
+                        $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                    }
+                }
+                $searchConditions = rtrim($searchConditions, ' OR ');
+            }
+        
+            $sqlWithSortingAndSearch = $sqlTemplate;
+        
+            if ($searchConditions) {
+                $sqlWithSortingAndSearch .= " AND $searchConditions";
+            }
+    
+            if ($filterType) {
+                $sqlWithSortingAndSearch .= " AND EV.type = '$filterType'";
+            }
+    
+            if ($filterYear) {
+                $sqlWithSortingAndSearch .= " AND EV.year = $filterYear";
+            }
+        
+            if ($filterProgram) {
+                $sqlWithSortingAndSearch .= " AND SSLev.id = $filterProgram";
+            }
+    
+            if ($filterEvaluation) {
+                $sqlWithSortingAndSearch .= " AND EV.evaluation_id = $filterEvaluation";
+            }
+
+            $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+    
+            $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
+        
+            $lastPage = ceil($totalResults / $perPage);
+        
+            $offset = ($page - 1) * $perPage;
+        
+            $rawResults = DB::select("$sqlWithSortingAndSearch LIMIT $perPage OFFSET $offset");
+    
+    
+            return response()->json([
+                'status' => 200,
+                'evaluationSubjects' => $rawResults,
+                'pagination' => [
+                    'last_page' => $lastPage,
+                    'current_page' => $page,
+                    'from' => $offset + 1,
+                    'to' => min($offset + $perPage, $totalResults),
+                    'total' => $totalResults,
+                ],
+            ]);
     }
 
     public static function show($id) {
