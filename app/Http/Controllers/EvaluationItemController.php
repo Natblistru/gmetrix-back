@@ -4,17 +4,142 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EvaluationItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 
 class EvaluationItemController extends Controller
 {
-    public static function index() {
-        $evaluationItem =  EvaluationItem::all();
+    // public static function index() {
+    //     $evaluationItem =  EvaluationItem::all();
+    //     return response()->json([
+    //         'status' => 200,
+    //         'evaluationItem' => $evaluationItem,
+    //     ]);
+    // }
+
+    public static function index(Request $request) {
+
+        $search = $request->query('search');
+        $sortColumn = $request->query('sortColumn');
+        $sortOrder = $request->query('sortOrder');
+        $page = $request->query('page', 1);
+        $perPage = $request->query('perPage', 10);
+        $filterChapter = $request->query('filterChapter');
+        $filterTheme = $request->query('filterTheme');
+        $filterProgram = $request->query('filterProgram');
+
+        $allowedColumns = ['id', 'task', 'image_path', 'editable_image_path', 'title', 'order_number', 'theme_name', 'status'];
+    
+        if (!in_array($sortColumn, $allowedColumns)) {
+            $sortColumn = 'id';
+        }
+    
+        $columnTableMapping = [
+            'id' => 'EI',
+            'task' => 'EI',
+            'image_path' => 'EI',
+            'editable_image_path' => 'EI',
+            'order_number' => 'EI',
+            'title' => 'ES',
+            'task' => 'EI',
+            'theme_name' => 'TV',
+            'status' => 'EI',
+        ];
+
+        $sqlTemplate = "
+        SELECT
+            EI.id,
+            EI.task,
+            EI.image_path,
+            EI.editable_image_path,
+            EI.order_number,
+            ES.title,
+            TV.theme_name,
+            TV.chapter_id,
+            TLP.theme_id,
+            LP.id program_id,
+            EI.status
+        FROM 
+            evaluation_items EI
+            INNER JOIN evaluation_subjects ES ON EI.evaluation_subject_id = ES.id
+            INNER JOIN (
+                SELECT 
+                    T.name AS theme_name,
+                    T.chapter_id,
+                    T.id
+                FROM themes T
+            ) AS TV ON EI.theme_id = TV.id
+            INNER JOIN theme_learning_programs TLP ON TLP.theme_id = TV.id
+            INNER JOIN learning_programs LP ON TLP.learning_program_id = LP.id
+        WHERE true
+        ";
+
+        $searchConditions = '';
+        if ($search) {
+            $searchLower = strtolower($search);
+    
+            $hiddenVariants = ['i','d','e','n','hi', 'hid', 'id', 'idd', 'dd','dde', 'hidd', 'hidde', 'de', 'den', 'en'];
+            $shownVariants = ['s','o','w','sh','ho','sho', 'show', 'wn', 'ow', 'own'];
+    
+            if ($searchLower === 'hidden' || in_array($searchLower, $hiddenVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 1 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 0 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } else {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            }
+            $searchConditions = rtrim($searchConditions, ' OR ');
+        }
+    
+        $sqlWithSortingAndSearch = $sqlTemplate;
+    
+        if ($searchConditions) {
+            $sqlWithSortingAndSearch .= " AND $searchConditions";
+        }
+
+        if ($filterChapter) {
+            $sqlWithSortingAndSearch .= " AND TV.chapter_id = $filterChapter";
+        }
+
+        if ($filterTheme) {
+            $sqlWithSortingAndSearch .= " AND TLP.theme_id = $filterTheme";
+        }
+    
+        if ($filterProgram) {
+            $sqlWithSortingAndSearch .= " AND LP.id = $filterProgram";
+        }
+
+        $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+
+        $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
+    
+        $lastPage = ceil($totalResults / $perPage);
+    
+        $offset = ($page - 1) * $perPage;
+    
+        $rawResults = DB::select("$sqlWithSortingAndSearch LIMIT $perPage OFFSET $offset");
+
         return response()->json([
             'status' => 200,
-            'evaluationItem' => $evaluationItem,
+            'evaluationItem' => $rawResults,
+            'pagination' => [
+                'last_page' => $lastPage,
+                'current_page' => $page,
+                'from' => $offset + 1,
+                'to' => min($offset + $perPage, $totalResults),
+                'total' => $totalResults,
+            ],
         ]);
     }
 
