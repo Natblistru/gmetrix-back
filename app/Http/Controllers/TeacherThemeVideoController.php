@@ -9,11 +9,137 @@ use App\Models\TeacherThemeVideo;
 
 class TeacherThemeVideoController extends Controller
 {
-    public static function index() {
-        $teacherVideos =  TeacherThemeVideo::all();
+    // public static function index() {
+    //     $teacherVideos =  TeacherThemeVideo::all();
+    //     return response()->json([
+    //         'status' => 200,
+    //         'teacherVideos' => $teacherVideos,
+    //     ]);
+    // }
+
+    public static function index(Request $request) {
+
+        $search = $request->query('search');
+        $sortColumn = $request->query('sortColumn');
+        $sortOrder = $request->query('sortOrder');
+        $page = $request->query('page', 1);
+        $perPage = $request->query('perPage', 10);
+        $filterChapter = $request->query('filterChapter');
+        $filterTheme = $request->query('filterTheme');
+        $filterProgram = $request->query('filterProgram');
+        $filterTeacher = $request->query('filterTeacher');
+        
+    
+        $allowedColumns = ['id', 'name', 'source', 'status'];
+    
+        if (!in_array($sortColumn, $allowedColumns)) {
+            $sortColumn = 'id';
+        }
+    
+        $columnTableMapping = [
+            'id' => 'TTV',
+            'name' => 'TTV',
+            'source' => 'V',
+            'status' => 'TTV',
+        ];
+    
+        $sqlTemplate = "
+        SELECT
+            TTV.id,
+            TTV.name,
+            V.source,
+            VT.theme_name,
+            VT.theme_id,
+            TH.chapter_id,          
+            TTV.teacher_id,
+            LP.id program_id,
+            TTV.status
+        FROM 
+            teacher_theme_videos TTV
+            INNER JOIN videos V On TTV.video_id = v.id
+            INNER JOIN (
+                SELECT 
+                    TLP.name AS theme_name,
+                    TLP.theme_id,
+                    TLP.learning_program_id,
+                    TLP.id
+                FROM theme_learning_programs TLP
+            ) AS VT ON VT.id = TTV.theme_learning_program_id
+            INNER JOIN learning_programs LP ON VT.learning_program_id = LP.id
+            INNER JOIN themes TH ON VT.theme_id = TH.id
+        WHERE true
+        ";
+   
+        $searchConditions = '';
+        if ($search) {
+            $searchLower = strtolower($search);
+    
+            $hiddenVariants = ['i','d','e','n','hi', 'hid', 'id', 'idd', 'dd','dde', 'hidd', 'hidde', 'de', 'den', 'en'];
+            $shownVariants = ['s','o','w','sh','ho','sho', 'show', 'wn', 'ow', 'own'];
+    
+            if ($searchLower === 'hidden' || in_array($searchLower, $hiddenVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 1 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 0 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } else {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            }
+            $searchConditions = rtrim($searchConditions, ' OR ');
+        }
+    
+        $sqlWithSortingAndSearch = $sqlTemplate;
+
+        if ($filterTeacher) {
+            $sqlWithSortingAndSearch .= " AND TTV.teacher_id = $filterTeacher";
+        }
+    
+        if ($searchConditions) {
+            $sqlWithSortingAndSearch .= " AND $searchConditions";
+        }
+
+        if ($filterChapter) {
+            $sqlWithSortingAndSearch .= " AND TH.chapter_id = $filterChapter";
+        }
+
+        if ($filterTheme) {
+            $sqlWithSortingAndSearch .= " AND VT.theme_id = $filterTheme";
+        }
+    
+        if ($filterProgram) {
+            $sqlWithSortingAndSearch .= " AND LP.id = $filterProgram";
+        }
+
+        $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+
+        //  Log::info('select', [$sqlWithSortingAndSearch]);
+        
+        $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
+    
+        $lastPage = ceil($totalResults / $perPage);
+    
+        $offset = ($page - 1) * $perPage;
+    
+        $rawResults = DB::select("$sqlWithSortingAndSearch LIMIT $perPage OFFSET $offset");
+    
         return response()->json([
             'status' => 200,
-            'teacherVideos' => $teacherVideos,
+            'teacherVideos' => $rawResults,
+            'pagination' => [
+                'last_page' => $lastPage,
+                'current_page' => $page,
+                'from' => $offset + 1,
+                'to' => min($offset + $perPage, $totalResults),
+                'total' => $totalResults,
+            ],
         ]);
     }
 

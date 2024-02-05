@@ -143,12 +143,6 @@ class TeacherTopicController extends Controller
                 'total' => $totalResults,
             ],
         ]);
-
-        // $teacherTopics =  TeacherTopic::all();
-        // return response()->json([
-        //     'status' => 200,
-        //     'teacherTopics' => $teacherTopics,
-        // ]);
     }
 
 
