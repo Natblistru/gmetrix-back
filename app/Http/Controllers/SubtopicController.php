@@ -10,11 +10,142 @@ use Illuminate\Support\Facades\Validator;
 
 class SubtopicController extends Controller
 {
-    public static function index() {
-        $subtopics =  Subtopic::all();
+    // public static function index() {
+    //     $subtopics =  Subtopic::all();
+    //     return response()->json([
+    //         'status' => 200,
+    //         'subtopics' => $subtopics,
+    //     ]);
+    // }
+
+    public static function index(Request $request) {
+
+        $search = $request->query('search');
+        $sortColumn = $request->query('sortColumn');
+        $sortOrder = $request->query('sortOrder');
+        $page = $request->query('page', 1);
+        $perPage = $request->query('perPage', 10);
+        $filterTopic = $request->query('filterTopic');
+        $filterTheme = $request->query('filterTheme');
+        $filterChapter = $request->query('filterChapter');
+        $filterProgram = $request->query('filterProgram');
+        $filterTeacher = $request->query('filterTeacher');
+    
+        $allowedColumns = ['id', 'name',  'topic_name','audio_path','status'];
+    
+        if (!in_array($sortColumn, $allowedColumns)) {
+            $sortColumn = 'id';
+        }
+    
+        $columnTableMapping = [
+            'id' => 'S',
+            'name' => 'S',
+            'topic_name' => 'VTT',
+            'audio_path' => 'S',
+            'status' => 'S',
+        ];
+    
+        $sqlTemplate = "
+        SELECT
+            S.id,
+            S.audio_path,
+            S.name,
+            VTT.topic_name,
+            TT.teacher_id AS teacher_id,
+            TT.id AS topic_id,
+            TH.chapter_id,  
+            TLP.theme_id AS theme_id,
+            LP.id AS program_id,
+            S.status
+        FROM 
+            subtopics S 
+            INNER JOIN teacher_topics TT ON S.teacher_topic_id = TT.id
+            INNER JOIN topics ON TT.topic_id = topics.id    
+            INNER JOIN theme_learning_programs TLP ON TLP.id = topics.theme_learning_program_id
+            INNER JOIN learning_programs LP ON TLP.learning_program_id = LP.id
+            INNER JOIN themes TH ON TLP.theme_id = TH.id
+            INNER JOIN (
+                SELECT 
+                    TT.id AS topic_id,
+                    TT.name AS topic_name
+                FROM teacher_topics TT
+            ) AS VTT ON VTT.topic_id = TT.id
+        WHERE true
+        ";
+    
+    
+        $searchConditions = '';
+        if ($search) {
+            $searchLower = strtolower($search);
+    
+            $hiddenVariants = ['i','d','e','n','hi', 'hid', 'id', 'idd', 'dd','dde', 'hidd', 'hidde', 'de', 'den', 'en'];
+            $shownVariants = ['s','o','w','sh','ho','sho', 'show', 'wn', 'ow', 'own'];
+    
+            if ($searchLower === 'hidden' || in_array($searchLower, $hiddenVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 1 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } elseif ($searchLower === 'shown' || in_array($searchLower, $shownVariants)) {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= ($column === 'status') ? "$table.$column = 0 OR " : "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            } else {
+                foreach ($allowedColumns as $column) {
+                    $table = $columnTableMapping[$column];
+                    $searchConditions .= "LOWER($table.$column) LIKE '%$searchLower%' OR ";
+                }
+            }
+            $searchConditions = rtrim($searchConditions, ' OR ');
+        }
+    
+        $sqlWithSortingAndSearch = $sqlTemplate;
+
+        if ($filterTeacher) {
+            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $filterTeacher";
+        }
+
+        if ($filterChapter) {
+            $sqlWithSortingAndSearch .= " AND TH.chapter_id = $filterChapter";
+        }
+     
+        if ($searchConditions) {
+            $sqlWithSortingAndSearch .= " AND $searchConditions";
+        }
+
+        if ($filterTopic) {
+            $sqlWithSortingAndSearch .= " AND TT.id = $filterTopic";
+        }
+
+        if ($filterTheme) {
+            $sqlWithSortingAndSearch .= " AND TLP.theme_id = $filterTheme";
+        }
+    
+        if ($filterProgram) {
+            $sqlWithSortingAndSearch .= " AND LP.id = $filterProgram";
+        }
+
+        $sqlWithSortingAndSearch .= " ORDER BY $sortColumn $sortOrder";
+
+        $totalResults = DB::select("SELECT COUNT(*) as total FROM ($sqlWithSortingAndSearch) as countTable")[0]->total;
+    
+        $lastPage = ceil($totalResults / $perPage);
+    
+        $offset = ($page - 1) * $perPage;
+    
+        $rawResults = DB::select("$sqlWithSortingAndSearch LIMIT $perPage OFFSET $offset");
+    
         return response()->json([
             'status' => 200,
-            'subtopics' => $subtopics,
+            'subtopics' => $rawResults,
+            'pagination' => [
+                'last_page' => $lastPage,
+                'current_page' => $page,
+                'from' => $offset + 1,
+                'to' => min($offset + $perPage, $totalResults),
+                'total' => $totalResults,
+            ],
         ]);
     }
 
