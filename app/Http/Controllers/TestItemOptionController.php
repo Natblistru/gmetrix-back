@@ -23,11 +23,14 @@ class TestItemOptionController extends Controller
         $sortOrder = $request->query('sortOrder');
         $page = $request->query('page', 1);
         $perPage = $request->query('perPage', 10);
-        $filterTeacher = $request->query('filterTeacher');
+        $filterTopic = $request->query('filterTopic');
         $filterTheme = $request->query('filterTheme');
         $filterProgram = $request->query('filterProgram');
+        $filterChapter = $request->query('filterChapter');
+        $filterTeacher = $request->query('filterTeacher');
+        $filterTestItem = $request->query('filterTestItem');
     
-        $allowedColumns = ['id', 'option', 'correct','task', 'type', 'name', 'status'];
+        $allowedColumns = ['id', 'option', 'correct','task', 'type', 'topic_name', 'status'];
     
         if (!in_array($sortColumn, $allowedColumns)) {
             $sortColumn = 'id';
@@ -39,7 +42,7 @@ class TestItemOptionController extends Controller
             'correct' => 'TIO',
             'task' => 'TI',
             'type' => 'TI',
-            'name' => 'TT',
+            'topic_name' => 'VTT',
             'status' => 'TIO',
         ];
     
@@ -48,19 +51,31 @@ class TestItemOptionController extends Controller
             TIO.id,
             TIO.option,
             TIO.correct,
+            TIO.test_item_id,
             TI.task,
             TI.type,
-            TT.name,
-            TT.teacher_id teacher_id,
+            VTT.topic_name,
+            VTT.teacher_id,
+            VTT.teacher_topic_id,
             TLP.theme_id theme_id,
+            TH.chapter_id,
             LP.id program_id,
             TIO.status
         FROM 
             test_item_options TIO 
             INNER JOIN test_items TI ON TIO.test_item_id = TI.id
-            INNER JOIN teacher_topics TT ON TI.teacher_topic_id = TT.id
-            INNER JOIN topics ON TT.topic_id = topics.id    
+            INNER JOIN (
+                SELECT 
+                    TT.id,
+                    TT.id AS teacher_topic_id, 
+                    TT.topic_id,             
+                    TT.name AS topic_name,
+                	TT.teacher_id
+                FROM teacher_topics TT
+            ) AS VTT ON VTT.id = TI.teacher_topic_id
+            INNER JOIN topics ON VTT.topic_id = topics.id     
             INNER JOIN theme_learning_programs TLP ON TLP.id = topics.theme_learning_program_id
+            INNER JOIN themes TH ON TLP.theme_id = TH.id
             INNER JOIN learning_programs LP ON TLP.learning_program_id = LP.id
         WHERE true
         ";
@@ -93,12 +108,24 @@ class TestItemOptionController extends Controller
     
         $sqlWithSortingAndSearch = $sqlTemplate;
     
+        if ($filterTeacher) {
+            $sqlWithSortingAndSearch .= " AND VTT.teacher_id = $filterTeacher";
+        }
+
+        if ($filterChapter) {
+            $sqlWithSortingAndSearch .= " AND TH.chapter_id = $filterChapter";
+        }
+    
         if ($searchConditions) {
             $sqlWithSortingAndSearch .= " AND $searchConditions";
         }
 
-        if ($filterTeacher) {
-            $sqlWithSortingAndSearch .= " AND TT.teacher_id = $filterTeacher";
+        if ($filterTopic) {
+            $sqlWithSortingAndSearch .= " AND VTT.teacher_topic_id = $filterTopic";
+        }
+
+        if ($filterTestItem) {
+            $sqlWithSortingAndSearch .= " AND TIO.test_item_id = $filterTestItem";
         }
 
         if ($filterTheme) {
