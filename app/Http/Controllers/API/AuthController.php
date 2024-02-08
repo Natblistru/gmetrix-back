@@ -107,12 +107,14 @@ class AuthController extends Controller
                 $teacher = Teacher::where('user_id', $user->id)->first();
                 if ($teacher) {
                     $roleId = $teacher->id;
+                    $role = 'teacher';
                 }
     
                 if (!$roleId) {
                     $student = Student::where('user_id', $user->id)->first();
                     if ($student) {
                         $roleId = $student->id;
+                        $role = 'student';
                     }
                 }
 

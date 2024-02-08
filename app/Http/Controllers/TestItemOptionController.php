@@ -108,6 +108,10 @@ class TestItemOptionController extends Controller
     
         $sqlWithSortingAndSearch = $sqlTemplate;
     
+        if ($searchConditions) {
+            $sqlWithSortingAndSearch .= " AND $searchConditions";
+        }
+
         if ($filterTeacher) {
             $sqlWithSortingAndSearch .= " AND VTT.teacher_id = $filterTeacher";
         }
@@ -115,11 +119,7 @@ class TestItemOptionController extends Controller
         if ($filterChapter) {
             $sqlWithSortingAndSearch .= " AND TH.chapter_id = $filterChapter";
         }
-    
-        if ($searchConditions) {
-            $sqlWithSortingAndSearch .= " AND $searchConditions";
-        }
-
+  
         if ($filterTopic) {
             $sqlWithSortingAndSearch .= " AND VTT.teacher_topic_id = $filterTopic";
         }
