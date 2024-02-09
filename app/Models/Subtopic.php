@@ -14,6 +14,7 @@ class Subtopic extends Model
         'name',
         'audio_path',       
         'teacher_topic_id',
+        'order_number',
         'status'
     ];
 

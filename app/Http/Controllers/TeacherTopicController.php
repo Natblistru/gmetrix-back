@@ -440,6 +440,7 @@ class TeacherTopicController extends Controller
             TT.id as teacher_topic_id,
             subtopics.id as subtopic_id,
             subtopics.name as subtopic_name,
+            subtopics.order_number as subtopic_order,
             subtopics.audio_path
         FROM
             teacher_topics TT
@@ -501,6 +502,7 @@ class TeacherTopicController extends Controller
             TS.teacher_topic_id,
             TS.subtopic_id,
             TS.subtopic_name,
+            TS.subtopic_order,
             TS.audio_path,
             COALESCE(SP.progress_percentage, 0) AS progress_percentage
         FROM
@@ -669,6 +671,7 @@ class TeacherTopicController extends Controller
             PS.teacher_topic_id,
             PS.teacher_id,
             PS.subtopic_name,
+            PS.subtopic_order,
             COALESCE(SI.path, '') AS subtopic_images,
             PSS.audio_path,
             FC.id AS flip_id,
@@ -751,11 +754,16 @@ class TeacherTopicController extends Controller
                     'subtopic_name' => $firstSubtopic->subtopic_name,
                     'audio_path' => $firstSubtopic->audio_path,
                     'id' => $num_ord,
+                    'subtopic_order' => $firstSubtopic->subtopic_order,
                     'procentSubtopic' => $firstSubtopic->procentSubtopic,
                     'images' => $subtopicImages,
                 ];
                 $num_ord = $num_ord +1;
             }
+
+            usort($subtitles, function ($a, $b) {
+                return $a['subtopic_order'] - $b['subtopic_order'];
+            });
 
             $groupedByFlipCards = $topicGroup->groupBy('flip_id');
 

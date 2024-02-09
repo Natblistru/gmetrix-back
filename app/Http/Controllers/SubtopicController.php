@@ -298,6 +298,7 @@ class SubtopicController extends Controller
         //     \Log::info($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:500',
+            'order_number' => 'required|integer|min:1',
             'teacher_topic_id' => 'required|integer|exists:teacher_topics,id',
             'audio' => 'nullable|mimes:mp3,wav|max:1024000',
             'audio_path' => 'nullable|string|max:1000',
@@ -311,6 +312,7 @@ class SubtopicController extends Controller
 
         $data = [
             'name' => $request->input('name'),
+            'order_number' => $request->input('order_number'),           
             'teacher_topic_id' => $request->input('teacher_topic_id'),
             'audio_path' => $request->input('audio_path'),
             'status' => $request->input('status'),
