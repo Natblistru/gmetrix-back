@@ -834,6 +834,11 @@ class TeacherTopicController extends Controller
                 'flip_cards' => $flip_cards,
                 'tests' => $tests
             ];
+
+            usort($finalResult, function ($a, $b) {
+                return $a['id'] - $b['id'];
+            });
+
         }
 
         return array_values($finalResult);
