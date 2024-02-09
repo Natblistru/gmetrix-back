@@ -153,6 +153,7 @@ class FlipCardController extends Controller
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'task' => 'required|string|max:500',
+            'order_number' => 'required|integer|min:1',
             'answer' => 'required|string|max:5000',
             'teacher_topic_id' => 'required|exists:teacher_topics,id',
         ]);
@@ -165,6 +166,7 @@ class FlipCardController extends Controller
 
         $data = [
             'task' => $request->input('task'),
+            'order_number' => $request->input('order_number'), 
             'answer' => $request->input('answer'),
             'teacher_topic_id' => $request->input('teacher_topic_id'),
             'status' => $request->input('status'),

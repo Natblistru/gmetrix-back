@@ -14,6 +14,7 @@ class FlipCard extends Model
         'task',
         'answer',
         'teacher_topic_id',
+        'order_number',
         'status'
     ];
 

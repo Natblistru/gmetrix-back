@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TestItem;
 use Illuminate\Http\Request;
 use App\Models\FormativeTestItem;
 use Illuminate\Support\Facades\DB;
@@ -24,9 +25,6 @@ class StudentFormativeTestResultController extends Controller
         $formative_test_id = $request->input('formative_test_id');
         $studentId = $request->input('studentId');
     
-        // Log::info('formative_test_id', ['formative_test_id' => $formative_test_id]);
-        // Log::info('itemId', ['itemId' => $itemId]);
-
         $formativeTestItem = FormativeTestItem::where('test_item_id', $itemId)
             ->where('formative_test_id', $formative_test_id)
             ->first();
@@ -34,12 +32,18 @@ class StudentFormativeTestResultController extends Controller
         $score = 0;
     
         if ($formativeTestItem) {
-            $studentFormativeTestResult = StudentFormativeTestResult::where('student_id', $studentId)
-                ->where('formative_test_item_id', $formativeTestItem->id)
-                ->first();
+            $testComplexityId = TestItem::where('id', $formativeTestItem->test_item_id)->value('test_complexity_id');
+
+            if ($testComplexityId !== null) {
+                $studentFormativeTestResult = StudentFormativeTestResult::where('student_id', $studentId)
+                    ->where('formative_test_item_id', $formativeTestItem->id)
+                    ->first();
     
-            // Utilizați metoda value() pentru a obține direct valoarea 'score'
-            $score = optional($studentFormativeTestResult)->score ?? 0;
+                if ($studentFormativeTestResult) {
+                    $score = $studentFormativeTestResult->score / $testComplexityId;
+                }
+            }
+        
         }
     
         return response()->json([

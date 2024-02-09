@@ -676,6 +676,7 @@ class TeacherTopicController extends Controller
             PSS.audio_path,
             FC.id AS flip_id,
             FC.task AS flip_task,
+            FC.order_number AS flip_order,
             FC.answer AS flip_answer,
             TATest.title AS test_title,
             TATest.path AS test_path,
@@ -778,9 +779,14 @@ class TeacherTopicController extends Controller
                 $flip_cards[] = [
                     'card_id' => $firstFlip->flip_id,                    
                     'sarcina' => $firstFlip->flip_task,
+                    'order' => $firstFlip->flip_order,
                     'rezolvare' => $firstFlip->flip_answer,
                 ];
             }
+
+            usort($flip_cards, function ($a, $b) {
+                return $a['order'] - $b['order'];
+            });
 
             $groupedByTests = $topicGroup->groupBy('test_title');
 
