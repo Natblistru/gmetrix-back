@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class VideoController extends Controller
 {
-    // public static function index(Request $request) {
-    //     $video =  Video::all();
-    //     return response()->json([
-    //         'status' => 200,
-    //         'video' => $video,
-    //     ]);
-    // }
+    public static function index_list(Request $request) {
+        $video =  Video::all();
+        return response()->json([
+            'status' => 200,
+            'video' => $video,
+        ]);
+    }
     
     public static function index(Request $request) {
         $search = $request->query('search');
