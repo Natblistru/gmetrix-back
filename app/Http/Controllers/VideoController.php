@@ -166,16 +166,19 @@ class VideoController extends Controller
             $data['updated_at'] = now();
     
             Video::where($combinatieColoane)->update($data);
+            $videoId = $existingRecord->id;
         } else {
             $data['created_at'] = now();
             $data['updated_at'] = now();
     
-            Video::create($data);
-        }
+            $newVideo = Video::create($data);
+            $videoId = $newVideo->id; 
+            }
  
         return response()->json([
             'status'=>201,
             'message'=>'Video Added successfully',
+            'video_id' => $videoId,
         ]);
     }
 
