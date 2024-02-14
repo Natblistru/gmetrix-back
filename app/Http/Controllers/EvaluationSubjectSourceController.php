@@ -51,7 +51,8 @@ class EvaluationSubjectSourceController extends Controller
             TV.theme_name,
             TV.chapter_id,
             TLP.theme_id,
-            LP.id program_id
+            LP.id program_id,
+            ESS.status
         FROM 
             evaluation_sources ES
             INNER JOIN evaluation_subject_sources ESS ON ESS.evaluation_source_id = ES.id
