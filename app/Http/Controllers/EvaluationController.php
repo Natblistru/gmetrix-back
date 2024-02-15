@@ -146,7 +146,7 @@ class EvaluationController extends Controller
             'name' => 'required|string|max:200',
             'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'subject_study_level_id' => 'required|exists:subject_study_levels,id',
-            'type' => 'required|in:Pretestare,Testare de baza,Evaluare suplimentara,Teste pentru exersare1,Teste pentru exersare2',
+            'type' => 'required|in:Pretestare,Testare de baza,Evaluare suplimentara,Teste pentru exersare1,Teste pentru exersare2,Teste preparatorii',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -208,7 +208,7 @@ class EvaluationController extends Controller
             'name' => 'required|string|max:200',
             'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'subject_study_level_id' => 'required|exists:subject_study_levels,id',
-            'type' => 'required|in:Pretestare,Testare de baza,Evaluare suplimentara,Teste pentru exersare1,Teste pentru exersare2',
+            'type' => 'required|in:Pretestare,Testare de baza,Evaluare suplimentara,Teste pentru exersare1,Teste pentru exersare2,Teste preparatorii',
         ]);
         if ($validator->fails()) {
             return response()->json([
