@@ -493,6 +493,7 @@ class FormativeTestController extends Controller
                 $orderNumberOptions[] = [
                     'order_number' => $formativeTestDetails->order_number,
                     'test_item_id' => $formativeTestDetails->test_item_id,
+                    'column_title' => $formativeTestDetails->column_title,
                     'test_item_task' => $formativeTestDetails->task,
                     'formative_test_id' => $formativeTestDetails->formative_test_id,
                     'test_item_complexity' => $formativeTestDetails->test_complexity_id,
@@ -506,7 +507,7 @@ class FormativeTestController extends Controller
                 'order_test' => $formativeTestGroup->first()->order_test,
                 'type' => $formativeTestGroup->first()->type,
                 'title' => $formativeTestGroup->first()->title,
-                'column_title' => $formativeTestGroup->first()->column_title,
+                // 'column_title' => $formativeTestGroup->first()->column_title,
                 'path' => $formativeTestGroup->first()->path,
                 'order_number_options' => $orderNumberOptions,
             ];
