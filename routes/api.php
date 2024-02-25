@@ -292,6 +292,8 @@ Route::get('/themeevaluation2', [EvaluationSubjectController::class, "themeEvalu
 
 Route::get('/themeevaluation3', [EvaluationSubjectController::class, "themeEvaluation3"]);
 
+Route::get('/themeEvaluation_all', [EvaluationSubjectController::class, "themeEvaluation_all"]);
+
 Route::get('/formativetest', [FormativeTestController::class, "formativeTest"]);
 
 Route::get('/summativetest', [SummativeTestController::class, "summativeTest"]);
