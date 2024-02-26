@@ -1096,6 +1096,7 @@ class EvaluationSubjectController extends Controller
             EFP.task form_task,
             EFP.hint form_hint,
             EFP.id AS form_id,
+            E.name AS type_evaluation,
             EI.evaluation_subject_id,
             ES.name AS evaluation_subject_name,
             ES.order_number AS subject_order,
@@ -1139,7 +1140,7 @@ class EvaluationSubjectController extends Controller
         INNER JOIN
             evaluation_subjects ES ON ES.id = EI.evaluation_subject_id 
             AND EI.theme_id = ?
-            INNER JOIN
+        INNER JOIN
             evaluations E ON E.id = ES.evaluation_id
         INNER JOIN
             subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
@@ -1239,6 +1240,7 @@ class EvaluationSubjectController extends Controller
                 'theme_id' => $firstItem->theme_id,
                 'subject_id' => $firstItem->evaluation_subject_id,
                 'name' => $firstAnswer->evaluation_subject_name,
+                'type_evaluation' => $firstAnswer->type_evaluation,
                 'order' => $firstAnswer->subject_order,
                 'cerinta' => $firstAnswer->task,
                 'afirmatie' => $firstAnswer->statement,
