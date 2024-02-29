@@ -520,4 +520,41 @@ class FormativeTestController extends Controller
         return array_values($finalResult);
     }
 
+    public static function teacherAllTests(Request $request)  {
+
+        $teacher_topic_id = $request->query('teacher_topic');
+        $student_id = $request->query('student');
+
+        $params = [$teacher_topic_id, $student_id];
+
+        $result = DB::select("
+        SELECT 
+            FT.teacher_topic_id AS teacher_topic_id,
+            FTI.formative_test_id,
+            FT.title,
+            FT.path,
+            FT.type,
+            FT.order_number AS order_formative_test,
+            FTI.order_number AS order_item_test,
+            TI.id AS test_item_id,
+            TI.task,
+            TI.type AS item_type,
+            TI.test_complexity_id,
+            COALESCE(SFTR.score*100/TC.level, 0) AS testResult
+        FROM  
+            formative_test_items AS FTI
+        INNER JOIN
+            formative_tests FT ON FTI.formative_test_id = FT.id AND FT.teacher_topic_id = ?
+        INNER JOIN 
+            test_items TI ON FTI.test_item_id = TI.id
+        LEFT JOIN
+            student_formative_test_results SFTR ON SFTR.formative_test_item_id = FTI.id AND SFTR.student_id = ?
+        INNER JOIN
+            test_comlexities TC ON FT.test_complexity_id = TC.id
+        WHERE FTI.status = 0
+        ", $params);
+
+        return array_values($result);
+    }
+
 }

@@ -296,6 +296,8 @@ Route::get('/themeEvaluation_all', [EvaluationSubjectController::class, "themeEv
 
 Route::get('/formativetest', [FormativeTestController::class, "formativeTest"]);
 
+Route::get('/teacherAllTests', [FormativeTestController::class, "teacherAllTests"]);
+
 Route::get('/summativetest', [SummativeTestController::class, "summativeTest"]);
 
 Route::post('/student-subtopic-progress', [StudentSubopicProgressController::class, "store"]);
