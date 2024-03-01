@@ -531,7 +531,7 @@ class FormativeTestController extends Controller
         SELECT 
             FT.teacher_topic_id AS teacher_topic_id,
             FTI.formative_test_id,
-            FT.title,
+            FT.title AS name,
             FT.path,
             FT.type,
             FT.order_number AS order_formative_test,
@@ -540,7 +540,7 @@ class FormativeTestController extends Controller
             TI.task,
             TI.type AS item_type,
             TI.test_complexity_id,
-            COALESCE(SFTR.score*100/TC.level, 0) AS testResult
+            COALESCE(SFTR.score*100/TC.level, 0) AS student_procent
         FROM  
             formative_test_items AS FTI
         INNER JOIN
