@@ -1104,6 +1104,7 @@ class EvaluationSubjectController extends Controller
             EA.id answer_id,
             EA.order_number answer_order,
             EI.task,
+            EI.order_number AS item_order,
             EI.statement,
             EI.image_path,
             EI.editable_image_path,
@@ -1242,6 +1243,7 @@ class EvaluationSubjectController extends Controller
                 'name' => $firstAnswer->evaluation_subject_name,
                 'type_evaluation' => $firstAnswer->type_evaluation,
                 'order' => $firstAnswer->subject_order,
+                'item_order' => $firstAnswer->item_order,
                 'cerinta' => $firstAnswer->task,
                 'afirmatie' => $firstAnswer->statement,
                 'procent_paper' => $firstAnswer->procent_paper,
@@ -1256,6 +1258,10 @@ class EvaluationSubjectController extends Controller
                 'source' => $source,
             ];
         }
+
+        usort($finalResult, function ($a, $b) {
+            return $a['item_order'] - $b['item_order'];
+        });
 
 
         return array_values($finalResult);
