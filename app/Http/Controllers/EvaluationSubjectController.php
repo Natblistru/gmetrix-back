@@ -1149,7 +1149,9 @@ class EvaluationSubjectController extends Controller
         LEFT JOIN
         	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id
         LEFT JOIN
-        	evaluation_sources ESo ON ESo.id = ESS.evaluation_source_id AND ESo.theme_id = EI.theme_id;
+        	evaluation_sources ESo ON ESo.id = ESS.evaluation_source_id AND ESo.theme_id = EI.theme_id
+        WHERE 
+            EI.status = 0;
         ", $params);
 
         // Transformăm rezultatul în colecție Laravel pentru a folosi metoda groupBy
