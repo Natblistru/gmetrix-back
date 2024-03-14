@@ -44,6 +44,7 @@ use App\Http\Controllers\StudentFormativeTestOptionController;
 use App\Http\Controllers\StudentFormativeTestResultController;
 use App\Http\Controllers\StudentSummativeTestOptionController;
 use App\Http\Controllers\StudentSummativeTestResultController;
+use App\Http\Controllers\StudentEvaluationSolutionController;
 
 
 
@@ -327,6 +328,8 @@ Route::post('/update-student-formative-test-result', [StudentFormativeTestResult
 Route::post('/update-student-formative-test-option', [StudentFormativeTestOptionController::class, "update"]);
 
 Route::patch('/update-student-summative-test-result', [StudentSummativeTestResultController::class, "update"]);
+
+Route::post('/student-evaluation-solutions', [StudentEvaluationSolutionController::class, 'store']);
 
 Route::post('/contact', [ContactController::class, 'sendEmail']);
 

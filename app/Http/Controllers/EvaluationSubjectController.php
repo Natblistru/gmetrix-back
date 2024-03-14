@@ -1014,8 +1014,11 @@ class EvaluationSubjectController extends Controller
         $level = $request->query('level');
         $subjectId = $request->query('disciplina');
         $theme = $request->query('theme');
+        $student = $request->query('student');
 
         $params = [$theme, $subjectId, $level];
+        $paramStudentLast = [$theme, $subjectId, $level, $student];
+        $paramStudentFirst = [$student, $theme, $subjectId, $level];
 
         DB::statement("
         CREATE TEMPORARY TABLE temp_student_answers AS
@@ -1029,7 +1032,7 @@ class EvaluationSubjectController extends Controller
         FROM
             student_evaluation_answers SEA 
         INNER JOIN
-            students ST ON ST.id = SEA.student_id
+            students ST ON ST.id = SEA.student_id AND ST.id = ?
         INNER JOIN
             evaluation_answer_options EAO ON SEA.evaluation_answer_option_id = EAO.id
         INNER JOIN
@@ -1046,7 +1049,7 @@ class EvaluationSubjectController extends Controller
         INNER JOIN
             subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
             AND SSLev.subject_id = ? AND SSLev.study_level_id = ?;
-        ", $params);
+        ", $paramStudentFirst);
 
         DB::statement("
         CREATE TEMPORARY TABLE temp_student_points AS
@@ -1125,7 +1128,8 @@ class EvaluationSubjectController extends Controller
             EAO.id evaluation_answer_id,
             ST.item_maxpoints AS maxPoints,
             COALESCE(ST.student_points, 0) AS student_points,
-            COALESCE(ST.student_procent, 0) AS student_procent 
+            COALESCE(ST.student_procent, 0) AS student_procent,
+            COALESCE(SES.solution, '') AS student_solution 
         FROM
             evaluation_items EI
         INNER JOIN
@@ -1150,9 +1154,11 @@ class EvaluationSubjectController extends Controller
         	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id
         LEFT JOIN
         	evaluation_sources ESo ON ESo.id = ESS.evaluation_source_id AND ESo.theme_id = EI.theme_id
+        LEFT JOIN
+        	student_evaluation_solutions SES ON SES.evaluation_item_id = EI.id AND SES.student_id = ?
         WHERE 
             EI.status = 0;
-        ", $params);
+        ", $paramStudentLast);
 
         // Transformăm rezultatul în colecție Laravel pentru a folosi metoda groupBy
         $collection = collect($result);
@@ -1248,6 +1254,7 @@ class EvaluationSubjectController extends Controller
                 'item_order' => $firstAnswer->item_order,
                 'cerinta' => $firstAnswer->task,
                 'afirmatie' => $firstAnswer->statement,
+                'student_solution'=> $firstAnswer->student_solution,
                 'procent_paper' => $firstAnswer->procent_paper,
                 'nota' => $firstAnswer->nota,
                 'img' => $firstAnswer->image_path,
