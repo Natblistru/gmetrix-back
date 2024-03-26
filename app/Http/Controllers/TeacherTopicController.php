@@ -391,8 +391,10 @@ class TeacherTopicController extends Controller
         )
             ->join('topics', 'teacher_topics.topic_id', '=', 'topics.id')
             ->join('theme_learning_programs', 'topics.theme_learning_program_id', '=', 'theme_learning_programs.id')
-            ->join('teachers', 'teacher_topics.teacher_id', '=', 'teachers.id')
-            ->distinct()
+            ->join('teachers', function ($join) {
+                $join->on('teacher_topics.teacher_id', '=', 'teachers.id')
+                     ->where('teacher_topics.status', '=', 0);
+            })            ->distinct()
             ->get();
     
         // Grupare după teme
