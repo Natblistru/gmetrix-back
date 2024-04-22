@@ -638,7 +638,7 @@ class EvaluationSubjectController extends Controller
             AND ES.order_number = 2 
             AND EI.theme_id = ?
         INNER JOIN
-        	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id
+        	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id AND ESS.status = 0
         INNER JOIN
         	evaluation_sources ESo ON ESo.id = ESS.evaluation_source_id AND ESo.theme_id = EI.theme_id
         INNER JOIN
@@ -890,7 +890,7 @@ class EvaluationSubjectController extends Controller
             AND ES.order_number = 3 
             AND EI.theme_id = ?
         INNER JOIN
-        	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id
+        	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id AND ESS.status = 0
         INNER JOIN
         	evaluation_sources ESo ON ESo.id = ESS.evaluation_source_id AND ESo.theme_id = EI.theme_id
         INNER JOIN
@@ -1151,7 +1151,7 @@ class EvaluationSubjectController extends Controller
             subject_study_levels SSLev ON SSLev.id = E.subject_study_level_id 
             AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
         LEFT JOIN
-        	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id
+        	evaluation_subject_sources ESS ON ES.id = ESS.evaluation_subject_id AND ESS.status = 0
         LEFT JOIN
         	evaluation_sources ESo ON ESo.id = ESS.evaluation_source_id AND ESo.theme_id = EI.theme_id
         LEFT JOIN
