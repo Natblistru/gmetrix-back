@@ -49,6 +49,8 @@ class LearningProgramController extends Controller
             $query->where('SL.study_level_id', $level);
         }
 
+        $query->where('LL.status', 0);
+
         $result = $query->get();
 
         return $result;

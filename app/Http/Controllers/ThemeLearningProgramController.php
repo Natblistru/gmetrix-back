@@ -52,6 +52,7 @@ class ThemeLearningProgramController extends Controller
             S.name AS subject_name,
             S.id AS subject_id,
             chapters.name AS capitol_name,
+            COALESCE(chapters.name_ro, chapters.name) AS capitol_name_ro,
             chapters.id AS capitol_id,
             chapters.subject_study_level_id AS discipl_level_id,
             chapters.order_number AS capitol_ord,
@@ -70,9 +71,9 @@ class ThemeLearningProgramController extends Controller
         JOIN 
             subjects AS S ON S.id = SSLev.subject_id
         JOIN
-            themes ON TH.theme_id = themes.id
+            themes ON TH.theme_id = themes.id and themes.status = 0
         JOIN
-            chapters ON themes.chapter_id = chapters.id and chapters.subject_study_level_id = LP.subject_study_level_id
+            chapters ON themes.chapter_id = chapters.id and chapters.subject_study_level_id = LP.subject_study_level_id and chapters.status = 0
         WHERE
             {$yearCondition}
             AND SSLev.subject_id = ? AND SSLev.study_level_id = ?
@@ -87,6 +88,7 @@ class ThemeLearningProgramController extends Controller
                 TC.subject_name,
                 TC.subject_id,
                 TC.capitol_name,
+                TC.capitol_name_ro,
                 TC.capitol_id,
                 TC.discipl_level_id,
                 TC.capitol_ord,
@@ -269,6 +271,7 @@ class ThemeLearningProgramController extends Controller
                 TC.subject_name,
                 TC.subject_id,
                 TC.capitol_name,
+                TC.capitol_name_ro,
                 TC.capitol_id,
                 TC.discipl_level_id,
                 TC.capitol_ord,
