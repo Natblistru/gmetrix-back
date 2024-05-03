@@ -13,6 +13,7 @@ class Theme extends Model
     use HasFactory;
     protected $fillable = [
         "name",
+        "name_ro",
         "path",
         "chapter_id"
     ];

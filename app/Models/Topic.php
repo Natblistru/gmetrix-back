@@ -18,6 +18,7 @@ class Topic extends Model
 
     protected $fillable = [
         'name',
+        'name_ro',
         'path',
         'order_number',
         'theme_learning_program_id',

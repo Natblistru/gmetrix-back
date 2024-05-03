@@ -437,6 +437,7 @@ class TeacherTopicController extends Controller
             TLP.theme_id,
             topics.id AS topic_id,
             topics.name AS topic_name,
+            topics.name_ro AS topic_name_ro,
             topics.path AS topic_path,
             topics.order_number AS topic_order_number,
             TT.id as teacher_topic_id,
@@ -499,6 +500,7 @@ class TeacherTopicController extends Controller
             TS.theme_id,
             TS.topic_id,
             TS.topic_name,
+            TS.topic_name_ro,
             TS.topic_path,
             TS.topic_order_number,
             TS.teacher_topic_id,
@@ -554,6 +556,7 @@ class TeacherTopicController extends Controller
             TLP.theme_id AS theme_id,
             topics.id AS topic_id,
             topics.name AS topic_name,
+            topics.name_ro AS topic_name_ro,
             topics.path AS topic_path,
             topics.order_number AS topic_order_number
         FROM
@@ -566,7 +569,7 @@ class TeacherTopicController extends Controller
             subject_study_levels SSLev ON LP.subject_study_level_id = SSLev.id
         WHERE
             {$yearCondition}
-            AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TLP.theme_id = ?
+            AND SSLev.subject_id = ? AND SSLev.study_level_id = ? AND TLP.theme_id = ? AND topics.status = 0
         ORDER BY topics.order_number;     
         ", $paramsGeneral);
 
@@ -668,6 +671,7 @@ class TeacherTopicController extends Controller
             COALESCE(PS.topic_id, TAT.topic_id) AS topic_id,
             COALESCE(PS.topic_order_number, TAT.topic_order_number) AS id,
             COALESCE(PS.topic_name, TAT.topic_name) AS name,
+            COALESCE(PS.topic_name_ro, TAT.topic_name_ro) AS name_ro,
             COALESCE(PS.topic_path, TAT.topic_path) AS path,
             PS.subtopic_id,
             PS.teacher_topic_id,
@@ -821,6 +825,7 @@ class TeacherTopicController extends Controller
             $finalResult[] = [
                 'id' => $firstTopic->id,
                 'name' => $firstTopic->name,
+                'name_ro' => $firstTopic->name_ro,               
                 'path' => $firstTopic->path,
                 'theme_id' => $firstTopic->theme_id,
                 'topic_id' => $firstTopic->topic_id,
