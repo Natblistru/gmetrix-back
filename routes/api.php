@@ -45,6 +45,7 @@ use App\Http\Controllers\StudentFormativeTestResultController;
 use App\Http\Controllers\StudentSummativeTestOptionController;
 use App\Http\Controllers\StudentSummativeTestResultController;
 use App\Http\Controllers\StudentEvaluationSolutionController;
+use App\Http\Controllers\TeacherPresentationController;
 
 
 
@@ -284,6 +285,8 @@ Route::get('/teachertheme', [TeacherTopicController::class, "teacherTheme"]);
 Route::get('/teachers-with-themes', [TeacherTopicController::class, 'getAllTeachersWithThemes']);
 
 Route::get('/teacherthemevideo', [TeacherThemeVideoController::class, "teacherThemeVideo"]);
+
+Route::get('/teacherThemePresentation', [TeacherPresentationController::class, "teacherThemePresentation"]);
 
 Route::get('/themeevaluations', [EvaluationSubjectController::class, "themeEvaluations"]);
 
