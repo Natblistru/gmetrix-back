@@ -17,6 +17,52 @@ class TeacherPresentationController extends Controller
         return TeacherPresentation::find($id); 
     }
 
+    public static function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:500',
+            'path' => 'required|string|max:500',
+            'teacher_id' => 'required|integer|exists:teachers,id',
+            'theme_learning_program_id' => 'required|integer|exists:theme_learning_programs,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' =>  $validator->messages()
+            ]);
+        }
+
+        $data = [
+            'name' => $request->input('name'),
+            'path' => $request->input('path'),
+            'teacher_id' => $request->input('teacher_id'),
+            'theme_learning_program_id' => $request->input('theme_learning_program_id'),
+            'status' => $request->input('status'),
+        ];
+    
+        $combinatieColoane = [
+            'teacher_id' => $data['teacher_id'],
+            'theme_learning_program_id' => $data['theme_learning_program_id'],            
+        ];
+    
+        $existingRecord = TeacherPresentation::where($combinatieColoane)->first();
+
+        if ($existingRecord) {
+            $data['updated_at'] = now();
+    
+            TeacherPresentation::where($combinatieColoane)->update($data);
+        } else {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+    
+            TeacherPresentation::create($data);
+        }
+ 
+        return response()->json([
+            'status'=>201,
+            'message'=>'Teacher Presentation Added successfully',
+        ]);
+    }
+
     public static function teacherThemePresentation(Request $request)  {
 
         $level = $request->query('level');

@@ -91,6 +91,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/view-myvideos', [VideoController::class, "index_list"]);
     Route::get('/view-myteacherVideos', [TeacherThemeVideoController::class, "index"]);
     Route::get('/all-myteachervideo/{id}', [TeacherThemeVideoController::class, "allTeacherVideo"]);
+    Route::post('/store-myteacherPresentation', [TeacherPresentationController::class, "store"]);
     Route::post('/store-myteacherVideo', [TeacherThemeVideoController::class, "store"]);
     Route::post('/store-mybreakpoint', [VideoBreakpointController::class, "store"]);
     Route::get('/all-myteacher-topics', [TeacherTopicController::class, "allTeacherTopics"]);

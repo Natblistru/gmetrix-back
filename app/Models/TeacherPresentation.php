@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TeacherPresentation extends Model
 {
     use HasFactory;
-    protected $table = 'teacher_theme_videos';
+    protected $table = 'teacher_presentations';
     protected $fillable = [
         'name',
         'teacher_id',
