@@ -454,7 +454,7 @@ class FormativeTestController extends Controller
         INNER JOIN
             formative_tests FT ON FTI.formative_test_id = FT.id AND FT.teacher_topic_id = ?
         INNER JOIN 
-            test_items TI ON FTI.test_item_id = TI.id
+            test_items TI ON FTI.test_item_id = TI.id AND TI.status = 0
         INNER JOIN
             test_item_options TIO ON TIO.test_item_id = TI.id
         LEFT JOIN 
