@@ -12,7 +12,9 @@ class TestItem extends Model
     protected $table = 'test_items';
     protected $fillable = [
         'task',
+        'task_ro',
         'type',
+        'image_path',
         'test_complexity_id',
         'teacher_topic_id',
         'status'

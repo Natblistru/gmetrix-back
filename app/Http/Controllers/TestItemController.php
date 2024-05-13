@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TestItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class TestItemController extends Controller
@@ -176,6 +177,8 @@ class TestItemController extends Controller
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'task' => 'required|string|max:1000',
+            'image_path' => 'nullable|string|max:1000',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'type' => 'required|in:quiz,check,snap,words,dnd,dnd_chrono,dnd_chrono_double,dnd_group',
             'test_complexity_id' => 'required|exists:test_comlexities,id',
             'teacher_topic_id' => 'required|exists:teacher_topics,id',
@@ -189,6 +192,7 @@ class TestItemController extends Controller
 
         $data = [
             'task' => $request->input('task'),
+            'image_path' => $request->input('image_path'),
             'type' => $request->input('type'),
             'test_complexity_id' => $request->input('test_complexity_id'),
             'teacher_topic_id' => $request->input('teacher_topic_id'),
@@ -205,6 +209,19 @@ class TestItemController extends Controller
 
         if ($existingRecord) {
             $data['updated_at'] = now();
+
+            if($request->hasFile('image')) {
+                $path = $existingRecord ->image_path;
+                if(File::exists($path)) {
+                      File::delete($path);
+                }
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+                $filename = $originalName . '_' . time() . '.' . $extension;
+                $file->move('uploads/testItem/', $filename);
+                $data['image_path'] = 'uploads/testItem/' .$filename;
+            }
     
             TestItem::where($combinatieColoane)->update($data);
             $updatedTestItem = TestItem::where($combinatieColoane)->first();
@@ -217,6 +234,15 @@ class TestItemController extends Controller
         } else {
             $data['created_at'] = now();
             $data['updated_at'] = now();
+
+            if($request->hasFile('image')) {
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+                $filename = $originalName . '_' . time() . '.' . $extension;
+                $file->move('uploads/testItem/', $filename);
+                $data['image_path'] = 'uploads/testItem/' .$filename;
+            }
     
             $newTestItem = TestItem::create($data);
             return response()->json([
