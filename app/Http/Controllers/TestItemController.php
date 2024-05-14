@@ -176,7 +176,7 @@ class TestItemController extends Controller
 
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
-            'task' => 'required|string|max:1000',
+            'task' => 'required|string|max:10000',
             'image_path' => 'nullable|string|max:1000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'type' => 'required|in:quiz,check,snap,words,dnd,dnd_chrono,dnd_chrono_double,dnd_group',
