@@ -13,6 +13,7 @@ class TestItem extends Model
     protected $fillable = [
         'task',
         'task_ro',
+        'content',
         'type',
         'image_path',
         'test_complexity_id',
