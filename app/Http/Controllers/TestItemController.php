@@ -212,24 +212,6 @@ class TestItemController extends Controller
     
         $existingRecord = TestItem::where($combinatieColoane)->first();
 
-        // if ($existingRecord) {
-        //     $data['updated_at'] = now();
-
-        //     if($request->hasFile('image')) {
-        //         $path = $existingRecord ->image_path;
-        //         if(File::exists($path)) {
-        //               File::delete($path);
-        //         }
-        //         $file = $request->file('image');
-        //         $extension = $file->getClientOriginalExtension();
-        //         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
-        //         $filename = $originalName . '_' . time() . '.' . $extension;
-        //         $file->move('uploads/testItem/', $filename);
-        //         $data['image_path'] = 'uploads/testItem/' .$filename;
-        //     }
-    
-        //     TestItem::where($combinatieColoane)->update($data);
-
         if ($existingRecord) {
             $existingContent = json_decode($existingRecord->content, true);
             
