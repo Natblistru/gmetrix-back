@@ -177,11 +177,13 @@ class TestItemController extends Controller
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'task' => 'required|string|max:10000',
+            'content' => 'required|string|max:10000',
             'image_path' => 'nullable|string|max:1000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'type' => 'required|in:quiz,check,snap,words,dnd,dnd_chrono,dnd_chrono_double,dnd_group',
             'test_complexity_id' => 'required|exists:test_comlexities,id',
             'teacher_topic_id' => 'required|exists:teacher_topics,id',
+            'language' => 'required|in:en,ro',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -198,7 +200,10 @@ class TestItemController extends Controller
             'teacher_topic_id' => $request->input('teacher_topic_id'),
             'status' => $request->input('status'),
         ];
-    
+
+        $contentKey = $request->input('language') == 'en' ? 'en' : 'ro';
+        $contentValue = $request->input('content');
+   
         $combinatieColoane = [
             'task' => $data['task'],
             'type' => $data['type'],
@@ -207,9 +212,36 @@ class TestItemController extends Controller
     
         $existingRecord = TestItem::where($combinatieColoane)->first();
 
-        if ($existingRecord) {
-            $data['updated_at'] = now();
+        // if ($existingRecord) {
+        //     $data['updated_at'] = now();
 
+        //     if($request->hasFile('image')) {
+        //         $path = $existingRecord ->image_path;
+        //         if(File::exists($path)) {
+        //               File::delete($path);
+        //         }
+        //         $file = $request->file('image');
+        //         $extension = $file->getClientOriginalExtension();
+        //         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
+        //         $filename = $originalName . '_' . time() . '.' . $extension;
+        //         $file->move('uploads/testItem/', $filename);
+        //         $data['image_path'] = 'uploads/testItem/' .$filename;
+        //     }
+    
+        //     TestItem::where($combinatieColoane)->update($data);
+
+        if ($existingRecord) {
+            $existingContent = json_decode($existingRecord->content, true);
+            
+            $existingContent[$contentKey] = $contentValue;
+            
+            // Actualizăm coloana content cu noul conținut
+            $existingRecord->content = json_encode($existingContent);
+            
+            // Actualizăm data ultimei modificări
+            $existingRecord->updated_at = now();
+        
+            // Manipularea imaginilor
             if($request->hasFile('image')) {
                 $path = $existingRecord ->image_path;
                 if(File::exists($path)) {
@@ -220,10 +252,11 @@ class TestItemController extends Controller
                 $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // numele original fără extensie
                 $filename = $originalName . '_' . time() . '.' . $extension;
                 $file->move('uploads/testItem/', $filename);
-                $data['image_path'] = 'uploads/testItem/' .$filename;
+                $existingRecord->image_path = 'uploads/testItem/' .$filename;
             }
-    
-            TestItem::where($combinatieColoane)->update($data);
+        
+            // Salvăm înregistrarea actualizată
+            $existingRecord->save();
             $updatedTestItem = TestItem::where($combinatieColoane)->first();
             return response()->json([
                 'status' => 201,
@@ -243,6 +276,8 @@ class TestItemController extends Controller
                 $file->move('uploads/testItem/', $filename);
                 $data['image_path'] = 'uploads/testItem/' .$filename;
             }
+
+            $data['content'] = json_encode([$contentKey => $contentValue]);
     
             $newTestItem = TestItem::create($data);
             return response()->json([
