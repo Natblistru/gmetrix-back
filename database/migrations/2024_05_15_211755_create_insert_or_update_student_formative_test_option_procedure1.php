@@ -5,12 +5,12 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class CreateInsertOrUpdateStudentFormativeTestOptionProcedure extends Migration
+class CreateInsertOrUpdateStudentFormativeTestOptionOptionProcedure extends Migration
 {
     public function up()
     {
         $procedure = <<<SQL
-        CREATE PROCEDURE InsertOrUpdateStudentFormativeTestOption(
+        CREATE PROCEDURE InsertOrUpdateStudentFormativeTestOptionOption(
             p_student_id bigint,
             p_formative_test_id bigint,
             p_test_item_id bigint,
@@ -193,6 +193,6 @@ class CreateInsertOrUpdateStudentFormativeTestOptionProcedure extends Migration
 
     public function down()
     {
-        DB::unprepared('DROP PROCEDURE IF EXISTS InsertOrUpdateStudentFormativeTestOption');
+        DB::unprepared('DROP PROCEDURE IF EXISTS InsertOrUpdateStudentFormativeTestOptionOptions');
     }
 }

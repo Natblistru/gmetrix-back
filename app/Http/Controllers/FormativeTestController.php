@@ -347,10 +347,10 @@ class FormativeTestController extends Controller
             ]);
         }
  
-        return response()->json([
-            'status'=>201,
-            'message'=>'Formative Test Added successfully',
-        ]);
+        // return response()->json([
+        //     'status'=>201,
+        //     'message'=>'Formative Test Added successfully',
+        // ]);
     }
 
     public static function edit($id) {
@@ -448,7 +448,9 @@ class FormativeTestController extends Controller
             COALESCE(TTIC.column_titles, '') AS column_title,
             TIO.id AS option_id,
             TIO.option,
+            COALESCE(TIO.option_ro, TIO.option) AS option_ro,
             TIO.explanation,
+            COALESCE(TIO.explanation_ro, TIO.explanation) AS explanation_ro,
             TIO.text_additional,
             TIO.correct
         FROM  
@@ -485,7 +487,9 @@ class FormativeTestController extends Controller
                         $testItemOptions[] = [
                             'option_id' => $item->option_id,
                             'option' => $item->option,
+                            'option_ro' => $item->option_ro,
                             'explanation' => $item->explanation,
+                            'explanation_ro' => $item->explanation_ro,
                             'text_additional' => $item->text_additional,
                             'correct' => $item->correct,
                         ];

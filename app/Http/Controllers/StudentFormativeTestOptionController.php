@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FormativeTestItem;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Models\StudentFormativeTestOption;
 
@@ -27,13 +28,13 @@ class StudentFormativeTestOptionController extends Controller
         'score' => 'required|numeric|min:0',
         'option' => 'required|string|max:500',
         'type' => 'required|string|max:50',
-        'explanation' => 'required_if:type,snap|string|max:500',
+        'explanation' => 'required_if:type,snap|string|max:5000',
     ]);
         // Verificăm dacă validarea a eșuat
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
+        Log::info($request->all());
         // Apelul procedurii stocate
         DB::select('CALL InsertOrUpdateStudentFormativeTestOption(?, ?, ?, ?, ?, ?, ?)', [
             $request->input('student_id'),
@@ -44,6 +45,8 @@ class StudentFormativeTestOptionController extends Controller
             $request->input('type'),
             $request->input('explanation'),
         ]);
+
+        // DB::select('CALL InsertOrUpdateStudentFormativeTestOption(1, 42, 70, 1, "External scripts increase overall code security for websites.", "check", "External scripts increase overall security for webpages due to the fact that someone viewing the source code from a browser will see the reference to the external script but not the contents of the scripts. This is in contrast to inline script code, which displays just like HTML code displays.")');
 
         return response()->json(['message' => 'Success'], 200);
     }

@@ -11,7 +11,9 @@ class TestItemOption extends Model
     protected $table = 'test_item_options';
     protected $fillable = [
         'option',
+        'option_ro',
         'explanation',
+        'explanation_ro',
         'text_additional',
         'correct',
         'test_item_id',
