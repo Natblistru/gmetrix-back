@@ -166,7 +166,7 @@ class TestItemOptionController extends Controller
     public static function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'option' => 'required|string|max:500',
-            'explanation' => 'nullable|string|max:500',
+            'explanation' => 'nullable|string|max:5000',
             'text_additional' => 'nullable|json',
             'correct' => 'required|integer|min:0',
             'test_item_id' => 'required|exists:test_items,id',
