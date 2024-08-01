@@ -17,7 +17,7 @@ class CreateInsertOrUpdateStudentSummativeTestOptionProcedure extends Migration
             p_score decimal(25,2),
             p_option varchar(500),
             p_type varchar(50),
-            p_explanation varchar(500)
+            p_explanation varchar(5000)
         )
         BEGIN
             DECLARE existing_row_count int;

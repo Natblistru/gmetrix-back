@@ -23,7 +23,7 @@ class StudentSummativeTestResultController extends Controller
        // Validarea datelor de intrare
     $validator = Validator::make($request->all(), [
         'student_id' => 'required|integer',
-        'summative_test_id' => 'required|integer',
+        'formative_test_id' => 'required|integer',
         'test_item_id' => 'required|integer',
         'type' => 'required|string|max:50',
     ]);
@@ -35,7 +35,7 @@ class StudentSummativeTestResultController extends Controller
         // Apelul procedurii stocate
         DB::select('CALL InsertOrUpdateStudentSummativeTestResult(?, ?, ?, ?)', [
             $request->input('student_id'),
-            $request->input('summative_test_id'),
+            $request->input('formative_test_id'),
             $request->input('test_item_id'),
             $request->input('type'),
         ]);
