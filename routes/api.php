@@ -237,6 +237,7 @@ Route::middleware('auth:sanctum','isAPIAdmin')->group(function () {
  
     Route::get('/all-subtopics', [SubtopicController::class, "allSubtopics"]);
     Route::get('/all-tests', [FormativeTestItemController::class, "allTests"]);
+    Route::get('/all-tests-summative', [SummativeTestItemController::class, "allTestsSummative"]);
     Route::get('/all-videos', [VideoController::class, "allvideos"]);
     Route::get('/all-users', [UserController::class, "allUsers"]);
 
@@ -303,7 +304,11 @@ Route::get('/formativetest', [FormativeTestController::class, "formativeTest"]);
 
 Route::get('/teacherAllTests', [FormativeTestController::class, "teacherAllTests"]);
 
+Route::get('/allSummativeTestItems', [SummativeTestController::class, "allSummativeTestItems"]);
+
 Route::get('/summativetest', [SummativeTestController::class, "summativeTest"]);
+
+Route::get('/summativetest_exam', [SummativeTestController::class, "summativeTest_exam"]);
 
 Route::post('/student-subtopic-progress', [StudentSubopicProgressController::class, "store"]);
 

@@ -225,4 +225,16 @@ class SummativeTestItemController extends Controller
         }
     }
 
+    public static function allTestsSummative(Request $request) {
+
+        $level = $request->query('level');
+        $subjectId = $request->query('disciplina');
+        
+        $tests =  SummativeTestItem::where('status',0)->get();
+        return response()->json([
+            'status' => 200,
+            'tests' => $tests,
+        ]);
+    }
+
 }

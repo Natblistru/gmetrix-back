@@ -218,4 +218,156 @@ class SummativeTestController extends Controller
         return array_values($finalResult);
     }
 
+    public static function summativeTest_exam(Request $request)  {
+
+        DB::statement("
+        CREATE TEMPORARY TABLE temp_test_item_columns AS
+        SELECT 
+            TI.id,
+            GROUP_CONCAT(TIC.title ORDER BY TIC.order_number SEPARATOR ', ') AS column_titles
+        FROM  
+            summative_test_items AS FTI
+        INNER JOIN
+            summative_tests FT ON FTI.summative_test_id = FT.id
+        INNER JOIN 
+            test_items TI ON FTI.test_item_id = TI.id
+        LEFT JOIN 
+            test_item_columns TIC ON TIC.test_item_id = TI.id
+        GROUP BY TI.id;
+        ");
+
+        $result = DB::select("
+        SELECT
+            STI.summative_test_id,
+            ST.title,
+            ST.path,
+            ST.time,
+            STI.order_number,
+            1 AS order_test,
+            TI.id AS test_item_id,
+            TI.task,
+            TI.content,
+            TI.image_path,
+            TI.type AS type,
+            TI.type AS item_type,
+            TI.test_complexity_id,
+            COALESCE(TTIC.column_titles, '') AS column_title,
+            TIO.id AS option_id,
+            TIO.option,
+            COALESCE(TIO.option_ro, TIO.option) AS option_ro,
+            TIO.explanation,
+            COALESCE(TIO.explanation_ro, TIO.explanation) AS explanation_ro,
+            TIO.text_additional,
+            TIO.correct
+        FROM 
+            summative_test_items STI
+        INNER JOIN
+            summative_tests ST ON STI.summative_test_id = ST.id
+        INNER JOIN
+            test_items TI ON STI.test_item_id = TI.id
+        INNER JOIN
+            test_item_options TIO ON TIO.test_item_id = TI.id
+        LEFT JOIN 
+            temp_test_item_columns TTIC ON TTIC.id = TI.id 
+        ");
+
+        $collection = collect($result);
+
+        $finalResult = [];
+        
+        $groupedByFormativeTest = $collection->groupBy('summative_test_id');
+
+        foreach ($groupedByFormativeTest as $formativeTestGroup) {
+            $groupedByOrderNumber = $formativeTestGroup->groupBy('order_number');
+
+            $orderNumberOptions = [];
+
+            foreach ($groupedByOrderNumber as $orderNumberGroup) {
+                $formativeTestDetails = $orderNumberGroup->first();
+
+                $testItemOptions = [];
+
+                foreach ($orderNumberGroup as $item) {
+                    if ($item instanceof \stdClass) {
+                        $testItemOptions[] = [
+                            'option_id' => $item->option_id,
+                            'option' => $item->option,
+                            'option_ro' => $item->option_ro,
+                            'explanation' => $item->explanation,
+                            'explanation_ro' => $item->explanation_ro,
+                            'text_additional' => $item->text_additional,
+                            'correct' => $item->correct,
+                        ];
+                    }
+                }
+
+                $orderNumberOptions[] = [
+                    'order_number' => $formativeTestDetails->order_number,
+                    'test_item_id' => $formativeTestDetails->test_item_id,
+                    'column_title' => $formativeTestDetails->column_title,
+                    'test_item_task' => $formativeTestDetails->task,
+                    'test_item_content' => $formativeTestDetails->content, 
+                    'formative_test_id' => $formativeTestDetails->summative_test_id,
+                    'image_path' => $formativeTestDetails->image_path,
+                    'item_type' => $formativeTestDetails->item_type,
+                    'test_item_complexity' => $formativeTestDetails->test_complexity_id,
+                    'test_item_options' => $testItemOptions,
+                ];
+            }
+
+            // Adăugăm array-ul cu opțiuni în array-ul final pentru fiecare formative_test_id
+            $finalResult[] = [
+                'formative_test_id' => $formativeTestGroup->first()->summative_test_id,
+                'order_test' => $formativeTestGroup->first()->order_test,
+                'type' => $formativeTestGroup->first()->type,
+                'title' => $formativeTestGroup->first()->title,
+                'path' => $formativeTestGroup->first()->path,
+                'time' => $formativeTestGroup->first()->time,
+                'order_number_options' => $orderNumberOptions,
+            ];
+        }
+
+        usort($finalResult, function ($a, $b) {
+            return $a['order_test'] - $b['order_test'];
+        });
+
+        return array_values($finalResult);
+    }
+
+    public static function allSummativeTestItems(Request $request)  {
+
+        $student_id = $request->query('student');
+
+        $params = [$student_id];
+
+        $result = DB::select("
+                SELECT 
+                FT.teacher_topic_id AS teacher_topic_id,
+                FTI.summative_test_id AS formative_test_id,
+                FT.title AS name,
+                FT.path,
+                TI.type,
+                1 AS order_formative_test,
+                FTI.order_number AS order_item_test,
+                TI.id AS test_item_id,
+                TI.task,
+                TI.type AS item_type,
+                TI.test_complexity_id,
+                COALESCE(SFTR.score*100/TC.level, 0) AS student_procent
+            FROM  
+                summative_test_items AS FTI
+            INNER JOIN
+                summative_tests FT ON FTI.summative_test_id = FT.id
+            INNER JOIN 
+                test_items TI ON FTI.test_item_id = TI.id
+            LEFT JOIN
+                student_summative_test_results SFTR ON SFTR.summative_test_item_id = FTI.id AND SFTR.student_id = ?
+            INNER JOIN
+                test_comlexities TC ON FT.test_complexity_id = TC.id
+            WHERE FTI.status = 0
+        ", $params);
+
+        return array_values($result);
+    }
+
 }
