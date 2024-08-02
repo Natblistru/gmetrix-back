@@ -336,7 +336,9 @@ Route::post('/update-student-formative-test-result', [StudentFormativeTestResult
 
 Route::post('/update-student-formative-test-option', [StudentFormativeTestOptionController::class, "update"]);
 
-Route::patch('/update-student-summative-test-result', [StudentSummativeTestResultController::class, "update"]);
+Route::post('/update-student-summative-test-result', [StudentSummativeTestResultController::class, "update"]);
+
+Route::post('/update-student-summative-test-option', [StudentSummativeTestOptionController::class, "update"]);
 
 Route::post('/student-evaluation-solutions', [StudentEvaluationSolutionController::class, 'store']);
 
