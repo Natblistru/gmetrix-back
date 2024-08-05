@@ -337,8 +337,9 @@ class SummativeTestController extends Controller
     public static function allSummativeTestItems(Request $request)  {
 
         $student_id = $request->query('student');
-
-        $params = [$student_id];
+        $disciplina = $request->query('disciplina');
+        
+        $params = [$student_id, $disciplina];
 
         $result = DB::select("
                 SELECT 
@@ -364,7 +365,12 @@ class SummativeTestController extends Controller
                 student_summative_test_results SFTR ON SFTR.summative_test_item_id = FTI.id AND SFTR.student_id = ?
             INNER JOIN
                 test_comlexities TC ON FT.test_complexity_id = TC.id
-            WHERE FTI.status = 0
+            WHERE FTI.status = 0 AND 
+                LOWER(SUBSTRING(
+                    FT.title,
+                    INSTR(FT.title, 'la ') + 3,
+                    LENGTH(FT.title) - INSTR(FT.title, 'la ') - 2
+                )) = LOWER(?)
         ", $params);
 
         return array_values($result);
