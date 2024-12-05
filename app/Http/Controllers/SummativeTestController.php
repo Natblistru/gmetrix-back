@@ -315,6 +315,10 @@ class SummativeTestController extends Controller
                 ];
             }
 
+            usort($orderNumberOptions, function ($a, $b) {
+                return $a['order_number'] - $b['order_number'];
+            });
+
             // Adăugăm array-ul cu opțiuni în array-ul final pentru fiecare formative_test_id
             $finalResult[] = [
                 'formative_test_id' => $formativeTestGroup->first()->summative_test_id,
