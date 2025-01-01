@@ -340,6 +340,10 @@ Route::post('/update-student-summative-test-result', [StudentSummativeTestResult
 
 Route::post('/update-student-summative-test-option', [StudentSummativeTestOptionController::class, "update"]);
 
+Route::post('/reset-student-summative-test-results', [StudentSummativeTestResultController::class, "reset"]);
+
+Route::post('/reset-student-summative-test-options', [StudentSummativeTestOptionController::class, "reset"]);
+
 Route::post('/student-evaluation-solutions', [StudentEvaluationSolutionController::class, 'store']);
 
 Route::post('/contact', [ContactController::class, 'sendEmail']);

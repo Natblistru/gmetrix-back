@@ -89,5 +89,29 @@ class StudentSummativeTestResultController extends Controller
             ]); 
         }
     }
+
+    public function reset(Request $request)
+    {
+        $validatedData = $request->validate([
+            'student_id' => 'required|integer|exists:users,id', // Validăm că ID-ul studentului este valid
+        ]);
+
+        try {
+            // Ștergem înregistrările pentru studentul specificat
+            DB::table('student_summative_test_results')
+                ->where('student_id', $validatedData['student_id'])
+                ->delete();
+
+            return response()->json([
+                'message' => 'Summative test results reset successfully.',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while resetting summative test results.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     
 }
