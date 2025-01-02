@@ -267,7 +267,7 @@ Route::get('all-teacher-topics', [TeacherTopicController::class, "allTeacherTopi
 Route::post('/all-tags', [TagController::class, "allTags"]);
 Route::post('/get-posts-by-tags', [TagController::class, "getPostsByTags"]);
 Route::get('/all-test-complexities', [TestComlexityController::class, "allTestComplexities"]);
-
+Route::get('/all-summative-tests', [SummativeTestController::class, "allSummativeTests"]);
 
 
 
@@ -343,6 +343,10 @@ Route::post('/update-student-summative-test-option', [StudentSummativeTestOption
 Route::post('/reset-student-summative-test-results', [StudentSummativeTestResultController::class, "reset"]);
 
 Route::post('/reset-student-summative-test-options', [StudentSummativeTestOptionController::class, "reset"]);
+
+Route::get('/student-rankings', [StudentSummativeTestResultController::class, "getStudentRankings"]);
+
+Route::post('/student-rankings', [StudentSummativeTestResultController::class, "storeStudentRankings"]);
 
 Route::post('/student-evaluation-solutions', [StudentEvaluationSolutionController::class, 'store']);
 
