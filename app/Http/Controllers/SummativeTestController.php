@@ -243,7 +243,7 @@ class SummativeTestController extends Controller
             ST.path,
             ST.time,
             STI.order_number,
-            1 AS order_test,
+            ST.id AS order_test,
             TI.id AS test_item_id,
             TI.task,
             TI.content,
