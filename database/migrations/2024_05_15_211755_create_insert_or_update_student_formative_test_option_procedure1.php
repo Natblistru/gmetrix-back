@@ -193,6 +193,6 @@ return new class extends Migration
 
     public function down()
     {
-        DB::unprepared('DROP PROCEDURE IF EXISTS InsertOrUpdateStudentFormativeTestOptionOptions');
+        DB::unprepared('DROP PROCEDURE IF EXISTS InsertOrUpdateStudentFormativeTestOptionOption');
     }
-}
+};
