@@ -28,6 +28,19 @@ class GoogleAuthController extends Controller
 
         $email = strtolower(trim($googleUser->getEmail()));
 
+        $allowedEmails = [
+            'bernavschin@gmail.com',
+            'student1@gmail.com',
+            'teacher1@gmail.com',
+        ];
+
+        if (!in_array($email, $allowedEmails, true)) {
+            $frontUrl = config('app.frontend_url', 'http://localhost:3000');
+
+            return redirect()->to($frontUrl . '/login?error=access_denied');
+        }
+
+
         $nameRaw = trim((string) ($googleUser->getName()
             ?? $googleUser->getNickname()
             ?? ''));
