@@ -31,6 +31,7 @@ class GoogleAuthController extends Controller
         $allowedEmails = [
             'bernavschin@gmail.com',
             'andreicravcenco346@gmail.com',  // 01.06.2026
+            'ciugureanualexandru16@gmail.com',  // 02.06.2026
             'student1@gmail.com',
             'teacher1@gmail.com',
         ];
