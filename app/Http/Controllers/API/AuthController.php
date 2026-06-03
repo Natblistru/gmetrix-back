@@ -37,8 +37,13 @@ class AuthController extends Controller
         {
             $allowedEmails = [
                 'bernavschin@gmail.com',
-                'andreicravcenco346@gmail.com',  // 01.06.2026
-                'ciugureanualexandru16@gmail.com',  // 02.06.2026
+                'andreicravcenco346@gmail.com',  // 01.06.2026 - 02.09.2026
+                'ciugureanualexandru16@gmail.com', // 02.06.2026 - 02.09.2026
+                'isacarrur270@gmail.com',          // 03.06.2026 - 03.09.2026
+                'teodorhincu@gmail.com',           // 03.06.2026 - 03.09.2026
+                'tagadiucdaniil@gmail.com',        // 03.06.2026 - 03.09.2026
+                'captain.danleo@gmail.com',        // 03.06.2026 - 03.09.2026
+
                 'student1@gmail.com',
                 'teacher1@gmail.com',
             ];
@@ -104,8 +109,13 @@ class AuthController extends Controller
 
             $allowedEmails = [
                 'bernavschin@gmail.com',
-                'andreicravcenco346@gmail.com',  // 01.06.2026
-                'ciugureanualexandru16@gmail.com',  // 02.06.2026
+                'andreicravcenco346@gmail.com',  // 01.06.2026 - 02.09.2026
+                'ciugureanualexandru16@gmail.com', // 02.06.2026 - 02.09.2026
+                'isacarrur270@gmail.com',          // 03.06.2026 - 03.09.2026
+                'teodorhincu@gmail.com',           // 03.06.2026 - 03.09.2026
+                'tagadiucdaniil@gmail.com',        // 03.06.2026 - 03.09.2026
+                'captain.danleo@gmail.com',        // 03.06.2026 - 03.09.2026
+
                 'student1@gmail.com',
                 'teacher1@gmail.com',
             ];
