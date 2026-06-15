@@ -45,6 +45,7 @@ class AuthController extends Controller
                 'captain.danleo@gmail.com',        // 03.06.2026 - 03.09.2026
                 'turcuvalerika7@gmail.com',        // 03.06.2026 - 03.04.2027
                 'antontop976@gmail.com',          // 08.06.2026 - 08.09.2026
+                'cutepol35@gmail.com',            // 15.06.2026 - 15.09.2026
 
                 'student1@gmail.com',
                 'teacher1@gmail.com',
@@ -119,6 +120,7 @@ class AuthController extends Controller
                 'captain.danleo@gmail.com',        // 03.06.2026 - 03.09.2026
                 'turcuvalerika7@gmail.com',        // 03.06.2026 - 03.04.2027
                 'antontop976@gmail.com',          // 08.06.2026 - 08.09.2026
+                'cutepol35@gmail.com',            // 15.06.2026 - 15.09.2026                
 
                 'student1@gmail.com',
                 'teacher1@gmail.com',
