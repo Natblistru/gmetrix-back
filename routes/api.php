@@ -1,51 +1,52 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TagController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ThemeController;
-use App\Http\Controllers\TopicController;
-use App\Http\Controllers\VideoController;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\FlipCardController;
-use App\Http\Controllers\SubtopicController;
-use App\Http\Controllers\TestItemController;
-use App\Http\Controllers\EvaluationController;
-use App\Http\Controllers\SubscriberController;
-use App\Http\Controllers\TeacherTopicController;
-use App\Http\Controllers\FormativeTestController;
-use App\Http\Controllers\SubtopicImageController;
-use App\Http\Controllers\SummativeTestController;
-use App\Http\Controllers\TestComlexityController;
-use App\Http\Controllers\EvaluationItemController;
-use App\Http\Controllers\TestItemColumnController;
-use App\Http\Controllers\TestItemOptionController;
-use App\Http\Controllers\LearningProgramController;
-use App\Http\Controllers\VideoBreakpointController;
 use App\Http\Controllers\EvaluationAnswerController;
+use App\Http\Controllers\EvaluationAnswerOptionController;
+use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\EvaluationFormPageController;
+use App\Http\Controllers\EvaluationItemController;
 use App\Http\Controllers\EvaluationOptionController;
 use App\Http\Controllers\EvaluationSourceController;
 use App\Http\Controllers\EvaluationSubjectController;
-use App\Http\Controllers\FormativeTestItemController;
-use App\Http\Controllers\SubjectStudyLevelController;
-use App\Http\Controllers\SummativeTestItemController;
-use App\Http\Controllers\TeacherThemeVideoController;
-use App\Http\Controllers\EvaluationFormPageController;
-use App\Http\Controllers\ThemeLearningProgramController;
-use App\Http\Controllers\EvaluationAnswerOptionController;
-use App\Http\Controllers\StudentSubopicProgressController;
 use App\Http\Controllers\EvaluationSubjectSourceController;
+use App\Http\Controllers\FlipCardController;
+use App\Http\Controllers\FormativeTestController;
+use App\Http\Controllers\FormativeTestItemController;
+use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\StudentEvaluationAnswerController;
+use App\Http\Controllers\StudentEvaluationSolutionController;
 use App\Http\Controllers\StudentFormativeTestOptionController;
 use App\Http\Controllers\StudentFormativeTestResultController;
+use App\Http\Controllers\StudentSubopicProgressController;
 use App\Http\Controllers\StudentSummativeTestOptionController;
 use App\Http\Controllers\StudentSummativeTestResultController;
-use App\Http\Controllers\StudentEvaluationSolutionController;
+use App\Http\Controllers\SubjectStudyLevelController;
+use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\SubtopicController;
+use App\Http\Controllers\SubtopicImageController;
+use App\Http\Controllers\SummativeTestController;
+use App\Http\Controllers\SummativeTestItemController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherPresentationController;
+use App\Http\Controllers\TeacherThemeVideoController;
+use App\Http\Controllers\TeacherTopicController;
+use App\Http\Controllers\TestComlexityController;
+use App\Http\Controllers\TestItemColumnController;
+use App\Http\Controllers\TestItemController;
+use App\Http\Controllers\TestItemOptionController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\ThemeLearningProgramController;
+use App\Http\Controllers\TopicController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoBreakpointController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\VideoLessonController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 
 
@@ -309,6 +310,8 @@ Route::get('/allSummativeTestItems', [SummativeTestController::class, "allSummat
 Route::get('/summativetest', [SummativeTestController::class, "summativeTest"]);
 
 Route::get('/summativetest_exam', [SummativeTestController::class, "summativeTest_exam"]);
+
+Route::get('/video-lessons', [VideoLessonController::class, 'index']);
 
 Route::post('/student-subtopic-progress', [StudentSubopicProgressController::class, "store"]);
 
