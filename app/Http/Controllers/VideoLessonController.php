@@ -43,7 +43,7 @@ class VideoLessonController extends Controller
                     ELSE 1
                 END AS consultatie_programata
 
-            FROM `video_lessons` vl
+            FROM `video-lessons` vl
 
             LEFT JOIN `video-lesson-students` vls
                 ON vls.`videoLesson_id` = vl.id
