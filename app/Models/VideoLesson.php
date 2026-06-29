@@ -18,7 +18,7 @@ class VideoLesson extends Model
         'subject_id',
     ];
 
-    protected $with = ['subject'];
+    protected $with = ['subject_id'];
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_id', 'id');

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\ConsultationRequestController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EvaluationAnswerController;
 use App\Http\Controllers\EvaluationAnswerOptionController;
@@ -358,3 +359,7 @@ Route::post('/contact', [ContactController::class, 'sendEmail']);
 Route::post('/subscribe', [SubscriberController::class, 'subscribe']);
 
 Route::post('/notify-all-subscribers', [SubscriberController::class, 'notifyAllSubscribers']);
+
+Route::post('/consultation-requests', [ConsultationRequestController::class, 'store']);
+
+Route::put('/consultation-requests/{id}/cancel', [ConsultationRequestController::class, 'cancel']);
