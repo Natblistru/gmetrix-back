@@ -50,6 +50,12 @@ class AuthController extends Controller
                 'huliubas@gmail.com',             // 06.07.2026 - 06.07.9999
                 'simona24m@gmail.com',             // 08.09.2026 - 31.12.2026
                 'xeniaturcan27@gmail.com',         // 08.09.2026 - 31.12.2026
+                'morozanbogdan9090@gmail.com',     // 08.09.2026 - 31.12.2026
+                'sticiteodor@gmail.com',           // 08.09.2026 - 31.12.2026
+                'turcuvalerika7@gmail.com',        // 08.09.2026 - 31.12.2026
+                'antocidinum@gmail.com',           // 08.09.2026 - 31.12.2026
+                'Parfenelaura07@gmail.com',        // 08.09.2026 - 31.12.2026
+                'ekatyjere@gmail.com',             // 08.09.2026 - 31.12.2026          
 
                 'student1@gmail.com',
                 'teacher1@gmail.com',
@@ -129,6 +135,12 @@ class AuthController extends Controller
                 'huliubas@gmail.com',             // 06.07.2026 - 06.07.9999
                 'simona24m@gmail.com',             // 08.09.2026 - 31.12.2026
                 'xeniaturcan27@gmail.com',         // 08.09.2026 - 31.12.2026
+                'morozanbogdan9090@gmail.com',     // 08.09.2026 - 31.12.2026
+                'sticiteodor@gmail.com',           // 08.09.2026 - 31.12.2026
+                'turcuvalerika7@gmail.com',        // 08.09.2026 - 31.12.2026
+                'antocidinum@gmail.com',           // 08.09.2026 - 31.12.2026
+                'Parfenelaura07@gmail.com',        // 08.09.2026 - 31.12.2026
+                'ekatyjere@gmail.com',             // 08.09.2026 - 31.12.2026                  
 
                 'student1@gmail.com',
                 'teacher1@gmail.com',
