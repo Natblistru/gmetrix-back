@@ -72,7 +72,9 @@ class GoogleAuthController extends Controller
             'evelinacastravet9@gmail.com',       // 28.10.2026 - 30.04.2026   
             'maxim.surchiceanu@gmail.com',       // 03.11.2026 - 30.04.2026 
             'davidbulat1177@gmail.com',          // 03.11.2026 - 30.04.2026 
-            'liviubrinzila2@gmail.com',          // 03.11.2026 - 30.04.2026              
+            'liviubrinzila2@gmail.com',          // 03.11.2026 - 30.04.2026    
+            'anastasiarata11@gmail.com',         // 09.11.2026 - 30.04.2026
+            'mariusmacovei2907@gmail.com',       // 09.11.2026 - 30.04.2026                      
             
             'student1@gmail.com',
             'teacher1@gmail.com',
